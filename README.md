@@ -253,3 +253,26 @@ brew install --cask squirrel
 ### how to quickly set up a dap breakpoint
 
 > use `<C-LeftClick>` in `line number`
+
+### use kitty diff in .gitconfig
+
+```
+[core]
+	autocrlf = input
+[pull]
+	rebase = true
+
+[diff]
+    tool = kitty
+    guitool = kitty.gui
+ 
+[difftool]
+    prompt = false
+    trustExitCode = true
+ 
+[difftool "kitty"]
+    cmd = kitty +kitten diff $LOCAL $REMOTE
+ 
+[difftool "kitty.gui"]
+    cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+```

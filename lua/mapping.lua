@@ -19,14 +19,14 @@ function M.core_mappings(mappings)
       maps.x["<D-s>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
       maps.n["<D-s>"] = { "<Cmd>w<cr>", desc = "Save file", silent = true }
 
-      maps.n["<D-a>"] = {
-        function()
-          local currentLine = vim.api.nvim_win_get_cursor(0)
-          vim.cmd "normal! ggyG"
-          vim.api.nvim_win_set_cursor(0, currentLine)
-        end,
-        desc = "Select all",
-      }
+      -- maps.n["<D-a>"] = {
+      --   function()
+      --     local currentLine = vim.api.nvim_win_get_cursor(0)
+      --     vim.cmd "normal! ggyG"
+      --     vim.api.nvim_win_set_cursor(0, currentLine)
+      --   end,
+      -- desc = "Select all",
+      -- }
     end
 
     maps.n["n"] = { "nzz" }

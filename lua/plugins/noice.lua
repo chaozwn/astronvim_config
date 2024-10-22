@@ -2,7 +2,7 @@ local utils = require "astrocore"
 local is_available = utils.is_available
 
 -- test filter
--- string.find('"lua/plugins/noice.lua" 169L, 6262B 已写入', '%s已写入%s')
+-- string.find("3 fewer lines", ".*fewer lines")
 
 ---@type LazySpec
 return {
@@ -160,6 +160,8 @@ return {
           { filter = { event = "msg_show", find = "%schange;%s" }, opts = { skip = true } },
           { filter = { event = "msg_show", find = "%s已写入" }, opts = { skip = true } },
           { filter = { event = "msg_show", find = ".*行发生改变.*" }, opts = { skip = true } },
+          { filter = { event = "msg_show", find = ".*fewer lines" }, opts = { skip = true } },
+          { filter = { event = "msg_show", find = ".*vim.tbl_islist is deprecated.*" }, opts = { skip = true } },
           {
             filter = { event = "msg_show", find = "%-32603: Invalid offset" },
             opts = { skip = true },
