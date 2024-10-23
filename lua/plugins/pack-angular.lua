@@ -61,7 +61,7 @@ return {
     end,
   },
   { "chaozwn/angular-quickswitch.nvim", opts = {
-    use_default_keymaps = true,
+    use_default_keymaps = false,
   } },
   {
     "nvim-treesitter/nvim-treesitter",

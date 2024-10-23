@@ -1,5 +1,4 @@
 local M = {}
-local astro = require "astrocore"
 local is_win = vim.loop.os_uname().version:find "Windows"
 
 --- Gets a path to a package in the Mason registry.
@@ -16,7 +15,7 @@ function M.get_pkg_path(pkg, path, opts)
   path = path or ""
   local ret = root .. "/packages/" .. pkg .. "/" .. path
   if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
-    M.warn(
+    vim.notify(
       ("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(pkg, path)
     )
   end
@@ -187,7 +186,7 @@ end
 function M.select_ui(vals, prompt, callback)
   local options = vim.tbl_filter(function(val) return vals[val] ~= "" end, vim.tbl_keys(vals))
   if vim.tbl_isempty(options) then
-    astro.notify("No values to select", vim.log.levels.WARN)
+    vim.notify("No values to select", vim.log.levels.WARN)
     return
   end
 
@@ -201,7 +200,7 @@ function M.select_ui(vals, prompt, callback)
     if result then
       if callback then callback(result) end
     else
-      astro.notify("No item selected", vim.log.levels.WARN)
+      vim.notify("No item selected", vim.log.levels.WARN)
     end
   end)
 end

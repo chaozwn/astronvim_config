@@ -82,7 +82,6 @@ pip install terminaltexteffects
 brew tap daipeihust/tap
 brew install im-select
 
-brew install neovide
 brew install lazydocker
 pip install pylatexenc
 

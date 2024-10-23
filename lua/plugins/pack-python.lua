@@ -122,7 +122,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap-python",
-    dependencies = "mfussenegger/nvim-dap",
     ft = "python", -- NOTE: ft: lazy-load on filetype
     config = function()
       if vim.fn.has "win32" == 1 then

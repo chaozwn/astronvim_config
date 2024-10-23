@@ -1,5 +1,4 @@
 local M = {}
-local utils = require "utils"
 local system = vim.loop.os_uname().sysname
 
 function M.core_mappings(mappings)
@@ -8,8 +7,8 @@ function M.core_mappings(mappings)
   if maps then
     maps.n["<Leader>n"] = false
 
-    maps.n.n = { utils.better_search "n", desc = "Next search" }
-    maps.n.N = { utils.better_search "N", desc = "Previous search" }
+    maps.n.n = { require("utils").better_search "n", desc = "Next search" }
+    maps.n.N = { require("utils").better_search "N", desc = "Previous search" }
 
     maps.v["K"] = { ":move '<-2<CR>gv-gv", desc = "Move line up", silent = true }
     maps.v["J"] = { ":move '>+1<CR>gv-gv", desc = "Move line down", silent = true }
@@ -18,15 +17,6 @@ function M.core_mappings(mappings)
       maps.i["<D-s>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
       maps.x["<D-s>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
       maps.n["<D-s>"] = { "<Cmd>w<cr>", desc = "Save file", silent = true }
-
-      -- maps.n["<D-a>"] = {
-      --   function()
-      --     local currentLine = vim.api.nvim_win_get_cursor(0)
-      --     vim.cmd "normal! ggyG"
-      --     vim.api.nvim_win_set_cursor(0, currentLine)
-      --   end,
-      -- desc = "Select all",
-      -- }
     end
 
     maps.n["n"] = { "nzz" }

@@ -7,27 +7,6 @@ local is_available = utils.is_available
 ---@type LazySpec
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      if opts.ensure_installed ~= "all" then
-        opts.ensure_installed = require("astrocore").list_insert_unique(
-          opts.ensure_installed,
-          { "bash", "markdown", "markdown_inline", "regex", "vim" }
-        )
-      end
-    end,
-  },
-  {
-    "rebelot/heirline.nvim",
-    optional = true,
-    opts = function(_, opts)
-      local noice_opts = require("astrocore").plugin_opts "noice.nvim"
-      if vim.tbl_get(noice_opts, "lsp", "progress", "enabled") ~= false then -- check if lsp progress is enabled
-        opts.statusline[9] = require("astroui.status").component.lsp { lsp_progress = false }
-      end
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {
@@ -114,6 +93,24 @@ return {
           end
           if vim.tbl_get(noice_opts, "lsp", "signature", "enabled") ~= false then
             opts.lsp_handlers["textDocument/signatureHelp"] = false
+          end
+        end,
+      },
+      {
+        "nvim-treesitter/nvim-treesitter",
+        opts = function(_, opts)
+          if opts.ensure_installed ~= "all" then
+            opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "regex", "vim" })
+          end
+        end,
+      },
+      {
+        "rebelot/heirline.nvim",
+        optional = true,
+        opts = function(_, opts)
+          local noice_opts = require("astrocore").plugin_opts "noice.nvim"
+          if vim.tbl_get(noice_opts, "lsp", "progress", "enabled") ~= false then -- check if lsp progress is enabled
+            opts.statusline[9] = require("astroui.status").component.lsp { lsp_progress = false }
           end
         end,
       },

@@ -1,5 +1,5 @@
 local utils = require "astrocore"
-local set_mappings = require("astrocore").set_mappings
+local set_mappings = utils.set_mappings
 
 ---@type LazySpec
 return {

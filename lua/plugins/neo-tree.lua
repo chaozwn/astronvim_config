@@ -1,16 +1,16 @@
-local get_path_type = require("utils").get_path_type
-local get_extension = require("utils").get_extension
-local get_filename_without_extension = require("utils").get_filename_without_extension
-local get_immediate_parent_directory = require("utils").get_immediate_parent_directory
-local write_to_file = require("utils").write_to_file
-local select_ui = require("utils").select_ui
-local inputs = require "neo-tree.ui.inputs"
-local insert_to_file_first_line = require("utils").insert_to_file_first_line
-local get_parent_directory = require("utils").get_parent_directory
+local utils = require("utils")
+local get_path_type = utils.get_path_type
+local get_extension = utils.get_extension
+local get_filename_without_extension = utils.get_filename_without_extension
+local get_immediate_parent_directory = utils.get_immediate_parent_directory
+local write_to_file = utils.write_to_file
+local select_ui = utils.select_ui
+local insert_to_file_first_line = utils.insert_to_file_first_line
+local get_parent_directory = utils.get_parent_directory
 
-local file_exists = require("utils").file_exists
-local remove_lsp_cwd = require("utils").remove_lsp_cwd
-local get_lsp_root_dir = require("utils").get_lsp_root_dir
+local file_exists = utils.file_exists
+local remove_lsp_cwd = utils.remove_lsp_cwd
+local get_lsp_root_dir = utils.get_lsp_root_dir
 
 local file_extension_mapping = {
   go = function(file_path)
@@ -23,6 +23,7 @@ local file_extension_mapping = {
   rs = function(path)
     local parent_name = get_immediate_parent_directory(path)
     local relative_path = remove_lsp_cwd(path, "rust-analyzer")
+    local inputs = require "neo-tree.ui.inputs"
 
     if relative_path and string.find(relative_path, "^/src/") and parent_name == "src" then
       local root_dir = get_lsp_root_dir "rust-analyzer"
@@ -30,6 +31,7 @@ local file_extension_mapping = {
         local lib_path = root_dir .. "/src/lib.rs"
         local main_path = root_dir .. "/src/main.rs"
         local filename = get_filename_without_extension(path)
+
         if filename ~= "lib" and filename ~= "main" then
           local selections = {
             ["lib"] = "src/lib.rs",

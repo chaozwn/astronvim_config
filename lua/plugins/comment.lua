@@ -1,5 +1,3 @@
-local system = vim.loop.os_uname().sysname
-
 ---@type LazySpec
 return {
   "numToStr/Comment.nvim",
@@ -14,10 +12,6 @@ return {
       ---@param opts AstroCoreOpts
       opts = function(_, opts)
         local maps = require("astrocore").empty_map_table()
-        -- if system == "Darwin" then
-        --   maps.n["<D-/>"] = opts.mappings.n["<Leader>/"]
-        --   maps.x["<D-/>"] = opts.mappings.x["<Leader>/"]
-        -- else
         maps.n["<C-/>"] = opts.mappings.n["<Leader>/"]
         maps.x["<C-/>"] = opts.mappings.x["<Leader>/"]
         -- end
