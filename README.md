@@ -8,7 +8,8 @@ Additionally, I utilize `yazi` as my terminal-based file manager, which seamless
 
 This streamlined combination of tools significantly enhances my productivity and provides a robust terminal experience.
 
-#### TODO: 
+#### TODO:
+
 - [ ] Determine whether to load the plugin based on the language type.
 
 ## Support neovim version
@@ -25,31 +26,6 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 - **_`Markdown`_**: `iamcco/markdown-preview.nvim`,
 - **_`Rust`_**: `mrcjkb/rustaceanvim`
 
-## workflow screenshot
-
-`wezterm` + `tmux` + `astronvim`
-
-![homepage](assets/imgs/homepage.png)
-
-`wezterm`
-
-![wezterm](assets/imgs/wezterm.png)
-
-`tmux`
-
-![tmux](assets/imgs/tmux.png)
-
-`yazi`
-
-![yazi](assets/imgs/yazi.png)
-
-## other components config
-
-`wezterm`: [https://github.com/chaozwn/wezterm]('https://github.com/chaozwn/wezterm')
-
-`tmux`: [https://github.com/chaozwn/tmux]("https://github.com/chaozwn/tmux")
-
-`yazi`: [https://github.com/chaozwn/yazi]("https://github.com/chaozwn/yazi")
 
 ## 🛠️ Installation
 
@@ -57,7 +33,7 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 
 `npm`,`rustc`,`go`,`tmux`
 
-### Recommend install
+### Prepared install
 
 ```shell
 brew install fzf
@@ -91,6 +67,45 @@ brew install imagemagick
 
 npm i -g @styled/typescript-styled-plugin
 ```
+
+### Install Astronvim
+
+```shell
+mv ~/.config/nvim ~/.config/nvim.bak
+rm -rf ~/.local/share/nvim
+rm -rf mv ~/.local/state/nvim
+rm -rf mv ~/.cache/nvim
+
+# clone code
+git clone https://github.com/chaozwn/astronvim_with_coc_or_mason ~/.config/nvim
+```
+
+## workflow screenshot
+
+`wezterm` + `tmux` + `astronvim`
+
+![homepage](assets/imgs/homepage.png)
+
+`wezterm`
+
+![wezterm](assets/imgs/wezterm.png)
+
+`tmux`
+
+![tmux](assets/imgs/tmux.png)
+
+`yazi`
+
+![yazi](assets/imgs/yazi.png)
+
+## other components config
+
+`wezterm`: [https://github.com/chaozwn/wezterm]('https://github.com/chaozwn/wezterm')
+
+`tmux`: [https://github.com/chaozwn/tmux]("https://github.com/chaozwn/tmux")
+
+`yazi`: [https://github.com/chaozwn/yazi]("https://github.com/chaozwn/yazi")
+
 
 ### Note: for rust development
 
@@ -155,7 +170,6 @@ pip install terminaltexteffects
 
 https://github.com/user-attachments/assets/ff8aa481-932d-431c-b1a1-ea7cc6e63920
 
-
 ### Install Bottom
 
 `<Leader>tt`
@@ -215,7 +229,7 @@ tigger command: `<leader>td`
 brew install lazydocker
 ```
 
-### Optional Input method 
+### Optional Input method
 
 ```shell
 brew install --cask squirrel
@@ -265,14 +279,14 @@ brew install --cask squirrel
 [diff]
     tool = kitty
     guitool = kitty.gui
- 
+
 [difftool]
     prompt = false
     trustExitCode = true
- 
+
 [difftool "kitty"]
     cmd = kitty +kitten diff $LOCAL $REMOTE
- 
+
 [difftool "kitty.gui"]
     cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 ```
