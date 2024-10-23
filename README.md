@@ -87,6 +87,7 @@ pip install pylatexenc
 
 brew tap laishulu/macism
 brew install macism
+brew install imagemagick
 
 npm i -g @styled/typescript-styled-plugin
 ```
