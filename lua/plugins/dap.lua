@@ -1,5 +1,4 @@
 -- TODO: auto set up filename as debug name
-local utils = require "astrocore"
 local prefix_debug = "<Leader>d"
 ---@type LazySpec
 return {

@@ -80,36 +80,20 @@ return {
   {
     "jay-babu/mason-null-ls.nvim",
     optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "prettierd" })
-    end,
+    opts = function(_, opts) opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "prettierd" }) end,
   },
   {
     "hrsh7th/nvim-cmp",
-    optional = true,
     dependencies = {
-      { "js-everts/cmp-tailwind-colors", opts = {} },
+      { "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },
     },
     opts = function(_, opts)
+      -- original LazyVim kind icon formatter
       local format_kinds = opts.formatting.format
       opts.formatting.format = function(entry, item)
-        if item.kind == "Color" then
-          item = require("cmp-tailwind-colors").format(entry, item)
-          if item.kind == "Color" then return format_kinds(entry, item) end
-          return item
-        end
-        return format_kinds(entry, item)
+        format_kinds(entry, item) -- add icons
+        return require("tailwindcss-colorizer-cmp").formatter(entry, item)
       end
     end,
-  },
-  {
-    "NvChad/nvim-colorizer.lua",
-    optional = true,
-    opts = {
-      user_default_options = {
-        names = true,
-        tailwind = true,
-      },
-    },
   },
 }

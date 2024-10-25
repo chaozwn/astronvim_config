@@ -13,6 +13,10 @@ return {
           ---@diagnostic disable: missing-fields
           config = {
             yamlls = {
+              on_attach = function(client, _)
+                -- Neovim < 0.10 does not have dynamic registration for formatting
+                if vim.fn.has "nvim-0.10" == 0 then client.server_capabilities.documentFormattingProvider = true end
+              end,
               on_new_config = function(config)
                 config.settings.yaml.schemas = vim.tbl_deep_extend(
                   "force",
