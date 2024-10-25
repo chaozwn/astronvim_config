@@ -1,4 +1,5 @@
 local prefix_git_blame = "<Leader>g"
+
 ---@type LazySpec
 return {
   "f-person/git-blame.nvim",

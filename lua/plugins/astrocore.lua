@@ -1,6 +1,8 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
+  version = false,
+  branch = "v2",
   ---@type AstroCoreOpts
   ---@diagnostic disable-next-line: assign-type-mismatch
   opts = function(_, opts)

@@ -1,7 +1,6 @@
 ---@type LazySpec
 return {
   "windwp/nvim-autopairs",
-  event = "InsertEnter",
   opts = function(_, opts)
     return require("astrocore").extend_tbl(opts, {
       enable_check_bracket_line = true,

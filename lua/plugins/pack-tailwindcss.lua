@@ -82,18 +82,4 @@ return {
     optional = true,
     opts = function(_, opts) opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "prettierd" }) end,
   },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      { "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },
-    },
-    opts = function(_, opts)
-      -- original LazyVim kind icon formatter
-      local format_kinds = opts.formatting.format
-      opts.formatting.format = function(entry, item)
-        format_kinds(entry, item) -- add icons
-        return require("tailwindcss-colorizer-cmp").formatter(entry, item)
-      end
-    end,
-  },
 }

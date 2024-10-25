@@ -67,17 +67,11 @@ return {
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar" })
-    end,
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "js" })
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "vue-language-server", "js-debug-adapter" })
     end,
   },
 }

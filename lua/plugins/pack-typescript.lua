@@ -174,9 +174,13 @@ return {
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "eslint", "vtsls" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(
+        opts.ensure_installed,
+        { "vtsls", "eslint-lsp", "prettierd", "js-debug-adapter" }
+      )
     end,
   },
   {
@@ -193,13 +197,6 @@ return {
           null_ls.register(null_ls.builtins[method][source_name].with { runtime_condition = null_ls_formatter })
         end
       end
-    end,
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "js" })
     end,
   },
   {

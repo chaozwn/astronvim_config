@@ -1,6 +1,7 @@
 ---@type LazySpec
 return {
   "karb94/neoscroll.nvim",
+  event = "VeryLazy",
   specs = {
     {
       "AstroNvim/astrocore",
@@ -29,7 +30,6 @@ return {
       end,
     },
   },
-  event = "VeryLazy",
   opts = {
     mappings = {
       "<C-b>",

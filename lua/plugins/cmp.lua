@@ -42,36 +42,6 @@ local function mapping()
   }
 end
 
-local function trim(s)
-  if s == nil then return "" end
-  return (s:gsub("^%s*(.-)%s*$", "%1"))
-end
-
-local function truncateString(s, maxLength)
-  if #s > maxLength then
-    return string.sub(s, 1, maxLength) .. "..."
-  else
-    return s
-  end
-end
-
-local function getMethodName(s) return string.gsub(s, "%(.*%)", "") end
-
-local formatting_style = {
-  fields = { "abbr", "menu", "kind" },
-  format = function(_, item)
-    local lspkind_avail, lspkind = pcall(require, "lspkind")
-    if lspkind_avail then
-      local icons = lspkind.symbol_map
-      local icon = icons[item.kind] or ""
-      item.kind = string.format("%s %s ", icon, trim(item.kind))
-      item.abbr = getMethodName(trim(item.abbr))
-      item.menu = truncateString(trim(item.menu), 10)
-      return item
-    end
-  end,
-}
-
 ---@type LazySpec
 return {
   "hrsh7th/nvim-cmp",
@@ -122,7 +92,7 @@ return {
     local compare = require "cmp.config.compare"
 
     return require("astrocore").extend_tbl(opts, {
-      formatting = formatting_style,
+      format = require("nvim-highlight-colors").format,
       sources = cmp.config.sources {
         {
           name = "nvim_lsp",

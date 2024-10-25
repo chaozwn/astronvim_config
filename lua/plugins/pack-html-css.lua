@@ -76,21 +76,13 @@ return {
     } } },
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      -- lsp
-      opts.ensure_installed = utils.list_insert_unique(
+      opts.ensure_installed = require("astrocore").list_insert_unique(
         opts.ensure_installed,
-        { "html", "cssls", "cssmodules_ls", "emmet_language_server", "lemminx" }
+        { "html-lsp", "cssmodules-language-server", "css-lsp", "emmet-language-server", "prettierd" }
       )
-    end,
-  },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "prettierd" })
     end,
   },
   {

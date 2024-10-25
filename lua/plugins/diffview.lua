@@ -194,9 +194,4 @@ return {
       })
     end,
   },
-  {
-    "NeogitOrg/neogit",
-    optional = true,
-    opts = { integrations = { diffview = true } },
-  },
 }

@@ -4,7 +4,6 @@ local is_available = require("astrocore").is_available
 return {
   {
     "AstroNvim/astrolsp",
-    optional = true,
     ---@type AstroLSPOpts
     ---@diagnostic disable-next-line: assign-type-mismatch
     opts = function(_, opts)
@@ -60,7 +59,7 @@ return {
       })
     end,
   },
-  { "chaozwn/angular-quickswitch.nvim", opts = {
+  { "chaozwn/angular-quickswitch.nvim", event = "VeryLazy", opts = {
     use_default_keymaps = false,
   } },
   {
@@ -77,10 +76,11 @@ return {
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "angularls" })
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "angular-language-server" })
     end,
   },
 }

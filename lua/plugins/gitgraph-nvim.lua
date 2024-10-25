@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   "isakbm/gitgraph.nvim",
   lazy = true,

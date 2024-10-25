@@ -7,7 +7,9 @@ return {
       {
         "AstroNvim/astrocore",
         opts = function(_, opts)
-          local maps = opts.mappings maps.n["<Leader>lS"] = { function() vim.cmd [[Outline]] end, desc = "Toggle Outline" } end,
+          local maps = opts.mappings
+          maps.n["<Leader>lS"] = { function() vim.cmd [[Outline]] end, desc = "Toggle Outline" }
+        end,
       },
     },
     cmd = "Outline",
@@ -60,7 +62,7 @@ return {
 
       for kind, symbol in pairs(defaults.symbols.icons) do
         opts.symbols.icons[kind] = {
-          icon = require("icons.lspkind")[kind] or symbol.icon,
+          icon = symbol.icon,
           hl = symbol.hl,
         }
       end

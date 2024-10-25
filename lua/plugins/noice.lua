@@ -14,7 +14,6 @@ return {
       "karb94/neoscroll.nvim",
     },
     specs = {
-      { "rcarriga/nvim-notify", init = false, config = true },
       {
         "AstroNvim/astrocore",
         ---@param opts AstroLSPOpts
