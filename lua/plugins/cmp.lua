@@ -1,3 +1,17 @@
+local cmp_ui = {
+  icons_left = false, -- only for non-atom styles!
+  lspkind_text = true,
+  style = "default", -- default/flat_light/flat_dark/atom/atom_colored
+  format_colors = {
+    tailwind = true, -- will work for css lsp too
+    icon = "󱓻",
+  },
+}
+local cmp_style = cmp_ui.style
+local format_kk = require "nvchad-cmp-format"
+local atom_styled = cmp_style == "atom" or cmp_style == "atom_colored"
+local fields = (atom_styled or cmp_ui.icons_left) and { "kind", "abbr", "menu" } or { "abbr", "kind", "menu" }
+
 local function has_words_before()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
@@ -92,7 +106,6 @@ return {
     local compare = require "cmp.config.compare"
 
     return require("astrocore").extend_tbl(opts, {
-      format = require("nvim-highlight-colors").format,
       sources = cmp.config.sources {
         {
           name = "nvim_lsp",
@@ -152,11 +165,32 @@ return {
         completeopt = "menu,menuone,preview,noinsert",
       },
       mapping = mapping(),
+      formatting = {
+        format = function(entry, item)
+          item.abbr = item.abbr .. " "
+          item.menu = cmp_ui.lspkind_text and item.kind or ""
+          item.menu_hl_group = atom_styled and "LineNr" or "CmpItemKind" .. (item.kind or "")
+          item.kind = (require("mini.icons").get("lsp", item.kind) or "") .. " "
+          if not cmp_ui.icons_left then item.kind = " " .. item.kind end
+
+          if cmp_ui.format_colors.tailwind then format_kk.tailwind(entry, item) end
+
+          return item
+        end,
+
+        fields = fields,
+      },
       window = {
         completion = {
-          col_offset = 1,
-          side_padding = 1,
           scrollbar = false,
+          side_padding = atom_styled and 0 or 1,
+          -- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:None,FloatBorder:CmpBorder",
+          border = atom_styled and "none" or "single",
+        },
+
+        documentation = {
+          border = "single",
+          -- winhighlight = "Normal:CmpDoc,FloatBorder:CmpDocBorder",
         },
       },
     })
