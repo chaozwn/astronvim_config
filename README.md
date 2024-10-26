@@ -1,45 +1,44 @@
-# AstroNvimV4 Config
+# 🚀 AstroNvimV4 Configuration
 
-**NOTE:** This is the latest v4 configuration.
+Welcome to my customized AstroNvimV4 configuration! This setup has been optimized for an efficient and powerful development workflow. Below, you'll find all the details on how to install, configure, and use this setup, along with some helpful tips and tricks.
 
-In the course of my daily tasks, I have optimized my workflow by integrating several powerful tools. My terminal of choice is `WezTerm`, which offers a blend of performance and features that cater to my needs. Alongside this, I employ `tmux` to efficiently manage multiple terminal sessions within a single window.
+---
 
-Additionally, I utilize `yazi` as my terminal-based file manager, which seamlessly fits into my terminal-centric workflow. It is also worth noting that my configuration is compatible with `neovide`, eliminating the necessity for additional setups.
+## ✨ Overview
 
-This streamlined combination of tools significantly enhances my productivity and provides a robust terminal experience.
+In my daily tasks, I've streamlined my workflow by integrating several powerful tools:
 
-#### TODO:
+- **Terminal**: I use `Kitty` for its blend of performance and rich features.
+- **Session Management**: `tmux` helps me manage multiple terminal sessions within a single window.
+- **File Manager**: `yazi` is my terminal-based file manager, fitting seamlessly into my terminal-centric workflow.
 
-- [ ] Determine whether to load the plugin based on the language type.
+Additionally, this configuration is compatible with `neovide`, so no extra setup is required.
 
-## Support neovim version
+This combination of tools significantly enhances my productivity, providing a robust and efficient terminal experience.
 
-neovim >= `0.10`, recommend `0.10.1`
+---
 
-## Install lua5.1
+## 🔧 Features
 
-Neovim requires JIT, so it's currently best to use Lua 5.1. [Why Neovim use lua 5.1](https://neovim.io/doc/user/lua.html)
+This configuration supports development in the following languages:
 
-> install lua5.1
+- **TypeScript**: Using `vtsls` with `volar2`.
+- **Python**: `basedpyright` is the LSP of choice.
+- **Go**: With `gopher.nvim`, supporting the Go Zero framework.
+- **Rust**: Powered by `mrcjkb/rustaceanvim`.
+- **Markdown**: Integrated with `iamcco/markdown-preview.nvim`.
 
-```shell
-wget https://www.lua.org/ftp/lua-5.1.5.tar.gz
-tar zxpf lua-5.1.5.tar.gz
-cd lua-5.1.5
+---
 
-# macos
-make macosx
+## 🛠️ Installation
 
-make test
-sudo make install
+### 1. Install Lua 5.1
 
-which lua
-lua -v
-```
+Neovim requires LuaJIT, so Lua 5.1 is currently the best version to use. [Why Neovim uses Lua 5.1](https://neovim.io/doc/user/lua.html).
 
-> install luarocks
+#### Install Luarocks
 
-```shell
+```bash
 wget https://luarocks.github.io/luarocks/releases/luarocks-3.11.1.tar.gz
 tar zxpf luarocks-3.11.1.tar.gz
 cd luarocks-3.11.1
@@ -51,254 +50,267 @@ sudo make install
 luarocks --version
 ```
 
-## Features
+#### Install Lua 5.1
 
-now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `markdown`.
+```bash
+wget https://www.lua.org/ftp/lua-5.1.5.tar.gz
+tar zxpf lua-5.1.5.tar.gz
+cd lua-5.1.5
 
-- **_`Typescript`_**: `vtsls` work with `volar2`
-- **_`Python`_**: `basedpyright`
-- **_`Go`_**: `gopher.nvim` _-- support go zero framework_
-- **_`Markdown`_**: `iamcco/markdown-preview.nvim`,
-- **_`Rust`_**: `mrcjkb/rustaceanvim`
+# For macOS
+make macosx
 
-## 🛠️ Installation
+make test
+sudo make install
 
-### The system should supports commands
-
-`npm`,`rustc`,`go`,`tmux`
-
-### Prepared install
-
-```shell
-brew install fzf
-brew install fd
-brew install luarocks
-brew install lazygit
-brew install ripgrep
-npm install -g tree-sitter-cli
-brew install gdu
-brew install bottom
-brew install protobuf
-brew install gnu-sed
-brew install mercurial
-brew install ast-grep
-
-pip install notebook nbclassic jupyter-console
-pip install git+https://github.com/will8211/unimatrix.git
-npm install -g neovim
-pip install pynvim
-pip install terminaltexteffects
-
-brew tap daipeihust/tap
-brew install im-select
-
-brew install lazydocker
-pip install pylatexenc
-
-brew tap laishulu/macism
-brew install macism
-brew install imagemagick
-
-npm i -g @styled/typescript-styled-plugin
+which lua
+lua -v
 ```
 
-### Install Astronvim
+### 2. Ensure System Commands Are Available
 
-```shell
+Make sure the following commands are installed on your system:
+
+- `npm`
+- `rustc`
+- `go`
+- `tmux`
+
+### 3. Install Dependencies
+
+Use `brew`, `npm`, and `pip` to install the necessary dependencies:
+
+```bash
+# Homebrew packages
+brew install fzf fd lazygit ripgrep gdu bottom protobuf gnu-sed mercurial ast-grep imagemagick lazydocker
+
+# Node.js packages
+npm install -g tree-sitter-cli neovim @styled/typescript-styled-plugin
+
+# Python packages
+pip install git+https://github.com/will8211/unimatrix.git pynvim terminaltexteffects pylatexenc
+```
+
+### 4. Install AstroNvim
+
+Backup your existing Neovim configuration and clone the customized AstroNvim setup:
+
+```bash
 mv ~/.config/nvim ~/.config/nvim.bak
 rm -rf ~/.local/share/nvim
-rm -rf mv ~/.local/state/nvim
-rm -rf mv ~/.cache/nvim
+rm -rf ~/.local/state/nvim
+rm -rf ~/.cache/nvim
 
-# clone code
+# Clone the customized AstroNvim configuration
 git clone https://github.com/chaozwn/astronvim_with_coc_or_mason ~/.config/nvim
 ```
 
-## workflow screenshot
+---
 
-`wezterm` + `tmux` + `astronvim`
+## 🖥️ Workflow Screenshots
+
+Here are some screenshots showcasing the workflow with `wezterm`, `tmux`, `yazi`, and AstroNvim.
+
+### Kitty + tmux + AstroNvim
 
 ![homepage](assets/imgs/homepage.png)
 
-`wezterm`
+### Kitty
 
 ![wezterm](assets/imgs/wezterm.png)
 
-`tmux`
+### tmux
 
 ![tmux](assets/imgs/tmux.png)
 
-`yazi`
+### yazi
 
 ![yazi](assets/imgs/yazi.png)
 
-## other components config
+---
 
-`wezterm`: [https://github.com/chaozwn/wezterm]('https://github.com/chaozwn/wezterm')
+## 🔗 Other Configurations
 
-`tmux`: [https://github.com/chaozwn/tmux]("https://github.com/chaozwn/tmux")
+- **Kitty**: [https://github.com/chaozwn/kitty](https://github.com/chaozwn/kitty)
+- **tmux**: [https://github.com/chaozwn/tmux](https://github.com/chaozwn/tmux)
+- **yazi**: [https://github.com/chaozwn/yazi](https://github.com/chaozwn/yazi)
 
-`yazi`: [https://github.com/chaozwn/yazi]("https://github.com/chaozwn/yazi")
+---
 
-### Note: for rust development
+## 🦀 Rust Development Note
 
-> rustup and mason's installation of rust-analzyer are different and may cause some [bugs](https://github.com/rust-lang/rust-analyzer/issues/17289), manual installation is recommended.
+When working with Rust, note that `rustup` and `mason` install `rust-analyzer` differently, which may cause some [bugs](https://github.com/rust-lang/rust-analyzer/issues/17289). Manual installation is recommended:
 
-```shell
+```bash
 rustup component add rust-analyzer
 ```
 
-## Tips
+---
+
+## 💡 Tips & Tricks
 
 ### NVcheatsheet
 
-`<F2>`
+Press `<F2>` to open the NVcheatsheet.
 
 ![nvcheatsheet](assets/imgs/nvcheatsheet.png)
 
 ### Use Lazygit
 
-`<leader>tl`
+Trigger command: `<leader>tl`
 
 ![lazygit](assets/imgs/lazygit.png)
 
-### Install unimatrix
+### Install Unimatrix
 
-`<Leader>tm`
+Trigger command: `<Leader>tm`
 
-```shell
+```bash
 pip install git+https://github.com/will8211/unimatrix.git
 ```
 
 ![unimatrix](assets/imgs/unimatrix.png)
 
-### Install TTE
+### Install Terminal Text Effects (TTE)
 
-`<Leader>te`
+Trigger command: `<Leader>te`
 
-```shell
+```bash
 pip install terminaltexteffects
 ```
-
-https://github.com/user-attachments/assets/ff8aa481-932d-431c-b1a1-ea7cc6e63920
+![TTE](https://github.com/user-attachments/assets/ff8aa481-932d-431c-b1a1-ea7cc6e63920)
 
 ### Install Bottom
 
-`<Leader>tt`
+Trigger command: `<Leader>tt`
 
-```shell
+```bash
 brew install bottom
 ```
 
 ![bottom](assets/imgs/bottom.png)
 
-### Neovim requirements
+### Neovim Requirements
 
-```shell
+Ensure Neovim dependencies are installed
+
+```bash
+# Install Neovim dependencies
 npm install -g neovim
 pip install pynvim
 ```
 
 ### Markdown Image Paste
 
-```shell
+To enable image pasting in Markdown files, install the `pillow` Python package:
+
+```bash
 pip install pillow
 ```
 
-### Input Auto Switch
+### Input Method Auto Switch
 
-```shell
-brew tap daipeihust/tap
-brew install im-select
-im-select
-```
+To automatically switch input methods when entering and exiting insert mode in Neovim:
 
-run `im-select` & copy result to `im-select.lua`
+1. Install `im-select`:
 
-```lua
-return {
-  "chaozwn/im-select.nvim",
-  lazy = false,
-  opts = {
-    default_main_select = "com.sogou.inputmethod.sogou.pinyin", -- update your input method
-    set_previous_events = { "InsertEnter", "FocusLost" },
-  },
-}
-```
+    ```bash
+    brew tap laishulu/macism
+    brew install macism
+    ```
 
-### Support for neovide
+2. Run `im-select` and copy the result to your `im-select.lua` configuration:
 
-```shell
-brew install neovide
-neovide .
-```
+    ```bash
+    macism
+    ```
 
-### Support Lazydocker
+3. Add the following configuration to your `im-select.lua` file:
 
-tigger command: `<leader>td`
+    ```lua
+    return {
+        "chaozwn/im-select.nvim",
+        lazy = false,
+        opts = {
+            default_command = "macism",
+            default_main_select = "im.rime.inputmethod.Squirrel.Hans",
+            set_previous_events = { "InsertEnter", "FocusLost" },
+        },
+    }
+    ```
 
-```shell
-brew install lazydocker
-```
+### Optional Input Method
 
-### Optional Input method
+For an alternative input method, you can install `squirrel`:
 
-```shell
+```bash
 brew install --cask squirrel
 ```
 
-## General Mappings
+---
 
-| Action                      | Mappings            |
-| --------------------------- | ------------------- |
-| Leader key                  | `Space`             |
-| Resize up                   | `Ctrl + Up`         |
-| Resize Down                 | `Ctrl + Down`       |
-| Resize Left                 | `Ctrl + Left`       |
-| Resize Right                | `Ctrl + Right`      |
-| Up Window                   | `Ctrl + k`          |
-| Down Window                 | `Ctrl + j`          |
-| Left Window                 | `Ctrl + h`          |
-| Right Window                | `Ctrl + l`          |
-| Force Write                 | `Ctrl + s`          |
-| Force Quit                  | `Ctrl + q`          |
-| New File                    | `Leader + n`        |
-| Close Buffer                | `Leader + c`        |
-| Next Tab (real vim tab)     | `]t`                |
-| Previous Tab (real vim tab) | `[t`                |
-| Comment                     | `Leader + /`        |
-| Horizontal Split            | `\`                 |
-| Vertical Split              | <code>&#124;</code> |
+## 🎛️ General Mappings
 
-## NOTE
+Here are the general key mappings for this configuration:
 
-### _vim.lsp.buf.hover()_ `KK` jump into signature help float window
+| Action                      | Keybinding          |
+| ----------------------------| ------------------- |
+| **Leader key**               | `Space`             |
+| **Resize up**                | `Ctrl + Up`         |
+| **Resize down**              | `Ctrl + Down`       |
+| **Resize left**              | `Ctrl + Left`       |
+| **Resize right**             | `Ctrl + Right`      |
+| **Move to upper window**     | `Ctrl + k`          |
+| **Move to lower window**     | `Ctrl + j`          |
+| **Move to left window**      | `Ctrl + h`          |
+| **Move to right window**     | `Ctrl + l`          |
+| **Force write**              | `Ctrl + s`          |
+| **Force quit**               | `Ctrl + q`          |
+| **New file**                 | `Leader + n`        |
+| **Close buffer**             | `Leader + c`        |
+| **Next tab (real Vim tab)**  | `]t`                |
+| **Previous tab (real Vim tab)**| `[t`              |
+| **Toggle comment**           | `Leader + /`        |
+| **Horizontal split**         | `\`                 |
+| **Vertical split**           | <code>&#124;</code> |
 
-> Displays hover information about the symbol under the cursor in a floating window. Calling the function twice will jump into the floating window.
+---
 
-### how to quickly set up a dap breakpoint
+## 📝 Notes
 
-> use `<C-LeftClick>` in `line number`
+### LSP Hover Information
 
-### use kitty diff in .gitconfig
+You can use `vim.lsp.buf.hover()` to display hover information about the symbol under the cursor in a floating window. Calling the function twice will jump into the floating window.
 
-```
-[core]
-	autocrlf = input
-[pull]
-	rebase = true
+- **Keybinding**: `KK`
 
-[diff]
-    tool = kitty
-    guitool = kitty.gui
+### Setting DAP Breakpoints
 
-[difftool]
-    prompt = false
-    trustExitCode = true
+To quickly set a DAP (Debug Adapter Protocol) breakpoint, use `<Ctrl-LeftClick>` on the line number.
 
-[difftool "kitty"]
-    cmd = kitty +kitten diff $LOCAL $REMOTE
+---
 
-[difftool "kitty.gui"]
-    cmd = kitty kitty +kitten diff $LOCAL $REMOTE
-```
+## 🗂️ TODO
+
+- [ ] Determine whether to load plugins based on the detected language type.
+
+---
+
+## 🧑‍💻 Supported Neovim Version
+
+This configuration supports Neovim version `>= 0.10`.
+
+---
+
+## 📝 License
+
+This configuration is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+Feel free to explore, customize, and enjoy this powerful Neovim setup! If you have any questions or encounter issues, don't hesitate to reach out.
+
+Happy coding! 🚀
+
+--- 
+
