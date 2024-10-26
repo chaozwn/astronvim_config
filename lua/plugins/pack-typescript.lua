@@ -51,10 +51,7 @@ local has_prettier = function(bufnr)
   return prettier_dependency or next(prettierrc_rooter(bufnr))
 end
 
-local null_ls_formatter = function(params)
-  if vim.tbl_contains(format_filetypes, params.filetype) then return has_prettier(params.bufnr) end
-  return true
-end
+local conform_formatter = function(bufnr) return has_prettier(bufnr) and { "prettierd" } or {} end
 
 return {
   ---@type LazySpec
@@ -184,22 +181,6 @@ return {
     end,
   },
   {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "prettierd" })
-
-      if not opts.handlers then opts.handlers = {} end
-
-      opts.handlers.prettierd = function(source_name, methods)
-        local null_ls = require "null-ls"
-        for _, method in ipairs(methods) do
-          null_ls.register(null_ls.builtins[method][source_name].with { runtime_condition = null_ls_formatter })
-        end
-      end
-    end,
-  },
-  {
     "vuki656/package-info.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {},
@@ -314,6 +295,16 @@ return {
     opts = function(_, opts)
       if not opts.adapters then opts.adapters = {} end
       table.insert(opts.adapters, require "neotest-jest"(require("astrocore").plugin_opts "neotest-jest"))
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = function(_, opts)
+      if not opts.formatters_by_ft then opts.formatters_by_ft = {} end
+      for _, filetype in ipairs(format_filetypes) do
+        opts.formatters_by_ft[filetype] = conform_formatter
+      end
     end,
   },
 }

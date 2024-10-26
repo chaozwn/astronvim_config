@@ -13,34 +13,33 @@ local function create_buf_gen_config_file()
   utils.copy_file(source_file, target_file)
 end
 
-local function formatting_auto_import_config()
+local function formatting()
   local system_config = vim.fn.stdpath "config" .. "/buf.yaml"
   local project_config = vim.fn.getcwd() .. "/buf.yaml"
 
-  local null_ls = require "null-ls"
-  local buf_buildins = null_ls.builtins.formatting.buf
-  table.insert(buf_buildins._opts.args, "--config")
+  local format_args = { "--config" }
   if vim.fn.filereadable(project_config) == 1 then
-    table.insert(buf_buildins._opts.args, project_config)
+    table.insert(format_args, project_config)
   else
-    table.insert(buf_buildins._opts.args, system_config)
+    table.insert(format_args, system_config)
   end
-  null_ls.register(null_ls.builtins.formatting.buf.with(buf_buildins))
+  return format_args
 end
 
-local function diagnostic_auto_import_config()
+local function diagnostic()
   local system_config = vim.fn.stdpath "config" .. "/buf.yaml"
   local project_config = vim.fn.getcwd() .. "/buf.yaml"
 
-  local null_ls = require "null-ls"
-  local buf_buildins = null_ls.builtins.diagnostics.buf
-  table.insert(buf_buildins._opts.args, "--config")
+  local buf_lint = require("lint").linters.buf_lint
+  if not utils.contains_arg(buf_lint.args, "--config") then table.insert(buf_lint.args, "--config") end
+
   if vim.fn.filereadable(project_config) == 1 then
-    table.insert(buf_buildins._opts.args, project_config)
+    if not utils.contains_arg(buf_lint.args, project_config) then table.insert(buf_lint.args, project_config) end
   else
-    table.insert(buf_buildins._opts.args, system_config)
+    if not utils.contains_arg(buf_lint.args, system_config) then table.insert(buf_lint.args, system_config) end
   end
-  null_ls.register(null_ls.builtins.diagnostics.buf.with(buf_buildins))
+
+  return buf_lint.args
 end
 
 ---@type LazySpec
@@ -101,16 +100,31 @@ return {
     end,
   },
   {
-    "jay-babu/mason-null-ls.nvim",
+    "stevearc/conform.nvim",
     optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "buf" })
-      if not opts.handlers then opts.handlers = {} end
-
-      opts.handlers.buf = function()
-        diagnostic_auto_import_config()
-        formatting_auto_import_config()
-      end
-    end,
+    opts = {
+      formatters = {
+        buf = {
+          prepend_args = formatting(),
+        },
+      },
+      formatters_by_ft = {
+        proto = { "buf" },
+      },
+    },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    optional = true,
+    opts = {
+      linters = {
+        buf_lint = {
+          args = diagnostic(),
+        },
+      },
+      linters_by_ft = {
+        proto = { "buf_lint" },
+      },
+    },
   },
 }

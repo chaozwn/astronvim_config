@@ -1,6 +1,14 @@
 local M = {}
 local is_win = vim.loop.os_uname().version:find "Windows"
 
+-- 检查是否已经存在 "--config" 参数
+function M.contains_arg(args, arg)
+  for _, v in ipairs(args) do
+    if v == arg then return true end
+  end
+  return false
+end
+
 --- Gets a path to a package in the Mason registry.
 --- Prefer this to `get_package`, since the package might not always be
 --- available yet and trigger errors.

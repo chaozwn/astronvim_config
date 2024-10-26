@@ -24,7 +24,9 @@ return {
         wrap = true,
         scrolloff = 5,
       },
-      g = {},
+      g = {
+        autoformat = false,
+      },
     }
 
     if vim.fn.has "nvim-0.10" == 1 then

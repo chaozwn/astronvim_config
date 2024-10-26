@@ -26,7 +26,6 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 - **_`Markdown`_**: `iamcco/markdown-preview.nvim`,
 - **_`Rust`_**: `mrcjkb/rustaceanvim`
 
-
 ## 🛠️ Installation
 
 ### The system should supports commands
@@ -63,6 +62,7 @@ pip install pylatexenc
 
 brew tap laishulu/macism
 brew install macism
+brew install imagemagick
 
 npm i -g @styled/typescript-styled-plugin
 ```
@@ -104,7 +104,6 @@ git clone https://github.com/chaozwn/astronvim_with_coc_or_mason ~/.config/nvim
 `tmux`: [https://github.com/chaozwn/tmux]("https://github.com/chaozwn/tmux")
 
 `yazi`: [https://github.com/chaozwn/yazi]("https://github.com/chaozwn/yazi")
-
 
 ### Note: for rust development
 
@@ -268,3 +267,4 @@ brew install --cask squirrel
 [difftool "kitty.gui"]
     cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 ```
+

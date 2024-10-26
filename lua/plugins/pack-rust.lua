@@ -163,8 +163,7 @@ return {
         },
       },
       null_ls = {
-        enabled = true,
-        name = "crates.nvim",
+        enabled = false,
       },
     },
   },

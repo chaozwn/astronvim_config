@@ -30,4 +30,22 @@ return {
       )
     end,
   },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        ["yaml.docker-compose"] = { "prettierd", "prettier", stop_after_first = true },
+      },
+    },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    optional = true,
+    opts = {
+      linters_by_ft = {
+        ["docker-compose"] = { "hadolint" },
+      },
+    },
+  },
 }

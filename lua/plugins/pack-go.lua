@@ -224,6 +224,15 @@ return {
     end,
   },
   {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        go = { "goimports", lsp_format = "last" },
+      },
+    },
+  },
+  {
     "echasnovski/mini.icons",
     optional = true,
     opts = {
