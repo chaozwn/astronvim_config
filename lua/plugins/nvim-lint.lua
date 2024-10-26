@@ -5,7 +5,6 @@ return {
   event = "User AstroFile",
   dependencies = { "williamboman/mason.nvim" },
   specs = {
-    { "jay-babu/mason-null-ls.nvim", enabled = false, optional = true, opts = { methods = { diagnostics = false } } },
     {
       "AstroNvim/astrocore",
       ---@param opts AstroCoreOpts

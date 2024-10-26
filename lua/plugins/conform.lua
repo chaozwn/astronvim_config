@@ -5,7 +5,6 @@ return {
   cmd = "ConformInfo",
   specs = {
     { "AstroNvim/astrolsp", optional = true, opts = { formatting = { disabled = true } } },
-    { "jay-babu/mason-null-ls.nvim", enabled = false, optional = true, opts = { methods = { formatting = false } } },
   },
   dependencies = {
     { "williamboman/mason.nvim", optional = true },
