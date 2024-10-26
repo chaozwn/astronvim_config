@@ -88,7 +88,7 @@ brew install fzf fd lazygit ripgrep gdu bottom protobuf gnu-sed mercurial ast-gr
 npm install -g tree-sitter-cli neovim @styled/typescript-styled-plugin
 
 # Python packages
-pip install git+https://github.com/will8211/unimatrix.git pynvim terminaltexteffects pylatexenc
+pip install pynvim pylatexenc
 ```
 
 ### 4. Install AstroNvim
@@ -109,7 +109,7 @@ git clone https://github.com/chaozwn/astronvim_with_coc_or_mason ~/.config/nvim
 
 ## 🖥️ Workflow Screenshots
 
-Here are some screenshots showcasing the workflow with `wezterm`, `tmux`, `yazi`, and AstroNvim.
+Here are some screenshots showcasing the workflow with `kitty`, `tmux`, `yazi`, and AstroNvim.
 
 ### Kitty + tmux + AstroNvim
 
@@ -160,25 +160,6 @@ Press `<F2>` to open the NVcheatsheet.
 Trigger command: `<leader>tl`
 
 ![lazygit](assets/imgs/lazygit.png)
-
-### Install Unimatrix
-
-Trigger command: `<Leader>tm`
-
-```bash
-pip install git+https://github.com/will8211/unimatrix.git
-```
-
-![unimatrix](assets/imgs/unimatrix.png)
-
-### Install Terminal Text Effects (TTE)
-
-Trigger command: `<Leader>te`
-
-```bash
-pip install terminaltexteffects
-```
-![TTE](https://github.com/user-attachments/assets/ff8aa481-932d-431c-b1a1-ea7cc6e63920)
 
 ### Install Bottom
 

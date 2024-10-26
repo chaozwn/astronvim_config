@@ -11,6 +11,7 @@ return {
           maps.n["<Leader>lS"] = { function() vim.cmd [[Outline]] end, desc = "Toggle Outline" }
         end,
       },
+      "echasnovski/mini.icons",
     },
     cmd = "Outline",
     opts = function()
@@ -60,10 +61,11 @@ return {
         },
       }
 
-      for kind, symbol in pairs(defaults.symbols.icons) do
+      for kind, _ in pairs(defaults.symbols.icons) do
+        local icon, hl, _ = require("mini.icons").get("lsp", kind)
         opts.symbols.icons[kind] = {
-          icon = symbol.icon,
-          hl = symbol.hl,
+          icon = icon,
+          hl = hl,
         }
       end
       return opts

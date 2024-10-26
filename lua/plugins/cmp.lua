@@ -12,10 +12,42 @@ local function tailwind(entry, item)
   end
 end
 
-local function trim(s)
-  if s == nil then return "" end
-  return (s:gsub("^%s*(.-)%s*$", "%1"))
-end
+local menu_mapping = {
+  array = "arr",
+  boolean = "bool",
+  class = "cls",
+  color = "col",
+  constant = "const",
+  constructor = "ctor",
+  enum = "enum",
+  enummember = "emem",
+  event = "evt",
+  field = "fld",
+  file = "file",
+  folder = "dir",
+  ["function"] = "fn",
+  interface = "ifc",
+  key = "key",
+  keyword = "kw",
+  method = "mtd",
+  module = "mod",
+  namespace = "ns",
+  null = "nil",
+  number = "num",
+  object = "obj",
+  operator = "op",
+  package = "pkg",
+  property = "prop",
+  reference = "ref",
+  snippet = "snip",
+  string = "str",
+  struct = "st",
+  text = "txt",
+  typeparameter = "tparam",
+  unit = "u",
+  value = "val",
+  variable = "var",
+}
 
 local function has_words_before()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -65,15 +97,6 @@ end
 return {
   "hrsh7th/nvim-cmp",
   specs = {
-    "hrsh7th/cmp-calc",
-    "hrsh7th/cmp-emoji",
-    "SergioRibera/cmp-dotenv",
-    "jc-doyle/cmp-pandoc-references",
-    "kdheepak/cmp-latex-symbols",
-    {
-      "vrslev/cmp-pypi",
-      ft = "toml",
-    },
     {
       "hrsh7th/cmp-cmdline",
       keys = { ":", "/", "?" }, -- lazy load cmp on more keys along with insert mode
@@ -110,6 +133,15 @@ return {
     },
   },
   dependencies = {
+    "hrsh7th/cmp-calc",
+    "hrsh7th/cmp-emoji",
+    "SergioRibera/cmp-dotenv",
+    "jc-doyle/cmp-pandoc-references",
+    "kdheepak/cmp-latex-symbols",
+    {
+      "vrslev/cmp-pypi",
+      ft = "toml",
+    },
     "echasnovski/mini.icons",
   },
   opts = function(_, opts)
@@ -180,25 +212,31 @@ return {
       mapping = mapping(),
       formatting = {
         format = function(entry, item)
-          item.abbr = item.abbr .. " "
-          item.kind = (require("mini.icons").get("lsp", item.kind) or "") .. " "
-          item.kind = " " .. trim(item.kind)
+          local icon, hl, _ = require("mini.icons").get("lsp", item.kind or "")
+          local kind = item.kind or ""
+          item.abbr = item.abbr
+          item.kind = " " .. (icon or "")
+          item.kind_hl_group = hl
           tailwind(entry, item)
-          item.menu = ""
+          item.menu = menu_mapping[string.lower(kind)] or kind
+          item.menu_hl_group = hl
 
           return item
         end,
 
-        fields = { "kind", "abbr" },
+        fields = { "kind", "menu", "abbr" },
       },
       window = {
         completion = {
+          col_offset = 0,
+          side_padding = 0,
           scrollbar = false,
-          border = "single",
+          winhighlight = "Normal:CmpDocumentation,CursorLine:PmenuSel,Search:None,FloatBorder:CmpDocumentationBorder",
+          border = "none",
         },
-
         documentation = {
-          border = "single",
+          border = "none",
+          winhighlight = "Normal:CmpDocumentation,FloatBorder:CmpDocumentationBorder",
         },
       },
     })

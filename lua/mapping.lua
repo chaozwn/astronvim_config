@@ -67,20 +67,6 @@ function M.core_mappings(mappings)
         desc = "ToggleTerm btm",
       }
     end
-
-    if vim.fn.executable "unimatrix" == 1 then
-      maps.n["<Leader>tm"] = {
-        require("utils").toggle_unicmatrix(),
-        desc = "ToggleTerm unimatrix",
-      }
-    end
-
-    if vim.fn.executable "tte" == 1 then
-      maps.n["<Leader>te"] = {
-        require("utils").toggle_tte(),
-        desc = "ToggleTerm tte",
-      }
-    end
   end
 
   return maps

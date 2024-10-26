@@ -36,7 +36,6 @@
   "flatten.nvim": { "branch": "main", "commit": "e420e531d2ab24aebcf7b3c9fca28e6c5c34964d" },
   "friendly-snippets": { "branch": "main", "commit": "de8fce94985873666bd9712ea3e49ee17aadb1ed" },
   "git-blame.nvim": { "branch": "master", "commit": "2883a7460f611c2705b23f12d58d398d5ce6ec00" },
-  "gitgraph.nvim": { "branch": "main", "commit": "01e466b32c346a165135dd47d42f1244eca06572" },
   "gitsigns.nvim": { "branch": "main", "commit": "0b04035bb7b3c83e999b9676e2fb46fd0aa9f910" },
   "goctl.nvim": { "branch": "master", "commit": "3e67b6b52c01a374c9500c8fd0586cb41cc0ce1b" },
   "goimpl.nvim": { "branch": "main", "commit": "a0a16a397b652bb5162751c808d810465a028f1e" },
