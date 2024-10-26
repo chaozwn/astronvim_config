@@ -1,6 +1,6 @@
-# 🚀 AstroNvimV4 Configuration
+# 🚀 AstroNvimV5 Configuration
 
-Welcome to my customized AstroNvimV4 configuration! This setup has been optimized for an efficient and powerful development workflow. Below, you'll find all the details on how to install, configure, and use this setup, along with some helpful tips and tricks.
+Welcome to my customized AstroNvimV5 configuration! This setup has been optimized for an efficient and powerful development workflow. Below, you'll find all the details on how to install, configure, and use this setup, along with some helpful tips and tricks.
 
 ---
 
