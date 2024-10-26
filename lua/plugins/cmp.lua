@@ -12,6 +12,11 @@ local function tailwind(entry, item)
   end
 end
 
+local function trim(s)
+  if s == nil then return "" end
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
 local function has_words_before()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
@@ -60,6 +65,15 @@ end
 return {
   "hrsh7th/nvim-cmp",
   specs = {
+    "hrsh7th/cmp-calc",
+    "hrsh7th/cmp-emoji",
+    "SergioRibera/cmp-dotenv",
+    "jc-doyle/cmp-pandoc-references",
+    "kdheepak/cmp-latex-symbols",
+    {
+      "vrslev/cmp-pypi",
+      ft = "toml",
+    },
     {
       "hrsh7th/cmp-cmdline",
       keys = { ":", "/", "?" }, -- lazy load cmp on more keys along with insert mode
@@ -96,10 +110,7 @@ return {
     },
   },
   dependencies = {
-    "hrsh7th/cmp-calc",
-    "hrsh7th/cmp-emoji",
-    "jc-doyle/cmp-pandoc-references",
-    "kdheepak/cmp-latex-symbols",
+    "echasnovski/mini.icons",
   },
   opts = function(_, opts)
     local cmp = require "cmp"
@@ -130,12 +141,14 @@ return {
           priority = 1000,
         },
         { name = "luasnip", priority = 750 },
+        { name = "dotenv", priority = 730 },
         { name = "pandoc_references", priority = 725 },
         { name = "latex_symbols", priority = 700 },
         { name = "emoji", priority = 700 },
         { name = "calc", priority = 650 },
         { name = "path", priority = 500 },
         { name = "buffer", priority = 250 },
+        { name = "pypi", keyword_length = 4 },
       },
       sorting = {
         comparators = {
@@ -169,18 +182,18 @@ return {
         format = function(entry, item)
           item.abbr = item.abbr .. " "
           item.kind = (require("mini.icons").get("lsp", item.kind) or "") .. " "
-          item.kind = " " .. item.kind
+          item.kind = " " .. trim(item.kind)
           tailwind(entry, item)
+          item.menu = ""
 
           return item
         end,
 
-        fields = { "abbr", "kind" },
+        fields = { "kind", "abbr" },
       },
       window = {
         completion = {
           scrollbar = false,
-          side_padding = 1,
           border = "single",
         },
 
