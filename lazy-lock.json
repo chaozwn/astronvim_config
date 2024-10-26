@@ -13,7 +13,6 @@
   "astrotheme": { "branch": "main", "commit": "b1405cc96823d5f6cdd5a2f7ebeb137183220840" },
   "astroui": { "branch": "v3", "commit": "2bdf0d749d581916a6f229cb603b61c17b028c33" },
   "auto-save.nvim": { "branch": "main", "commit": "151c00848b191b54578f7549fe3e18665eb96638" },
-  "base46": { "branch": "v2.5", "commit": "fec9fa583025e69e0c4f902bd61990e8d13d1975" },
   "better-escape.nvim": { "branch": "master", "commit": "f45b52f8f87792e8659526f23261ffe278a54be5" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
   "cmp-calc": { "branch": "main", "commit": "5947b412da67306c5b68698a02a846760059be2e" },
@@ -112,12 +111,10 @@
   "trouble.nvim": { "branch": "main", "commit": "2f3b537f2207ce32f4459f9d56746ee013b5e01b" },
   "ts-error-translator.nvim": { "branch": "main", "commit": "3bd23c4cfe4c2edc99278e01b75cdb2a26f03152" },
   "tsc.nvim": { "branch": "main", "commit": "82c37ebfe45d30763db6f45b54e18f1e485bb52c" },
-  "ui": { "branch": "v3.0", "commit": "d901352c73b0f611dfde9330bc0dba216029fbe3" },
   "venv-selector.nvim": { "branch": "regexp", "commit": "e82594274bf7b54387f9a2abe65f74909ac66e97" },
   "vim-illuminate": { "branch": "master", "commit": "5eeb7951fc630682c322e88a9bbdae5c224ff0aa" },
   "vim-maketable": { "branch": "master", "commit": "d72e73f333c64110524197ec637897bd1464830f" },
   "vim-sleuth": { "branch": "master", "commit": "be69bff86754b1aa5adcbb527d7fcd1635a84080" },
   "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },
-  "volt": { "branch": "main", "commit": "229b4f1bc865c866227dd0e2ecda11ab6ec2c8cc" },
   "which-key.nvim": { "branch": "main", "commit": "fb070344402cfc662299d9914f5546d840a22126" }
 }
