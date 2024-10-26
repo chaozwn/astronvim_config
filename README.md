@@ -16,6 +16,41 @@ This streamlined combination of tools significantly enhances my productivity and
 
 neovim >= `0.10`, recommend `0.10.1`
 
+## Install lua5.1
+
+Neovim requires JIT, so it's currently best to use Lua 5.1. [Why Neovim use lua 5.1](https://neovim.io/doc/user/lua.html)
+
+> install lua5.1
+
+```shell
+wget https://www.lua.org/ftp/lua-5.1.5.tar.gz
+tar zxpf lua-5.1.5.tar.gz
+cd lua-5.1.5
+
+# macos
+make macosx
+
+make test
+sudo make install
+
+which lua
+lua -v
+```
+
+> install luarocks
+
+```shell
+wget https://luarocks.github.io/luarocks/releases/luarocks-3.11.1.tar.gz
+tar zxpf luarocks-3.11.1.tar.gz
+cd luarocks-3.11.1
+
+./configure --lua-version=5.1 --lua-suffix=5.1
+make
+sudo make install
+
+luarocks --version
+```
+
 ## Features
 
 now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `markdown`.
@@ -267,4 +302,3 @@ brew install --cask squirrel
 [difftool "kitty.gui"]
     cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 ```
-

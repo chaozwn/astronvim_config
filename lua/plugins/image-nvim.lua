@@ -3,13 +3,6 @@ return {
   event = "VeryLazy",
   dependencies = {
     {
-      "vhyrro/luarocks.nvim",
-      priority = 1000, -- this plugin needs to run before anything else
-      opts = {
-        rocks = { "magick" },
-      },
-    },
-    {
       "nvim-treesitter/nvim-treesitter",
       optional = true,
       opts = function(_, opts)
@@ -19,6 +12,7 @@ return {
         end
       end,
     },
+    "https://github.com/leafo/magick",
   },
   opts = {
     backend = "kitty",
@@ -42,7 +36,7 @@ return {
     max_height = nil,
     max_width_window_percentage = 50,
     max_height_window_percentage = 50,
-    window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+    window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
     window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
     kitty_method = "normal",
     editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
