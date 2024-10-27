@@ -7,47 +7,10 @@ local function tailwind(entry, item)
 
     if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color }) end
 
-    item.kind = " 󱓻 "
+    item.kind = "󱓻"
     item.kind_hl_group = hl
   end
 end
-
-local menu_mapping = {
-  array = "array",
-  boolean = "bool",
-  class = "class",
-  color = "color",
-  constant = "const",
-  constructor = "ctor",
-  enum = "enum",
-  enummember = "emem",
-  event = "event",
-  field = "field",
-  file = "file",
-  folder = "folder",
-  ["function"] = "fn",
-  interface = "ifc",
-  key = "key",
-  keyword = "kword",
-  method = "mtd",
-  module = "mod",
-  namespace = "ns",
-  null = "nil",
-  number = "num",
-  object = "obj",
-  operator = "oper",
-  package = "pkg",
-  property = "prop",
-  reference = "ref",
-  snippet = "snip",
-  string = "str",
-  struct = "struct",
-  text = "text",
-  typeparameter = "tparam",
-  unit = "unit",
-  value = "val",
-  variable = "var",
-}
 
 local function has_words_before()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -131,6 +94,7 @@ return {
         vim.tbl_map(function(val) cmp.setup.cmdline(val.type, val) end, opts)
       end,
     },
+    "AstroNvim/astroui",
   },
   dependencies = {
     "hrsh7th/cmp-calc",
@@ -213,18 +177,17 @@ return {
       formatting = {
         format = function(entry, item)
           local icon, hl, _ = require("mini.icons").get("lsp", item.kind or "")
-          local kind = item.kind or ""
           item.abbr = item.abbr
-          item.kind = " " .. (icon or "")
+          item.kind = icon
           item.kind_hl_group = hl
           tailwind(entry, item)
-          item.menu = menu_mapping[string.lower(kind)] or kind
-          item.menu_hl_group = hl
+          item.menu = " " .. "󰔰" .. " "
+          item.menu_hl_group = "CmpKindHlGroup"
 
           return item
         end,
 
-        fields = { "kind", "menu", "abbr" },
+        fields = { "menu", "kind", "abbr" },
       },
       window = {
         completion = {
