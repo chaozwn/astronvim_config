@@ -5,9 +5,9 @@ local function tailwind(entry, item)
   if color and type(color) == "string" and color:match "^#%x%x%x%x%x%x$" then
     local hl = "hex-" .. color:sub(2)
 
-    if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color }) end
+    if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color, bg = "#2F3731" }) end
 
-    item.kind = " 󱓻"
+    item.kind = " 󱓻 "
     item.kind_hl_group = hl
   end
 end
@@ -67,7 +67,6 @@ return {
       "vrslev/cmp-pypi",
       ft = "toml",
     },
-    "echasnovski/mini.icons",
   },
   opts = function(_, opts)
     local cmp = require "cmp"
@@ -109,7 +108,7 @@ return {
         format = function(entry, item)
           local str = require "cmp.utils.str"
           local widths = {
-            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 30,
             menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
           }
           for key, width in pairs(widths) do
@@ -117,10 +116,11 @@ return {
               item[key] = vim.fn.strcharpart(str.trim(item[key]), 0, width - 1) .. "…"
             end
           end
+
           local icon, hl, _ = require("mini.icons").get("lsp", item.kind or "")
           item.abbr = item.abbr
-          item.kind = " " .. icon
-          item.kind_hl_group = hl
+          item.kind = " " .. icon .. " "
+          item.kind_hl_group = "CmpMini" .. hl
           tailwind(entry, item)
 
           return item
@@ -136,7 +136,10 @@ return {
           winhighlight = "Normal:CmpDocumentation,CursorLine:PmenuSel,Search:None,FloatBorder:CmpDocumentationBorder",
           border = "none",
         },
-        documentation = false,
+        documentation = {
+          border = "none",
+          winhighlight = "Normal:CmpDocumentation,FloatBorder:CmpDocumentationBorder",
+        },
       },
     })
   end,
