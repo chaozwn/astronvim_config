@@ -7,7 +7,7 @@ local function tailwind(entry, item)
 
     if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color }) end
 
-    item.kind = "󱓻"
+    item.kind = " 󱓻"
     item.kind_hl_group = hl
   end
 end
@@ -60,48 +60,9 @@ end
 return {
   "hrsh7th/nvim-cmp",
   specs = {
-    {
-      "hrsh7th/cmp-cmdline",
-      keys = { ":", "/", "?" }, -- lazy load cmp on more keys along with insert mode
-      opts = function()
-        local cmp = require "cmp"
-        return {
-          {
-            type = "/",
-            mapping = mapping(),
-            sources = {
-              { name = "buffer" },
-            },
-          },
-          {
-            type = ":",
-            mapping = mapping(),
-            sources = cmp.config.sources({
-              { name = "path" },
-            }, {
-              {
-                name = "cmdline",
-                option = {
-                  ignore_cmds = { "Man", "!" },
-                },
-              },
-            }),
-          },
-        }
-      end,
-      config = function(_, opts)
-        local cmp = require "cmp"
-        vim.tbl_map(function(val) cmp.setup.cmdline(val.type, val) end, opts)
-      end,
-    },
     "AstroNvim/astroui",
   },
   dependencies = {
-    "hrsh7th/cmp-calc",
-    "hrsh7th/cmp-emoji",
-    "SergioRibera/cmp-dotenv",
-    "jc-doyle/cmp-pandoc-references",
-    "kdheepak/cmp-latex-symbols",
     {
       "vrslev/cmp-pypi",
       ft = "toml",
@@ -116,32 +77,9 @@ return {
       sources = cmp.config.sources {
         {
           name = "nvim_lsp",
-          ---@param entry cmp.Entry
-          ---@param ctx cmp.Context
-          entry_filter = function(entry, ctx)
-            -- Check if the buffer type is 'vue'
-            if ctx.filetype ~= "vue" then return true end
-
-            local cursor_before_line = ctx.cursor_before_line
-            -- For events
-            if cursor_before_line:sub(-1) == "@" then
-              return entry.completion_item.label:match "^@"
-              -- For props also exclude events with `:on-` prefix
-            elseif cursor_before_line:sub(-1) == ":" then
-              return entry.completion_item.label:match "^:" and not entry.completion_item.label:match "^:on-"
-            else
-              return true
-            end
-          end,
-          option = { markdown_oxide = { keyword_pattern = [[\(\k\| \|\/\|#\)\+]] } },
           priority = 1000,
         },
         { name = "luasnip", priority = 750 },
-        { name = "dotenv", priority = 730 },
-        { name = "pandoc_references", priority = 725 },
-        { name = "latex_symbols", priority = 700 },
-        { name = "emoji", priority = 700 },
-        { name = "calc", priority = 650 },
         { name = "path", priority = 500 },
         { name = "buffer", priority = 250 },
         { name = "pypi", keyword_length = 4 },
@@ -152,17 +90,6 @@ return {
           compare.exact,
           compare.score,
           compare.recently_used,
-          function(entry1, entry2)
-            local _, entry1_under = entry1.completion_item.label:find "^_+"
-            local _, entry2_under = entry2.completion_item.label:find "^_+"
-            entry1_under = entry1_under or 0
-            entry2_under = entry2_under or 0
-            if entry1_under > entry2_under then
-              return false
-            elseif entry1_under < entry2_under then
-              return true
-            end
-          end,
           compare.kind,
           compare.sort_text,
           compare.length,
@@ -174,20 +101,32 @@ return {
         completeopt = "menu,menuone,preview,noinsert",
       },
       mapping = mapping(),
+      experimental = {
+        ghost_text = true,
+      },
       formatting = {
+        expandable_indicator = true,
         format = function(entry, item)
+          local str = require "cmp.utils.str"
+          local widths = {
+            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+            menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+          }
+          for key, width in pairs(widths) do
+            if item[key] and vim.fn.strdisplaywidth(str.trim(item[key])) > width then
+              item[key] = vim.fn.strcharpart(str.trim(item[key]), 0, width - 1) .. "…"
+            end
+          end
           local icon, hl, _ = require("mini.icons").get("lsp", item.kind or "")
           item.abbr = item.abbr
-          item.kind = icon
+          item.kind = " " .. icon
           item.kind_hl_group = hl
           tailwind(entry, item)
-          item.menu = " " .. "󰔰" .. " "
-          item.menu_hl_group = "CmpKindHlGroup"
 
           return item
         end,
 
-        fields = { "menu", "kind", "abbr" },
+        fields = { "kind", "abbr", "menu" },
       },
       window = {
         completion = {
@@ -197,10 +136,7 @@ return {
           winhighlight = "Normal:CmpDocumentation,CursorLine:PmenuSel,Search:None,FloatBorder:CmpDocumentationBorder",
           border = "none",
         },
-        documentation = {
-          border = "none",
-          winhighlight = "Normal:CmpDocumentation,FloatBorder:CmpDocumentationBorder",
-        },
+        documentation = false,
       },
     })
   end,

@@ -39,7 +39,6 @@ return {
 
           TelescopeResultsBorder = { fg = bg_alt, bg = bg },
           TelescopeResultsNormal = { bg = bg },
-          CmpKindHlGroup = { fg = "#90B86C", bg = "#2F3731" },
         }
       end,
     },

@@ -86,21 +86,6 @@ function M.insert_to_file_first_line(path, content)
   uv.fs_close(fd)
 end
 
-function M.write_to_file(file_path, content)
-  uv.fs_open(file_path, "w", 438, function(err, fd)
-    if err then
-      print("Error opening file: " .. err)
-      return
-    end
-    uv.fs_write(fd, content, -1, function(err)
-      if err then print("Error writing to file: " .. err) end
-      uv.fs_close(fd, function(err)
-        if err then print("Error closing file: " .. err) end
-      end)
-    end)
-  end)
-end
-
 -- Function to get the parent directory of a given file path
 -- @param filepath: The full path of the file
 -- @return: The parent directory of the file
@@ -367,14 +352,6 @@ function M.get_lsp_root_dir(client_name)
 end
 
 function M.write_log(file_name, content)
-  local file = io.open(file_name, "w")
-  if file then
-    file:write(vim.inspect(content))
-    file:close()
-  end
-end
-
-function M.write_log_append(file_name, content)
   local file = io.open(file_name, "w")
   if file then
     file:write(vim.inspect(content))
