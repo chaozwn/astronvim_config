@@ -2,7 +2,10 @@ local utils = require "astrocore"
 local is_available = utils.is_available
 
 -- test filter
--- string.find("3 fewer lines", ".*fewer lines")
+string.find(
+  'vim.lsp.get_active_clients() is deprecated. Run ":checkhealth vim.deprecated" for more information',
+  ".*vim.lsp.get_active_clients() is deprecated.*"
+)
 
 ---@type LazySpec
 return {
@@ -158,6 +161,10 @@ return {
           { filter = { event = "msg_show", find = ".*行发生改变.*" }, opts = { skip = true } },
           { filter = { event = "msg_show", find = ".*fewer lines" }, opts = { skip = true } },
           { filter = { event = "msg_show", find = ".*vim.tbl_islist is deprecated.*" }, opts = { skip = true } },
+          {
+            filter = { event = "msg_show", find = '.*Run ":checkhealth vim.deprecated".*' },
+            opts = { skip = true },
+          },
           {
             filter = { event = "msg_show", find = "%-32603: Invalid offset" },
             opts = { skip = true },
