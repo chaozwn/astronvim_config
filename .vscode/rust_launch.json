@@ -29,7 +29,7 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-      "preLaunchTask": "build",
+      "preLaunchTask": "cargo build",
       "externalConsole": true
     }
   ]

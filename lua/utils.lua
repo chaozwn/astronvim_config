@@ -294,6 +294,17 @@ function M.get_launch_json_by_source_file(source_file)
   end
 end
 
+function M.get_tasks_json_by_source_file(source_file)
+  local target_file = vim.fn.getcwd() .. "/.vscode/tasks.json"
+  local file_exist = M.file_exists(target_file)
+  if file_exist then
+    local confirm = vim.fn.confirm("File `.vscode/tasks.json` Exist, Overwrite it?", "&Yes\n&No", 1, "Question")
+    if confirm == 1 then M.copy_file(source_file, target_file) end
+  else
+    M.copy_file(source_file, target_file)
+  end
+end
+
 function M.create_launch_json()
   vim.ui.select({
     "go",
@@ -311,6 +322,8 @@ function M.create_launch_json()
     elseif select == "rust" then
       local source_file = vim.fn.stdpath "config" .. "/.vscode/rust_launch.json"
       M.get_launch_json_by_source_file(source_file)
+      source_file = vim.fn.stdpath "config" .. "/.vscode/rust_tasks.json"
+      M.get_tasks_json_by_source_file(source_file)
     elseif select == "python" then
       local source_file = vim.fn.stdpath "config" .. "/.vscode/python_launch.json"
       M.get_launch_json_by_source_file(source_file)
