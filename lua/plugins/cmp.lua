@@ -7,7 +7,7 @@ local function tailwind(entry, item)
 
     if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color, bg = "#2F3731" }) end
 
-    item.kind = " 󱓻 "
+    -- item.kind = " 󱓻 "
     item.kind_hl_group = hl
   end
 end
