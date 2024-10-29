@@ -2,10 +2,10 @@ local utils = require "astrocore"
 local is_available = utils.is_available
 
 -- test filter
-string.find(
-  'vim.lsp.get_active_clients() is deprecated. Run ":checkhealth vim.deprecated" for more information',
-  ".*vim.lsp.get_active_clients() is deprecated.*"
-)
+-- string.find(
+--   'vim.lsp.get_active_clients() is deprecated. Run ":checkhealth vim.deprecated" for more information',
+--   ".*vim.lsp.get_active_clients() is deprecated.*"
+-- )
 
 ---@type LazySpec
 return {
