@@ -35,12 +35,6 @@ function M.core_mappings(mappings)
     -- 在visual mode 里粘贴不要复制
     maps.n["x"] = { '"_x', desc = "Cut without copy" }
 
-    maps.n["<TAB>"] =
-      { function() require("astrocore.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
-    maps.n["<S-TAB>"] = {
-      function() require("astrocore.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
-      desc = "Previous buffer",
-    }
     maps.n["<Leader>bo"] = maps.n["<Leader>bc"]
 
     -- lsp restart
@@ -76,17 +70,6 @@ function M.lsp_mappings(mappings)
   if not mappings then mappings = require("astrocore").empty_map_table() end
   local maps = mappings
   if maps then
-    -- TODO: remove in astronvim v5
-    maps.i["<C-s>"] = {
-      function() vim.lsp.buf.signature_help() end,
-      desc = "Signature help",
-      cond = "textDocument/signatureHelp",
-    }
-    maps.n["<C-s>"] = {
-      function() vim.lsp.buf.signature_help() end,
-      desc = "Signature help",
-      cond = "textDocument/signatureHelp",
-    }
     maps.n["gK"] = false
     maps.n["gk"] = maps.n["<Leader>lh"]
   end
