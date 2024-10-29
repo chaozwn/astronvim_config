@@ -6,7 +6,7 @@ function M.core_mappings(mappings)
   local maps = mappings
   if maps then
     maps.n["<Leader>n"] = false
-
+     
     maps.n.n = { require("utils").better_search "n", desc = "Next search" }
     maps.n.N = { require("utils").better_search "N", desc = "Previous search" }
 
