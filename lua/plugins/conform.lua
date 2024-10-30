@@ -30,7 +30,7 @@ return {
         },
         mappings = {
           n = {
-            ["<Leader>lI"] = { function() vim.cmd.ConformInfo() end, desc = "Format buffer" },
+            ["<Leader>lI"] = { function() vim.cmd.ConformInfo() end, desc = "Show Conform Info" },
             ["<Leader>lf"] = { function() vim.cmd.Format() end, desc = "Format buffer" },
             ["<Leader>uf"] = {
               function()
