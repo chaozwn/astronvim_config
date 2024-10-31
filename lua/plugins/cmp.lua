@@ -96,27 +96,10 @@ return {
     },
     "AstroNvim/astroui",
   },
-  dependencies = {
-    {
-      "vrslev/cmp-pypi",
-      ft = "toml",
-    },
-  },
   opts = function(_, opts)
-    local cmp = require "cmp"
     local compare = require "cmp.config.compare"
 
     return require("astrocore").extend_tbl(opts, {
-      sources = cmp.config.sources {
-        {
-          name = "nvim_lsp",
-          priority = 1000,
-        },
-        { name = "luasnip", priority = 750 },
-        { name = "path", priority = 500 },
-        { name = "buffer", priority = 250 },
-        { name = "pypi", keyword_length = 4 },
-      },
       sorting = {
         comparators = {
           compare.offset,
@@ -130,7 +113,6 @@ return {
         },
       },
       completion = {
-        -- auto select first item
         completeopt = "menu,menuone,preview,noinsert",
       },
       mapping = mapping(),

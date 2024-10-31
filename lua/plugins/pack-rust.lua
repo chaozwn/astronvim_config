@@ -162,9 +162,6 @@ return {
           enabled = true,
         },
       },
-      null_ls = {
-        enabled = false,
-      },
     },
   },
   {
