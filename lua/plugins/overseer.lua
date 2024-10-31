@@ -5,7 +5,7 @@ return {
     local astrocore = require "astrocore"
     if astrocore.is_available "toggleterm.nvim" then
       opts.strategy = {
-        "toggleterm",
+        "terminal",
         use_shell = true,
         close_on_exit = true,
         quit_on_exit = "success",
@@ -27,6 +27,21 @@ return {
           J = "DecreaseDetail",
           ["<C-p>"] = "ScrollOutputUp",
           ["<C-n>"] = "ScrollOutputDown",
+        },
+      },
+      -- Aliases for bundles of components. Redefine the builtins, or create your own.
+      component_aliases = {
+        -- Most tasks are initialized with the default components
+        default = {
+          { "display_duration", detail_level = 2 },
+          "on_output_summarize",
+          "on_exit_set_status",
+          { "on_complete_dispose", require_view = { "SUCCESS", "FAILURE" } },
+        },
+        -- Tasks from tasks.json use these components
+        default_vscode = {
+          "default",
+          "on_result_diagnostics",
         },
       },
     })
