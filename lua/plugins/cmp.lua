@@ -60,6 +60,40 @@ end
 return {
   "hrsh7th/nvim-cmp",
   specs = {
+    {
+      "hrsh7th/cmp-cmdline",
+      keys = { ":", "/", "?" }, -- lazy load cmp on more keys along with insert mode
+      opts = function()
+        local cmp = require "cmp"
+        return {
+          {
+            type = "/",
+            mapping = mapping(),
+            sources = {
+              { name = "buffer" },
+            },
+          },
+          {
+            type = ":",
+            mapping = mapping(),
+            sources = cmp.config.sources({
+              { name = "path" },
+            }, {
+              {
+                name = "cmdline",
+                option = {
+                  ignore_cmds = { "Man", "!" },
+                },
+              },
+            }),
+          },
+        }
+      end,
+      config = function(_, opts)
+        local cmp = require "cmp"
+        vim.tbl_map(function(val) cmp.setup.cmdline(val.type, val) end, opts)
+      end,
+    },
     "AstroNvim/astroui",
   },
   dependencies = {
