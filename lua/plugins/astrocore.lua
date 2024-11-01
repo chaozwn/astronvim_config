@@ -23,6 +23,7 @@ return {
         swapfile = false,
         wrap = true,
         scrolloff = 5,
+        relativenumber = false,
       },
       g = {
         autoformat = false,
