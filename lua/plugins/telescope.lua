@@ -85,7 +85,10 @@ return {
           end,
           hijack_netrw = true,
           initial_mode = "insert",
+          auto_depth = true,
+          collapse_dirs = true,
           quiet = true,
+          grouped = true,
           no_ignore = true,
           hidden = {
             file_browser = false,
