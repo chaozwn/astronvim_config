@@ -94,6 +94,10 @@
       {
         "language": "typescript",
         "path": "./angular17/typescript.json"
+      },
+      {
+        "language": "rust",
+        "path": "./init/rust.json"
       }
     ]
   }

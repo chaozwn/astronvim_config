@@ -88,11 +88,11 @@ return {
           quiet = true,
           no_ignore = true,
           hidden = {
-            file_browser = true,
+            file_browser = false,
             folder_browser = false,
           },
           use_fd = true,
-          git_status = false,
+          git_status = true,
           prompt_path = false,
           display_stat = { date = nil, size = nil, mode = nil },
           mappings = {

@@ -1,3 +1,5 @@
+local sql_ft = { "sql", "mysql", "plsql" }
+
 local utils = require "utils"
 local astrocore = require "astrocore"
 local set_mappings = astrocore.set_mappings
@@ -37,7 +39,7 @@ return {
           {
             event = "FileType",
             desc = "create completion",
-            pattern = { "sql", "mysql", "plsql" },
+            pattern = sql_ft,
             callback = function()
               set_mappings({
                 n = {

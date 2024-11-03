@@ -1,3 +1,17 @@
+local filetypes = {
+  "css",
+  "eruby",
+  "html",
+  "htmldjango",
+  "javascriptreact",
+  "less",
+  "pug",
+  "sass",
+  "scss",
+  "typescriptreact",
+  "vue",
+}
+
 local utils = require "astrocore"
 
 ---@type LazySpec
@@ -17,19 +31,7 @@ return {
             --- @type boolean Defaults to `false`
             showSuggestionsAsSnippets = true,
           },
-          filetypes = {
-            "css",
-            "eruby",
-            "html",
-            "htmldjango",
-            "javascriptreact",
-            "less",
-            "pug",
-            "sass",
-            "scss",
-            "typescriptreact",
-            "vue",
-          },
+          filetypes,
         },
         html = { init_options = { provideFormatter = false } },
         cssls = {

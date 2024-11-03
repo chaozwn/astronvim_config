@@ -1,11 +1,9 @@
----@diagnostic disable: missing-fields
-
 --WARNING: now rust-analyzer is can't use in neovim, because this issue
 -- https://github.com/rust-lang/rust-analyzer/issues/17289
 -- https://github.com/williamboman/mason.nvim/issues/1741
 local utils = require "astrocore"
 
-local set_mappings = require("astrocore").set_mappings
+local set_mappings = utils.set_mappings
 
 local function preview_stack_trace()
   local current_line = vim.api.nvim_get_current_line()
@@ -36,21 +34,28 @@ return {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
     opts = {
+      ---@diagnostic disable: missing-fields
       config = {
         rust_analyzer = {
           on_attach = function()
             vim.api.nvim_create_autocmd({ "TermOpen", "TermClose", "BufEnter" }, {
-              pattern = "*cargo*",
+              pattern = "term://*",
               desc = "Jump to error line",
               callback = function()
-                set_mappings({
-                  n = {
-                    ["gd"] = {
-                      preview_stack_trace,
-                      desc = "Jump to error line",
-                    },
-                  },
-                }, { buffer = true })
+                if vim.bo.buftype == "terminal" then
+                  local buf_name = vim.api.nvim_buf_get_name(0)
+                  local cmd = string.match(buf_name, ":%s*(cargo build)$")
+                  if cmd then
+                    set_mappings({
+                      n = {
+                        ["gd"] = {
+                          preview_stack_trace,
+                          desc = "Jump to error line",
+                        },
+                      },
+                    }, { buffer = true })
+                  end
+                end
               end,
             })
           end,

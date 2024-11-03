@@ -195,30 +195,30 @@ To automatically switch input methods when entering and exiting insert mode in N
 
 1. Install `im-select`:
 
-    ```bash
-    brew tap laishulu/macism
-    brew install macism
-    ```
+   ```bash
+   brew tap laishulu/macism
+   brew install macism
+   ```
 
 2. Run `im-select` and copy the result to your `im-select.lua` configuration:
 
-    ```bash
-    macism
-    ```
+   ```bash
+   macism
+   ```
 
 3. Add the following configuration to your `im-select.lua` file:
 
-    ```lua
-    return {
-        "chaozwn/im-select.nvim",
-        lazy = false,
-        opts = {
-            default_command = "macism",
-            default_main_select = "im.rime.inputmethod.Squirrel.Hans",
-            set_previous_events = { "InsertEnter", "FocusLost" },
-        },
-    }
-    ```
+   ```lua
+   return {
+       "chaozwn/im-select.nvim",
+       lazy = false,
+       opts = {
+           default_command = "macism",
+           default_main_select = "im.rime.inputmethod.Squirrel.Hans",
+           set_previous_events = { "InsertEnter", "FocusLost" },
+       },
+   }
+   ```
 
 ### Optional Input Method
 
@@ -234,26 +234,26 @@ brew install --cask squirrel
 
 Here are the general key mappings for this configuration:
 
-| Action                      | Keybinding          |
-| ----------------------------| ------------------- |
-| **Leader key**               | `Space`             |
-| **Resize up**                | `Ctrl + Up`         |
-| **Resize down**              | `Ctrl + Down`       |
-| **Resize left**              | `Ctrl + Left`       |
-| **Resize right**             | `Ctrl + Right`      |
-| **Move to upper window**     | `Ctrl + k`          |
-| **Move to lower window**     | `Ctrl + j`          |
-| **Move to left window**      | `Ctrl + h`          |
-| **Move to right window**     | `Ctrl + l`          |
-| **Force write**              | `Ctrl + s`          |
-| **Force quit**               | `Ctrl + q`          |
-| **New file**                 | `Leader + n`        |
-| **Close buffer**             | `Leader + c`        |
-| **Next tab (real Vim tab)**  | `]t`                |
-| **Previous tab (real Vim tab)**| `[t`              |
-| **Toggle comment**           | `Leader + /`        |
-| **Horizontal split**         | `\`                 |
-| **Vertical split**           | <code>&#124;</code> |
+| Action                          | Keybinding          |
+| ------------------------------- | ------------------- |
+| **Leader key**                  | `Space`             |
+| **Resize up**                   | `Ctrl + Up`         |
+| **Resize down**                 | `Ctrl + Down`       |
+| **Resize left**                 | `Ctrl + Left`       |
+| **Resize right**                | `Ctrl + Right`      |
+| **Move to upper window**        | `Ctrl + k`          |
+| **Move to lower window**        | `Ctrl + j`          |
+| **Move to left window**         | `Ctrl + h`          |
+| **Move to right window**        | `Ctrl + l`          |
+| **Force write**                 | `Ctrl + s`          |
+| **Force quit**                  | `Ctrl + q`          |
+| **New file**                    | `Leader + n`        |
+| **Close buffer**                | `Leader + c`        |
+| **Next tab (real Vim tab)**     | `]t`                |
+| **Previous tab (real Vim tab)** | `[t`                |
+| **Toggle comment**              | `Leader + /`        |
+| **Horizontal split**            | `\`                 |
+| **Vertical split**              | <code>&#124;</code> |
 
 ---
 
@@ -268,12 +268,6 @@ You can use `vim.lsp.buf.hover()` to display hover information about the symbol 
 ### Setting DAP Breakpoints
 
 To quickly set a DAP (Debug Adapter Protocol) breakpoint, use `<Ctrl-LeftClick>` on the line number.
-
----
-
-## 🗂️ TODO
-
-- [ ] Determine whether to load plugins based on the detected language type.
 
 ---
 
@@ -293,5 +287,4 @@ Feel free to explore, customize, and enjoy this powerful Neovim setup! If you ha
 
 Happy coding! 🚀
 
---- 
-
+---
