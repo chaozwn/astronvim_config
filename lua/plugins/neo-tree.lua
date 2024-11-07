@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require "utils"
 local get_path_type = utils.get_path_type
 local get_extension = utils.get_extension
 local get_filename_without_extension = utils.get_filename_without_extension
@@ -42,26 +42,23 @@ local file_extension_mapping = {
             if select == "src/lib.rs" then
               if not file_exists(lib_path) then
                 inputs.input("Create `src/lib.rs` (Y/N): ", "Y", function()
-                  filename = get_filename_without_extension(path)
                   write_to_file(lib_path, "mod " .. filename .. ";\n")
+                  vim.cmd("e " .. lib_path)
                 end)
               else
                 insert_to_file_first_line(lib_path, "mod " .. filename .. ";\n")
+                vim.cmd("e " .. lib_path)
               end
-              -- If a window for this lib_path already exists, refresh it
-              vim.schedule(function() vim.cmd("e " .. lib_path) end)
             elseif select == "src/main.rs" then
               if not file_exists(main_path) then
-                inputs.input(
-                  "Create `src/main.rs` (Y/N): ",
-                  nil,
-                  function() write_to_file(lib_path, "mod " .. filename .. ";\n") end
-                )
+                inputs.input("Create `src/main.rs` (Y/N): ", "Y", function()
+                  write_to_file(lib_path, "mod " .. filename .. ";\n")
+                  vim.cmd("e " .. main_path)
+                end)
               else
                 insert_to_file_first_line(main_path, "mod " .. filename .. ";\n")
+                vim.cmd("e " .. main_path)
               end
-              -- If a window for this lib_path already exists, refresh it
-              vim.schedule(function() vim.cmd("e " .. main_path) end)
             end
           end)
         end

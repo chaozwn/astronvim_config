@@ -1,6 +1,14 @@
 local M = {}
 local is_win = vim.loop.os_uname().version:find "Windows"
 
+function M.write_to_file(file_name, content)
+  local file = io.open(file_name, "w")
+  if file then
+    file:write(content)
+    file:close()
+  end
+end
+
 -- 检查是否已经存在 "--config" 参数
 function M.contains_arg(args, arg)
   for _, v in ipairs(args) do
