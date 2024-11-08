@@ -31,6 +31,38 @@
       "environment": [],
       "preLaunchTask": "cargo build",
       "externalConsole": true
+    },
+    {
+      "name": "tauri backend",
+      "type": "codelldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/src-tauri/target/debug/${workspaceFolderBasename}",
+      "mode": "debug",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/src-tauri",
+      "environment": [],
+      "preLaunchTask": "tauri backend build",
+      "externalConsole": true
+    },
+    {
+      "name": "tauri development debug",
+      "type": "codelldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/src-tauri/target/debug/${workspaceFolderBasename}",
+      "cwd": "${workspaceFolder}",
+      "mode": "debug",
+      // task for the `beforeDevCommand` if used, must be configured in `.vscode/tasks.json`
+      "preLaunchTask": "ui:dev"
+    },
+    {
+      "name": "tauri production debug",
+      "type": "codelldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
+      "mode": "debug",
+      // task for the `beforeBuildCommand` if used, must be configured in `.vscode/tasks.json`
+      "preLaunchTask": "ui:build"
     }
   ]
 }

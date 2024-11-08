@@ -11,6 +11,37 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "tauri backend build",
+      "type": "shell",
+      "command": "cd src-tauri && cargo build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "ui:dev",
+      "type": "shell",
+      // `dev` keeps running in the background
+      // ideally you should also configure a `problemMatcher`
+      // see https://code.visualstudio.com/docs/editor/tasks#_can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson
+      "isBackground": true,
+      // change this to your `beforeDevCommand`:
+      "command": "yarn",
+      "args": [
+        "dev"
+      ]
+    },
+    {
+      "label": "ui:build",
+      "type": "shell",
+      // change this to your `beforeBuildCommand`:
+      "command": "yarn",
+      "args": [
+        "build"
+      ]
     }
   ]
 }
