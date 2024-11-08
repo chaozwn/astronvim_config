@@ -5,7 +5,7 @@ local function tailwind(entry, item)
   if color and type(color) == "string" and color:match "^#%x%x%x%x%x%x$" then
     local hl = "hex-" .. color:sub(2)
 
-    if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color, bg = "#2F3731" }) end
+    if #vim.api.nvim_get_hl(0, { name = hl }) == 0 then vim.api.nvim_set_hl(0, hl, { fg = color }) end
 
     item.kind = " 󱓻 "
     item.kind_hl_group = hl
@@ -136,7 +136,7 @@ return {
           local icon, hl, _ = require("mini.icons").get("lsp", item.kind or "")
           item.abbr = item.abbr
           item.kind = " " .. icon .. " "
-          item.kind_hl_group = "CmpMini" .. hl
+          item.kind_hl_group = hl
           tailwind(entry, item)
 
           return item
@@ -146,14 +146,12 @@ return {
       },
       window = {
         completion = {
-          col_offset = 0,
-          side_padding = 0,
           scrollbar = false,
           winhighlight = "Normal:CmpDocumentation,CursorLine:PmenuSel,Search:None,FloatBorder:CmpDocumentationBorder",
-          border = "none",
+          border = "rounded",
         },
         documentation = {
-          border = "none",
+          border = "rounded",
           winhighlight = "Normal:CmpDocumentation,FloatBorder:CmpDocumentationBorder",
         },
       },
