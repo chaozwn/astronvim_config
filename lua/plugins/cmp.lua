@@ -97,21 +97,7 @@ return {
     "AstroNvim/astroui",
   },
   opts = function(_, opts)
-    local compare = require "cmp.config.compare"
-
     return require("astrocore").extend_tbl(opts, {
-      sorting = {
-        comparators = {
-          compare.offset,
-          compare.exact,
-          compare.score,
-          compare.recently_used,
-          compare.kind,
-          compare.sort_text,
-          compare.length,
-          compare.order,
-        },
-      },
       completion = {
         completeopt = "menu,menuone,preview,noinsert",
       },
