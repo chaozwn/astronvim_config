@@ -115,8 +115,13 @@ return {
                 enable = true,
               },
             },
+            diagnostics = {
+              disabled = { "unresolved-proc-macro" },
+            },
             -- Add clippy lints for Rust.
-            checkOnSave = true,
+            checkOnSave = {
+              command = "clippy",
+            },
             procMacro = {
               enable = true,
               ignored = {

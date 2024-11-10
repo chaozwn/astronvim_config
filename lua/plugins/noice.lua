@@ -121,6 +121,7 @@ return {
       return utils.extend_tbl(opts, {
         lsp = {
           hover = {
+            enabled = false,
             silent = true,
           },
           -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -130,7 +131,7 @@ return {
             ["cmp.entry.get_documentation"] = true,
           },
           signature = {
-            enabled = true,
+            enabled = false,
             auto_open = {
               enabled = true,
               trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
