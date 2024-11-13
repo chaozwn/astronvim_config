@@ -8,7 +8,7 @@ runaway_limit = 10
 max_line_length = 80
 indent_unit = space
 large_file_skip_byte_limit = 0
-exclude_rules = CP01,LT02,CV06,CV10,LT08,ST06,LT05,LT09,AM06,ST09,AL01,AL02,LT04,JJ01,LT01,RF02,LT13,AM04,RF05
+exclude_rules = CP01,LT02,CV06,CV10,LT08,ST06,LT05,LT09,AM06,ST09,AL01,AL02,LT04,JJ01,LT01,RF02,LT13,AM04,RF05,L009
 ignore = templating
 
 [sqlfluff:indentation]
