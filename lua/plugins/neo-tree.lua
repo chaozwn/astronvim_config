@@ -99,7 +99,7 @@ local function trash(state)
   local msg = string.format("Are you sure you want to trash '%s'?", name)
   inputs.confirm(msg, function(confirmed)
     if not confirmed then return end
-    vim.api.nvim_command("silent !trash -F " .. node.path)
+    vim.api.nvim_command("silent !trash -F " .. "'" .. node.path .. "'")
     require("neo-tree.sources.manager").refresh(state)
   end)
 end
@@ -114,7 +114,7 @@ local function trash_visual(state, selected_nodes)
   inputs.confirm(msg, function(confirmed)
     if not confirmed then return end
     for _, path in ipairs(paths_to_trash) do
-      vim.api.nvim_command("silent !trash -F " .. path)
+      vim.api.nvim_command("silent !trash -F " .. "'" .. path .. "'")
     end
     require("neo-tree.sources.manager").refresh(state)
   end)
