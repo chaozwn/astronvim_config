@@ -31,6 +31,9 @@ end
 ---@type LazySpec
 return {
   {
+    "cmrschwarz/rust-prettifier-for-lldb",
+  },
+  {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
     opts = {

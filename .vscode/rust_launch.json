@@ -30,7 +30,11 @@
       "cwd": "${workspaceFolder}",
       "environment": [],
       "preLaunchTask": "cargo build",
-      "externalConsole": true
+      "externalConsole": true,
+      "expressions": "simple",
+      "preRunCommands": [
+        "command script import ~/.local/share/nvim/lazy/rust-prettifier-for-lldb/rust_prettifier_for_lldb.py"
+      ]
     },
     {
       "name": "tauri backend",
@@ -43,7 +47,11 @@
       "cwd": "${workspaceFolder}/src-tauri",
       "environment": [],
       "preLaunchTask": "tauri backend build",
-      "externalConsole": true
+      "externalConsole": true,
+      "expressions": "simple",
+      "preRunCommands": [
+        "command script import ~/.local/share/nvim/lazy/rust-prettifier-for-lldb/rust_prettifier_for_lldb.py"
+      ]
     },
     {
       "name": "tauri development debug",
