@@ -196,7 +196,7 @@ To automatically switch input methods when entering and exiting insert mode in N
 1. Install `im-select`:
 
    ```bash
-   brew tap laishulu/macism
+   brew tap laishulu/homebrew
    brew install macism
    ```
 
