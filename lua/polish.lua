@@ -17,11 +17,17 @@ vim.filetype.add {
   },
   filename = {
     [".eslintrc.json"] = "jsonc",
+    ["vifmrc"] = "vim",
   },
   pattern = {
     ["/tmp/neomutt.*"] = "markdown",
     ["tsconfig*.json"] = "jsonc",
     [".*/%.vscode/.*%.json"] = "jsonc",
-    [".env.*"] = "sh",
+    [".*/waybar/config"] = "jsonc",
+    [".*/mako/config"] = "dosini",
+    [".*/kitty/.+%.conf"] = "kitty",
+    [".*/hypr/.+%.conf"] = "hyprlang",
+    ["%.env%.[%w_.-]+"] = "sh",
   },
 }
+vim.treesitter.language.register("bash", "kitty")
