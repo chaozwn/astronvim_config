@@ -21,7 +21,7 @@
   "configurations": [
     {
       "name": "demo",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "mode": "debug",
       "program": "${workspaceFolder}/main.py",
