@@ -189,6 +189,14 @@ To enable image pasting in Markdown files, install the `pillow` Python package:
 pip install pillow
 ```
 
+### Show Image in Neovim
+
+Add to `.zshrc` and `.bashrc`
+
+```bash
+export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_FALLBACK_LIBRARY_PATH"
+```
+
 ### Input Method Auto Switch
 
 To automatically switch input methods when entering and exiting insert mode in Neovim:
