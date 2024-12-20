@@ -30,7 +30,7 @@ return {
   {
 
     "Saghen/blink.cmp",
-    event = "InsertEnter",
+    event = { "InsertEnter", "CmdlineEnter" },
     -- TODO: replace build with 'version = "*"' after the next release
     build = "cargo build --release",
     dependencies = {
@@ -189,10 +189,6 @@ return {
                     providers = {
                       lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
                     },
-                    min_keyword_length = function(ctx)
-                      if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then return 2 end
-                      return 0
-                    end,
                   },
                 })
               end
