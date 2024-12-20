@@ -39,7 +39,7 @@ return {
       features = {
         codelens = true, -- enable/disable codelens refresh on start
         inlay_hints = false, -- enable/disable inlay hints on start
-        semantic_tokens = false, -- enable/disable semantic token highlighting
+        semantic_tokens = true, -- enable/disable semantic token highlighting
         signature_help = false,
       },
       -- enable servers that you already have installed without mason
@@ -68,7 +68,6 @@ return {
       -- takes two parameters `client` and `bufnr`  (`:h lspconfig-setup`)
       on_attach = function(client, bufnr)
         -- this would disable semanticTokensProvider for all clients
-        -- client.server_capabilities.semanticTokensProvider = nil
       end,
       lsp_handlers = {
         [methods.textDocument_rename] = auto_save_after_rename_handler,

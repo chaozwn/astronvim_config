@@ -94,7 +94,10 @@ return {
                 return entry.completion_item.label:match "^@"
               -- For props also exclude events with `:on-` prefix
               elseif cursor_before_line:sub(-1) == ":" then
-                return entry.completion_item.label:match "^:" and not entry.completion_item.label:match "^:on-"
+                return entry.completion_item.label:match "^:" and not entry.completion_item.label:match "^:on%-"
+              -- For slot
+              elseif cursor_before_line:sub(-1) == "#" then
+                return entry.completion_item.kind == require("cmp.types").lsp.CompletionItemKind.Method
               else
                 return true
               end
