@@ -1,7 +1,7 @@
 return {
   {
     "3rd/image.nvim",
-    event = "User AstroFile",
+    ft = { "markdown", "norg", "vimwiki" },
     opts = {
       backend = "kitty",
       processor = "magick_rock",
