@@ -74,39 +74,39 @@ return {
         require("astrocore").list_insert_unique(opts.ensure_installed, { "vue-language-server", "js-debug-adapter" })
     end,
   },
-  {
-    "hrsh7th/nvim-cmp",
-    optional = true,
-    opts = function(_, opts)
-      opts.sources = opts.sources or {}
-      for i, source in ipairs(opts.sources) do
-        if source.name == "nvim_lsp" then
-          opts.sources[i] = {
-            name = "nvim_lsp",
-            ---@param entry cmp.Entry
-            ---@param ctx cmp.Context
-            entry_filter = function(entry, ctx)
-              if ctx.filetype ~= "vue" then return true end
-
-              local cursor_before_line = ctx.cursor_before_line
-              -- For events
-              if cursor_before_line:sub(-1) == "@" then
-                return entry.completion_item.label:match "^@"
-              -- For props also exclude events with `:on-` prefix
-              elseif cursor_before_line:sub(-1) == ":" then
-                return entry.completion_item.label:match "^:" and not entry.completion_item.label:match "^:on%-"
-              -- For slot
-              elseif cursor_before_line:sub(-1) == "#" then
-                return entry.completion_item.kind == require("cmp.types").lsp.CompletionItemKind.Method
-              else
-                return true
-              end
-            end,
-            priority = 1000,
-          }
-          break
-        end
-      end
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   optional = true,
+  --   opts = function(_, opts)
+  --     opts.sources = opts.sources or {}
+  --     for i, source in ipairs(opts.sources) do
+  --       if source.name == "nvim_lsp" then
+  --         opts.sources[i] = {
+  --           name = "nvim_lsp",
+  --           ---@param entry cmp.Entry
+  --           ---@param ctx cmp.Context
+  --           entry_filter = function(entry, ctx)
+  --             if ctx.filetype ~= "vue" then return true end
+  --
+  --             local cursor_before_line = ctx.cursor_before_line
+  --             -- For events
+  --             if cursor_before_line:sub(-1) == "@" then
+  --               return entry.completion_item.label:match "^@"
+  --             -- For props also exclude events with `:on-` prefix
+  --             elseif cursor_before_line:sub(-1) == ":" then
+  --               return entry.completion_item.label:match "^:" and not entry.completion_item.label:match "^:on%-"
+  --             -- For slot
+  --             elseif cursor_before_line:sub(-1) == "#" then
+  --               return entry.completion_item.kind == require("cmp.types").lsp.CompletionItemKind.Method
+  --             else
+  --               return true
+  --             end
+  --           end,
+  --           priority = 1000,
+  --         }
+  --         break
+  --       end
+  --     end
+  --   end,
+  -- },
 }
