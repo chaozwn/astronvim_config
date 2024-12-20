@@ -60,13 +60,13 @@ return {
 
                 if vim.bo.filetype == "vue" then
                   -- For events
-                  if cursor_before_line:match "([%w@]+)%s*$" ~= nil then
+                  if cursor_before_line:match "(@[%w]*)%s*$" ~= nil then
                     return item.label:match "^@" ~= nil
                   -- For props also exclude events with `:on-` prefix
-                  elseif cursor_before_line:match "([%w:]+)%s*$" ~= nil then
+                  elseif cursor_before_line:match "(:[%w]*)%s*$" ~= nil then
                     return item.label:match "^:" ~= nil and not item.label:match "^:on%-" ~= nil
                   -- For slot
-                  elseif cursor_before_line:match "([%w#]+)%s*$" ~= nil then
+                  elseif cursor_before_line:match "(#[%w]*)%s*$" ~= nil then
                     return item.kind == vim.lsp.protocol.CompletionItemKind.Method
                   end
                 end
