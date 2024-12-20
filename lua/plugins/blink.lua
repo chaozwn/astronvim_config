@@ -30,8 +30,7 @@ return {
   {
     "Saghen/blink.cmp",
     event = { "InsertEnter", "CmdlineEnter" },
-    -- TODO: replace build with 'version = "*"' after the next release
-    build = "cargo build --release",
+    version = "*",
     dependencies = {
       "rafamadriz/friendly-snippets",
       "echasnovski/mini.icons",
