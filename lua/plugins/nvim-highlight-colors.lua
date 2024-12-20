@@ -8,5 +8,8 @@ return {
     render = "virtual",
     virtual_symbol_position = "inline",
     enable_tailwind = false,
+    enable_short_hex = false,
+    enable_named_colors = false,
+    enable_hex = false,
   },
 }

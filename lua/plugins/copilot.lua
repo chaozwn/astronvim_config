@@ -2,7 +2,7 @@
 return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    version = "^2",
+    version = "^3",
     cmd = {
       "CopilotChat",
       "CopilotChatOpen",
@@ -14,14 +14,14 @@ return {
       "CopilotChatLoad",
       "CopilotChatDebugInfo",
       "CopilotChatModels",
+      "CopilotChatAgents",
       "CopilotChatExplain",
       "CopilotChatReview",
       "CopilotChatFix",
       "CopilotChatOptimize",
       "CopilotChatDocs",
-      "CopilotChatFixDiagnostic",
+      "CopilotChatFixTests",
       "CopilotChatCommit",
-      "CopilotChatCommitStaged",
     },
     dependencies = {
       { "zbirenbaum/copilot.lua" },
@@ -32,17 +32,17 @@ return {
         ---@param opts AstroCoreOpts
         opts = function(_, opts)
           local maps = assert(opts.mappings)
-          local prefix = "<Leader>P"
+          local prefix = opts.options.g.copilot_chat_prefix or "<Leader>P"
           local astroui = require "astroui"
 
-          maps.n[prefix] = { desc = astroui.get_icon("CopilotChat", 1, true) .. "Copilot Chat" }
-          maps.v[prefix] = { desc = astroui.get_icon("CopilotChat", 1, true) .. "Copilot Chat" }
+          maps.n[prefix] = { desc = astroui.get_icon("CopilotChat", 1, true) .. "CopilotChat" }
+          maps.v[prefix] = { desc = astroui.get_icon("CopilotChat", 1, true) .. "CopilotChat" }
 
-          maps.n[prefix .. "o"] = { "<Cmd>CopilotChatOpen<CR>", desc = "Open Chat" }
-          maps.n[prefix .. "c"] = { "<Cmd>CopilotChatClose<CR>", desc = "Close Chat" }
-          maps.n[prefix .. "t"] = { "<Cmd>CopilotChatToggle<CR>", desc = "Toggle Chat" }
-          maps.n[prefix .. "r"] = { "<Cmd>CopilotChatReset<CR>", desc = "Reset Chat" }
-          maps.n[prefix .. "s"] = { "<Cmd>CopilotChatStop<CR>", desc = "Stop Chat" }
+          maps.n[prefix .. "o"] = { ":CopilotChatOpen<CR>", desc = "Open Chat" }
+          maps.n[prefix .. "c"] = { ":CopilotChatClose<CR>", desc = "Close Chat" }
+          maps.n[prefix .. "t"] = { ":CopilotChatToggle<CR>", desc = "Toggle Chat" }
+          maps.n[prefix .. "r"] = { ":CopilotChatReset<CR>", desc = "Reset Chat" }
+          maps.n[prefix .. "s"] = { ":CopilotChatStop<CR>", desc = "Stop Chat" }
 
           maps.n[prefix .. "S"] = {
             function()
@@ -88,16 +88,6 @@ return {
             desc = "Prompt actions",
           }
 
-          maps.n[prefix .. "d"] = {
-            create_mapping("help_actions", "buffer"),
-            desc = "LSP Diagnostics actions",
-          }
-
-          maps.v[prefix .. "d"] = {
-            create_mapping("help_actions", "visual"),
-            desc = "LSP Diagnostics actions",
-          }
-
           -- Quick Chat function
           local function quick_chat(selection_type)
             return function()
@@ -122,15 +112,7 @@ return {
       },
       { "AstroNvim/astroui", opts = { icons = { CopilotChat = "" } } },
     },
-    opts = {
-      window = {
-        layout = "float",
-        width = 74, -- absolute width in columns
-        height = vim.o.lines - 4, -- absolute height in rows, subtract for command line and status line
-        row = 1, -- row position of the window, starting from the top
-        col = vim.o.columns - 74, -- column position of the window, aligned to the right
-      },
-    },
+    opts = {},
   },
   {
     "zbirenbaum/copilot.lua",
