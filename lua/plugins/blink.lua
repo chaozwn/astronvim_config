@@ -28,7 +28,6 @@ end
 
 return {
   {
-
     "Saghen/blink.cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     -- TODO: replace build with 'version = "*"' after the next release
