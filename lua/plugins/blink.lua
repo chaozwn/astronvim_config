@@ -18,7 +18,7 @@ local function get_icon(ctx)
       return mini_icons.get("lsp", ctx.kind)
     end
   elseif source == "Path" then
-    return (label:match "%.[^/]+$" and mini_icons.get("file", label) or mini_icons.get("directory", ctx.item.label))
+    return (label:match "%.[^/]+$" and mini_icons.get("file", label) or mini_icons.get("directory", label))
   elseif source == "codeium" then
     return mini_icons.get("lsp", "event")
   else
