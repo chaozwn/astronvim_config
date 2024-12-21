@@ -151,12 +151,10 @@ return {
             },
           },
         },
-        accept = {
-          -- experimental auto-brackets support
-          auto_brackets = {
-            enabled = true,
-          },
-        },
+        -- Disable auto brackets
+        -- NOTE: some LSPs may add auto brackets themselves anyway
+        accept = { auto_brackets = { enabled = false } },
+        -- Insert completion item on selection, don't select by default
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
