@@ -17,11 +17,6 @@ return {
       opts = function(_, opts)
         if require("astrocore").is_available "fzf-lua" then
           local maps = opts.mappings
-          maps.n.gr = false
-          maps.n.gra = false
-          maps.n.gri = false
-          maps.n.grn = false
-          maps.n.grr = false
 
           maps.n["<Leader>lD"] =
             { function() require("fzf-lua").diagnostics_document() end, desc = "Search diagnostics" }
@@ -41,10 +36,9 @@ return {
           if maps.n["<Leader>lG"] then
             maps.n["<Leader>lG"][1] = function() require("fzf-lua").lsp_workspace_symbols() end
           end
-          maps.n["gr"] = {
-            "<cmd>FzfLua lsp_typedefs        jump_to_single_result=true ignore_current_line=true<cr>",
+          maps.n.gr = {
+            "<cmd>FzfLua lsp_references      jump_to_single_result=true ignore_current_line=true<cr>",
             desc = "References",
-            nowait = true,
           }
         end
       end,

@@ -31,3 +31,5 @@ vim.filetype.add {
   },
 }
 vim.treesitter.language.register("bash", "kitty")
+-- Remove some keymaps, default set up in nvim 0.11
+vim.tbl_map(function(v) vim.api.nvim_del_keymap("n", "gr" .. v) end, { "r", "a", "n", "i" })
