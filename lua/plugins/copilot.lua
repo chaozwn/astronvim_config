@@ -26,7 +26,6 @@ return {
     dependencies = {
       { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim" },
       {
         "AstroNvim/astrocore",
         ---@param opts AstroCoreOpts
@@ -67,25 +66,6 @@ return {
               end)
             end,
             desc = "Load Chat",
-          }
-
-          -- Helper function to create mappings
-          local function create_mapping(action_type, selection_type)
-            return function()
-              require("CopilotChat.integrations.telescope").pick(require("CopilotChat.actions")[action_type] {
-                selection = require("CopilotChat.select")[selection_type],
-              })
-            end
-          end
-
-          maps.n[prefix .. "p"] = {
-            create_mapping("prompt_actions", "buffer"),
-            desc = "Prompt actions",
-          }
-
-          maps.v[prefix .. "p"] = {
-            create_mapping("prompt_actions", "visual"),
-            desc = "Prompt actions",
           }
 
           -- Quick Chat function

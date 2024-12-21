@@ -3,6 +3,6 @@ return {
   "rcarriga/nvim-notify",
   opts = {
     timeout = 2000,
-    level = 4,
+    level = 1,
   },
 }
