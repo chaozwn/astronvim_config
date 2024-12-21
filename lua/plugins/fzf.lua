@@ -26,23 +26,23 @@ return {
           maps.n["<Leader>lD"] =
             { function() require("fzf-lua").diagnostics_document() end, desc = "Search diagnostics" }
           if maps.n.gd then
-            maps.n.gd[1] = "<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>"
+            maps.n.gd[1] = "<cmd>FzfLua lsp_definitions     jump_to_single_result=true ignore_current_line=true<cr>"
           end
           if maps.n.gI then
             maps.n.gI[1] = "<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>"
           end
           if maps.n["<Leader>lR"] then
             maps.n["<Leader>lR"][1] =
-              "<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>"
+              "<cmd>FzfLua lsp_references      jump_to_single_result=true ignore_current_line=true<cr>"
           end
           if maps.n.gy then
-            maps.n.gy[1] = "<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>"
+            maps.n.gy[1] = "<cmd>FzfLua lsp_typedefs        jump_to_single_result=true ignore_current_line=true<cr>"
           end
           if maps.n["<Leader>lG"] then
             maps.n["<Leader>lG"][1] = function() require("fzf-lua").lsp_workspace_symbols() end
           end
           maps.n["gr"] = {
-            "<cmd>FzfLua lsp_references      jump_to_single_result=true ignore_current_line=true<cr>",
+            "<cmd>FzfLua lsp_typedefs        jump_to_single_result=true ignore_current_line=true<cr>",
             desc = "References",
             nowait = true,
           }
