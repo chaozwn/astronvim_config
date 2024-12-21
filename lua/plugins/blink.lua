@@ -43,6 +43,12 @@ return {
           lsp = {
             ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[])
             transform_items = function(ctx, items)
+              for _, item in ipairs(items) do
+                if item.kind == require("blink.cmp.types").CompletionItemKind.Snippet then
+                  item.score_offset = item.score_offset - 3
+                end
+              end
+
               ---@diagnostic disable-next-line: redundant-return-value
               return vim.tbl_filter(function(item)
                 local c = ctx.get_cursor()
@@ -153,7 +159,9 @@ return {
         },
         -- Disable auto brackets
         -- NOTE: some LSPs may add auto brackets themselves anyway
-        accept = { auto_brackets = { enabled = false } },
+        accept = {
+          auto_brackets = { enabled = true },
+        },
         -- Insert completion item on selection, don't select by default
         documentation = {
           auto_show = true,
