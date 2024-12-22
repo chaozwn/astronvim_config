@@ -87,6 +87,10 @@ return {
         maps.n["<Leader>fo"] = { function() require("fzf-lua").oldfiles() end, desc = "Find history" }
         maps.n["<Leader>fr"] = { function() require("fzf-lua").registers() end, desc = "Find registers" }
         maps.n["<Leader>fT"] = { function() require("fzf-lua").colorschemes() end, desc = "Find themes" }
+        maps.n["<Leader>fg"] = {
+          function() require("fzf-lua").git_files() end,
+          desc = "Find Files (git-files)",
+        }
         if vim.fn.executable "rg" == 1 or vim.fn.executable "grep" == 1 then
           maps.n["<Leader>fw"] = { function() require("fzf-lua").live_grep_native() end, desc = "Find words" }
         end
