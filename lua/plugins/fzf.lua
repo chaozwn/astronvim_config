@@ -4,6 +4,14 @@ local function symbols_filter(entry, ctx)
   return vim.tbl_contains(ctx.symbols_filter, entry.kind)
 end
 
+local function match_commit_hash(line, opts)
+  if type(opts.fn_match_commit_hash) == "function" then
+    return opts.fn_match_commit_hash(line, opts)
+  else
+    return line:match "[^ ]+"
+  end
+end
+
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
@@ -138,25 +146,26 @@ return {
       config.defaults.actions.files["ctrl-t"] = require("trouble.sources.fzf").actions.open
     end
 
-    -- -- Toggle root dir / cwd
-    -- config.defaults.actions.files["ctrl-r"] = function(_, ctx)
-    --   local o = vim.deepcopy(ctx.__call_opts)
-    --   o.root = o.root == false
-    --   o.cwd = nil
-    --   o.buf = ctx.__CTX.bufnr
-    --
-    --   local command = ctx.__INFO.cmd
-    --   command = command ~= "auto" and command or "files"
-    --
-    --   if not o.cwd and o.root ~= false then o.cwd = require("astrocore.rooter").bufpath(o.buf) end
-    --
-    --   if o.cmd == nil and command == "git_files" and o.show_untracked then
-    --     o.cmd = "git ls-files --exclude-standard --cached --others"
-    --   end
-    --   return require("fzf-lua")[command](o)
-    -- end
-    -- config.defaults.actions.files["alt-c"] = config.defaults.actions.files["ctrl-r"]
-    -- config.set_action_helpstr(config.defaults.actions.files["ctrl-r"], "toggle-root-dir")
+    if require("astrocore").is_available "diffview.nvim" then
+      config.defaults.git.commits.actions["ctrl-r"] = function(selected, opts)
+        local commit_hash = match_commit_hash(selected[1], opts)
+        vim.cmd.DiffviewOpen { commit_hash }
+      end
+    end
+
+    if require("astrocore").is_available "diffview.nvim" then
+      config.defaults.git.bcommits.actions["ctrl-r"] = function(selected, opts)
+        local commit_hash = match_commit_hash(selected[1], opts)
+        vim.cmd.DiffviewOpen { commit_hash }
+      end
+    end
+
+    if require("astrocore").is_available "diffview.nvim" then
+      config.defaults.git.branches.actions["ctrl-r"] = function(selected, opts)
+        local branch = selected[1]:match "[^%s%*]+"
+        vim.cmd.DiffviewOpen { branch }
+      end
+    end
 
     local img_previewer ---@type string[]?
     for _, v in ipairs {
