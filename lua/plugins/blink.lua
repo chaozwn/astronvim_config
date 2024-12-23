@@ -34,6 +34,16 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       "echasnovski/mini.icons",
+      {
+        "AstroNvim/astrolsp",
+        ---@type AstroLSPOpts
+        opts = function(_, opts)
+          local has_blink, blink = pcall(require, "blink.cmp")
+          local capabilities =
+            vim.tbl_deep_extend("force", {}, opts.capabilities or {}, has_blink and blink.get_lsp_capabilities() or {})
+          return require("astrocore").extend_tbl(opts, { capabilities = capabilities })
+        end,
+      },
     },
     opts_extend = {
       "sources.completion.enabled_providers",
