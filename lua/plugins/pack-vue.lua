@@ -26,7 +26,6 @@ return {
             },
             settings = {
               vue = {
-                updateImportsOnFileMove = { enabled = true },
                 server = {
                   maxOldSpaceSize = 8092,
                 },

@@ -111,7 +111,7 @@ return {
           settings = {
             complete_function_calls = true,
             vtsls = {
-              enableMoveToFileCodeAction = true,
+              enableMoveToFileCodeAction = false,
               autoUseWorkspaceTsdk = true,
               experimental = {
                 maxInlayHintLength = 30,
