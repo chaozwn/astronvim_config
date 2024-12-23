@@ -236,6 +236,12 @@ For an alternative input method, you can install `squirrel`:
 brew install --cask squirrel
 ```
 
+### minial start
+
+```shell
+nvim -u /Users/jayce.zhao/.config/nvim/mini_astronvim.lua .
+```
+
 ---
 
 ## 🎛️ General Mappings
