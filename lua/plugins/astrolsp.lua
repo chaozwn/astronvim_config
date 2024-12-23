@@ -33,7 +33,9 @@ return {
   ---@diagnostic disable-next-line: assign-type-mismatch
   opts = function(_, opts)
     local mappings = require("mapping").lsp_mappings(opts.mappings)
-
+    local has_blink, blink = pcall(require, "blink.cmp")
+    local capabilities =
+      vim.tbl_deep_extend("force", {}, opts.capabilities or {}, has_blink and blink.get_lsp_capabilities() or {})
     return require("astrocore").extend_tbl(opts, {
       -- Configuration table of features provided by AstroLSP
       features = {
@@ -41,6 +43,7 @@ return {
         inlay_hints = false, -- enable/disable inlay hints on start
         semantic_tokens = true, -- enable/disable semantic token highlighting
       },
+      capabilities = capabilities,
       -- enable servers that you already have installed without mason
       servers = {
         -- "pyright"
