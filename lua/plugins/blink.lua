@@ -173,7 +173,7 @@ return {
           },
         },
         ghost_text = {
-          enabled = true,
+          enabled = false,
         },
       },
     },
