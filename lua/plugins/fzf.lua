@@ -18,7 +18,7 @@ return {
   specs = {
     { "nvim-telescope/telescope.nvim", optional = true, enabled = false },
     { "nvim-telescope/telescope-fzf-native.nvim", optional = true, enabled = false },
-    { "stevearc/dressing.nvim", optional = true, opts = { select = { backend = { "fzf_lua" } } } },
+    { "stevearc/dressing.nvim", optional = true, enabled = false },
     {
       "AstroNvim/astrolsp",
       optional = true,
@@ -92,6 +92,12 @@ return {
         maps.n["<Leader>fh"] = { function() require("fzf-lua").helptags() end, desc = "Find help" }
         maps.n["<Leader>fk"] = { function() require("fzf-lua").keymaps() end, desc = "Find keymaps" }
         maps.n["<Leader>fm"] = { function() require("fzf-lua").manpages() end, desc = "Find man" }
+        if require("astrocore").is_available "snacks.nvim" then
+          maps.n["<Leader>fn"] = {
+            function() require("snacks").notifier.show_history() end,
+            desc = "Find notifications",
+          }
+        end
         maps.n["<Leader>fo"] = { function() require("fzf-lua").oldfiles() end, desc = "Find history" }
         maps.n["<Leader>fr"] = { function() require("fzf-lua").registers() end, desc = "Find registers" }
         maps.n["<Leader>fT"] = { function() require("fzf-lua").colorschemes() end, desc = "Find themes" }

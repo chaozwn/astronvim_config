@@ -13,7 +13,6 @@ return {
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "karb94/neoscroll.nvim",
     },
     specs = {
       {

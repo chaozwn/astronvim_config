@@ -24,6 +24,7 @@ return {
         wrap = true,
         scrolloff = 5,
         relativenumber = false,
+        sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" },
       },
       g = {
         autoformat = false,
