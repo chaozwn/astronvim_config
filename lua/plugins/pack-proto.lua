@@ -45,38 +45,40 @@ end
 ---@type LazySpec
 return {
   {
-    "AstroNvim/astrolsp",
-    ---@type AstroLSPOpts
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
     opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        bufls = {
-          filetypes = { "proto" },
-          single_file_support = true,
-          on_attach = function()
-            set_mappings({
-              n = {
-                ["<Leader>lc"] = {
-                  function()
-                    local buf_path = vim.fn.getcwd() .. "/buf.yaml"
-                    local buf_gen_path = vim.fn.getcwd() .. "/buf.gen.yaml"
-                    if not utils.file_exists(buf_path) then
-                      local confirm =
-                        vim.fn.confirm("File `buf.yaml` Not Exist, Create it?", "&Yes\n&No", 1, "Question")
-                      if confirm == 1 then create_buf_config_file() end
-                    end
+      autocmds = {
+        auto_create_proto_config_file = {
+          {
+            event = "FileType",
+            desc = "create completion",
+            pattern = { "proto" },
+            callback = function()
+              set_mappings({
+                n = {
+                  ["<Leader>lc"] = {
+                    function()
+                      local buf_path = vim.fn.getcwd() .. "/buf.yaml"
+                      local buf_gen_path = vim.fn.getcwd() .. "/buf.gen.yaml"
+                      if not utils.file_exists(buf_path) then
+                        local confirm =
+                          vim.fn.confirm("File `buf.yaml` Not Exist, Create it?", "&Yes\n&No", 1, "Question")
+                        if confirm == 1 then create_buf_config_file() end
+                      end
 
-                    if not utils.file_exists(buf_gen_path) then
-                      local confirm =
-                        vim.fn.confirm("File `buf.gen.yaml` Not Exist, Create it?", "&Yes\n&No", 1, "Question")
-                      if confirm == 1 then create_buf_gen_config_file() end
-                    end
-                  end,
-                  desc = "Create Buf Config File",
+                      if not utils.file_exists(buf_gen_path) then
+                        local confirm =
+                          vim.fn.confirm("File `buf.gen.yaml` Not Exist, Create it?", "&Yes\n&No", 1, "Question")
+                        if confirm == 1 then create_buf_gen_config_file() end
+                      end
+                    end,
+                    desc = "Create Buf Config File",
+                  },
                 },
-              },
-            }, { buffer = true })
-          end,
+              }, { buffer = true })
+            end,
+          },
         },
       },
     },
