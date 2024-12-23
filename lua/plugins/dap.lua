@@ -87,7 +87,7 @@ return {
           },
           [prefix_debug .. "g"] = {
             function() vim.cmd [[DapShowLog]] end,
-            desc = "Create Dap Launch Json",
+            desc = "Show Dap Log",
           },
           ["gh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" },
         },
