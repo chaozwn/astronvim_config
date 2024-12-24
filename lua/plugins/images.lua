@@ -14,6 +14,7 @@ return {
       },
       "https://github.com/leafo/magick",
     },
+    ft = { "markdown", "norg", "vimwiki" },
     opts = {
       backend = "kitty",
       processor = "magick_rock",

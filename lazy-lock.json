@@ -15,6 +15,7 @@
   "avante.nvim": { "branch": "main", "commit": "01e05a538b4b7f20fb922016d72be8c42d400b0e" },
   "better-escape.nvim": { "branch": "master", "commit": "f45b52f8f87792e8659526f23261ffe278a54be5" },
   "blink.cmp": { "branch": "main", "commit": "a9a0f96c6a1029884e37dfd74a88a075b40366dd" },
+  "bufferline.nvim": { "branch": "main", "commit": "261a72b90d6db4ed8014f7bda976bcdc9dd7ce76" },
   "cmp-dap": { "branch": "master", "commit": "ea92773e84c0ad3288c3bc5e452ac91559669087" },
   "conform.nvim": { "branch": "master", "commit": "339b3e4519ec49312d34fcfa275aa15bfaa67025" },
   "copilot.lua": { "branch": "master", "commit": "d3783b9283a7c35940ed8d71549030d5f5f9f980" },
