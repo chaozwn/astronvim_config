@@ -8,7 +8,17 @@ return {
       bigfile = { enabled = true },
       input = { enabled = true },
       debug = { enabled = true },
-      indent = { enabled = true },
+      indent = {
+        enabled = true,
+        filter = function(buf)
+          local forbidden_filetypes = { "markdown", "markdown.mdx" } -- Add your forbidden filetypes here
+          local filetype = vim.bo[buf].filetype
+          for _, ft in ipairs(forbidden_filetypes) do
+            if filetype == ft then return false end
+          end
+          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
+        end,
+      },
       notifier = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },

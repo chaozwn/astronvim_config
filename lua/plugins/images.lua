@@ -1,7 +1,19 @@
 return {
   {
     "3rd/image.nvim",
-    ft = { "markdown", "norg", "vimwiki" },
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter",
+        optional = true,
+        opts = function(_, opts)
+          if opts.ensure_installed ~= "all" then
+            opts.ensure_installed =
+              require("astrocore").list_insert_unique(opts.ensure_installed, { "markdown", "markdown_inline" })
+          end
+        end,
+      },
+      "https://github.com/leafo/magick",
+    },
     opts = {
       backend = "kitty",
       processor = "magick_rock",
