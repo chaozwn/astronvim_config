@@ -609,6 +609,11 @@ function M.toggle_lazy_git()
       cmd = "lazygit " .. flags,
       direction = "float",
       hidden = true,
+      float_opts = {
+        width = vim.o.columns,
+        height = vim.o.lines,
+        border = "none",
+      },
       on_open = function() M.remove_keymap("t", "<Esc>") end,
       on_close = function() vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true }) end,
       on_exit = function() end,
