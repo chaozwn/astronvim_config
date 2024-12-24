@@ -67,6 +67,22 @@ return {
             command = "set nopaste",
           },
         },
+        auto_close_molten_output = {
+          {
+            event = "FileType",
+            pattern = { "molten_output" },
+            callback = function(event)
+              vim.bo[event.buf].buflisted = false
+              vim.schedule(function()
+                vim.keymap.set("n", "q", function() vim.cmd "MoltenHideOutput" end, {
+                  buffer = event.buf,
+                  silent = true,
+                  desc = "Quit buffer",
+                })
+              end)
+            end,
+          },
+        },
       },
       -- vim options can be configured here
       options = options,
