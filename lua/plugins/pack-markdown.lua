@@ -103,12 +103,13 @@ return {
     cmd = { "PasteImage", "ImgClipDebug", "ImgClipConfig" },
     opts = {
       default = {
-        prompt_for_file_name = true,
+        prompt_for_file_name = false,
+        embed_image_as_base64 = false,
         drag_and_drop = {
           enabled = true,
           insert_mode = true,
         },
-        use_absolute_path = false,
+        use_absolute_path = vim.fn.has "win32" == 1,
         relative_to_current_file = true,
         show_dir_path_in_prompt = true,
         dir_path = "assets/imgs/",
