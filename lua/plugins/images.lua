@@ -19,6 +19,12 @@ return {
       backend = "kitty",
       processor = "magick_rock",
       integrations = {
+        html = {
+          enabled = true,
+        },
+        css = {
+          enabled = true,
+        },
         markdown = {
           enabled = true,
           clear_in_insert_mode = true,
