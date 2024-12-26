@@ -12,12 +12,10 @@ return {
           end
         end,
       },
-      "https://github.com/leafo/magick",
     },
-    ft = { "markdown", "norg", "vimwiki" },
     opts = {
       backend = "kitty",
-      processor = "magick_rock",
+      processor = "magick_cli",
       integrations = {
         html = {
           enabled = true,
