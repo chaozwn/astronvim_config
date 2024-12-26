@@ -74,6 +74,15 @@ return {
         opts.mappings.n[prefix .. "l"] = { "<Cmd>MoltenEvaluateLine<CR>", desc = "Evaluate line" }
         opts.mappings.n[prefix .. "c"] = { "<Cmd>MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" }
         opts.mappings.n[prefix .. "k"] = { ":noautocmd MoltenEnterOutput<CR>", desc = "Enter Output" }
+        opts.mappings.v[prefix .. "k"] = {
+          function()
+            vim.cmd "noautocmd MoltenEnterOutput"
+            if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "\22" then
+              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+            end
+          end,
+          desc = "Enter Output",
+        }
 
         opts.mappings.n[prefix .. "m"] = { desc = "Commands" }
         opts.mappings.n[prefix .. "mi"] = { "<Cmd>MoltenInit<CR>", desc = "Initialize the plugin" }
@@ -95,7 +104,7 @@ return {
         }
 
         opts.mappings.v[prefix] = { desc = require("astroui").get_icon("Molten", 1, true) .. "Molten" }
-        opts.mappings.v[prefix .. "r"] = { ":<C-u>MoltenEvaluateVisual<CR>gv", desc = "Evaluate visual selection" }
+        opts.mappings.v[prefix .. "r"] = { ":<C-u>MoltenEvaluateVisual<CR>", desc = "Evaluate visual selection" }
 
         opts.mappings.n["]c"] = { "<Cmd>MoltenNext<CR>", desc = "Next Molten Cel" }
         opts.mappings.n["[c"] = { "<Cmd>MoltenPrev<CR>", desc = "Previous Molten Cell" }
