@@ -15,10 +15,10 @@ return {
     {
       "AstroNvim/astrocore",
       ---@param opts AstroCoreOpts
+      ---@diagnostic disable: missing-fields
       opts = function(_, opts)
         local maps = opts.mappings and opts.mappings or require("astrocore").empty_map_table()
         local prefix = "<Leader>s"
-
         maps.n[prefix] = {
           function()
             local file_path = vim.fn.expand "%:p"

@@ -8,6 +8,7 @@ return {
     {
       "AstroNvim/astrocore",
       ---@type AstroCoreOpts
+    ---@diagnostic disable: missing-fields
       opts = {
         mappings = {
           n = {
