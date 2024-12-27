@@ -130,33 +130,5 @@ return {
         return opts
       end,
     },
-    {
-      -- Configure heirline.nvim to add the Molten status component
-      "rebelot/heirline.nvim",
-      opts = function(_, opts)
-        local utils = require "heirline.utils"
-        local molten_component = {
-          provider = function()
-            -- Display the status of Molten and attached kernels
-            local init_status = require("molten.status").initialized()
-            local kernel_status = require("molten.status").kernels()
-            local info = (init_status ~= "" and init_status .. ": ") .. kernel_status
-            return info ~= "" and info or ""
-          end,
-          condition = function() return require("molten.status").initialized() ~= "" end,
-          padding = { left = 1, right = 1 },
-          hl = function()
-            local theme_hl = utils.get_highlight "@comment.note"
-            return {
-              bg = theme_hl.bg,
-              fg = theme_hl.fg,
-            }
-          end,
-        }
-        local spacer = { provider = " " }
-        table.insert(opts.statusline, #opts.statusline, spacer)
-        table.insert(opts.statusline, #opts.statusline, molten_component)
-      end,
-    },
   },
 }
