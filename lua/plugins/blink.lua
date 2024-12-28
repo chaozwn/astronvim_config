@@ -77,8 +77,9 @@ return {
                   line = c[1] - 1,
                 }
                 local cursor_before_line = string.sub(cursor_line, 1, cursor.col - 1)
+
                 -- remove text
-                if item.kind == vim.lsp.protocol.CompletionItemKind.Text then return false end
+                if item.kind == require("blink.cmp.types").CompletionItemKind.Text then return false end
 
                 if vim.bo.filetype == "vue" then
                   -- For events
@@ -89,7 +90,7 @@ return {
                     return item.label:match "^:" ~= nil and not item.label:match "^:on%-" ~= nil
                   -- For slot
                   elseif cursor_before_line:match "(#[%w]*)%s*$" ~= nil then
-                    return item.kind == vim.lsp.protocol.CompletionItemKind.Method
+                    return item.kind == require("blink.cmp.types").CompletionItemKind.Method
                   end
                 end
 
