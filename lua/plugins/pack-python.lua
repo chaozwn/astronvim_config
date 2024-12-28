@@ -42,7 +42,7 @@ return {
           single_file_support = true,
           root_dir = function(...)
             local util = require "lspconfig.util"
-            return util.find_git_ancestor(...)
+            return vim.fs.dirname(vim.fs.find(".git", { path = ..., upward = true })[1])
               or util.root_pattern(unpack {
                 "pyproject.toml",
                 "setup.py",

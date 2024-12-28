@@ -13,8 +13,13 @@ return {
         ---@diagnostic disable: missing-fields
         config = {
           angularls = {
-            root_dir = function (fname)
-              return require("lspconfig").util.root_pattern("nx.json", "tsconfig.json")(fname)
+            root_dir = function(...)
+              local util = require "lspconfig.util"
+              return vim.fs.dirname(vim.fs.find(".git", { path = ..., upward = true })[1])
+                or util.root_pattern(unpack {
+                  "nx.json",
+                  "angular.json",
+                })(...)
             end,
             on_attach = function(client, _)
               if is_available "angular-quickswitch.nvim" then
