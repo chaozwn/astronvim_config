@@ -98,14 +98,6 @@ return {
         local ret = (diag.error and Error .. diag.error .. " " or "") .. (diag.warning and Warn .. diag.warning or "")
         return vim.trim(ret)
       end,
-      offsets = {
-        {
-          filetype = "neo-tree",
-          text = " File Explorer",
-          highlight = "Directory",
-          text_align = "center",
-        },
-      },
       ---@param opts bufferline.IconFetcherOpts
       get_element_icon = function(opts)
         local mini_icons = require "mini.icons"
