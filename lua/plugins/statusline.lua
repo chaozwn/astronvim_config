@@ -79,6 +79,7 @@ return {
     "rebelot/heirline.nvim",
     opts = function(_, opts)
       local status = require "astroui.status"
+      opts.winbar = false
       opts.statusline = {
         -- default highlight for the entire statusline
         hl = { fg = "fg", bg = "bg" },

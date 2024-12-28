@@ -4,14 +4,6 @@ local function symbols_filter(entry, ctx)
   return vim.tbl_contains(ctx.symbols_filter, entry.kind)
 end
 
-local function match_commit_hash(line, opts)
-  if type(opts.fn_match_commit_hash) == "function" then
-    return opts.fn_match_commit_hash(line, opts)
-  else
-    return line:match "[^ ]+"
-  end
-end
-
 return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
@@ -148,21 +140,16 @@ return {
     config.defaults.keymap.fzf["ctrl-f"] = "half-page-down"
     config.defaults.keymap.fzf["ctrl-b"] = "half-page-up"
 
-    -- Trouble
-    if require("astrocore").is_available "trouble.nvim" then
-      config.defaults.actions.files["ctrl-t"] = require("trouble.sources.fzf").actions.open
-    end
-
     if require("astrocore").is_available "diffview.nvim" then
       config.defaults.git.commits.actions["ctrl-r"] = function(selected, opts)
-        local commit_hash = match_commit_hash(selected[1], opts)
+        local commit_hash = selected[1]:match "[^ ]+"
         vim.cmd.DiffviewOpen { commit_hash }
       end
     end
 
     if require("astrocore").is_available "diffview.nvim" then
       config.defaults.git.bcommits.actions["ctrl-r"] = function(selected, opts)
-        local commit_hash = match_commit_hash(selected[1], opts)
+        local commit_hash = selected[1]:match "[^ ]+"
         vim.cmd.DiffviewOpen { commit_hash }
       end
     end
