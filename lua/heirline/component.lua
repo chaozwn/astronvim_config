@@ -2,7 +2,6 @@ local M = {}
 
 local extend_tbl = require("astrocore").extend_tbl
 local status_utils = require "astroui.status.utils"
-local provider = require "heirline.provider"
 local hl = require "astroui.status.hl"
 local condition = require "heirline.condition"
 
@@ -44,6 +43,8 @@ end
 ---@return table # The Heirline component table
 -- @usage local heirline_component = require("astroui.status").components.builder({ { provider = "file_icon", opts = { padding = { right = 1 } } }, { provider = "filename" } })
 function M.builder(opts)
+  -- I had to write my own provider here because the source code is hardcoded.
+  local provider = require "heirline.provider"
   opts = extend_tbl({ padding = { left = 0, right = 0 } }, opts)
   local children, offset = {}, 0
   if opts.padding.left > 0 then -- add left padding
