@@ -118,7 +118,7 @@ return {
           desc = "Goto Symbol (Workspace)",
         }
         if require("astrocore").is_available "todo-comments.nvim" then
-          maps.n["ft"] = {
+          maps.n["<Leader>ft"] = {
             function() require("todo-comments.fzf").todo() end,
             desc = "Todo",
           }

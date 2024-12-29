@@ -15,8 +15,6 @@ require("lazy").setup({
   { import = "community" },
   { import = "plugins" },
 } --[[@as LazySpec]], {
-  -- Configure any other `lazy.nvim` configuration options here
-  install = { colorscheme = { "tokyonight-moon" } },
   ui = { backdrop = 100 },
   performance = {
     rtp = {
