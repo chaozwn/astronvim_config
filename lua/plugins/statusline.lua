@@ -67,12 +67,6 @@ return {
     opts = function(_, opts)
       local status = require "astroui.status"
       opts.winbar = false
-      opts.statuscolumn = {
-        init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
-        status.component.foldcolumn(),
-        status.component.numbercolumn {},
-        status.component.signcolumn(),
-      }
       opts.statusline = {
         -- default highlight for the entire statusline
         hl = { fg = "fg", bg = "bg" },
