@@ -3,4 +3,5 @@ return {
     transparent = false,
   } },
   { "sainnhe/everforest", lazy = true },
+  { "Mofiqul/dracula.nvim", lazy = true },
 }
