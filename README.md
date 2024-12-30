@@ -222,7 +222,7 @@ To automatically switch input methods when entering and exiting insert mode in N
        lazy = false,
        opts = {
            default_command = "macism",
-           default_main_select = "im.rime.inputmethod.Squirrel.Hans",
+           default_main_select = "im.rime.inputmethod.Squirrel.Hans", -- replace with you result in step 2
            set_previous_events = { "InsertEnter", "FocusLost" },
        },
    }
