@@ -14,4 +14,21 @@ function M.overseer(opts)
   end
 end
 
+function M.select(opts)
+  local get_selected_lines = function()
+    local starts = vim.fn.line "v"
+    local ends = vim.fn.line "."
+    local count = starts <= ends and ends - starts + 1 or starts - ends + 1
+    return count
+  end
+  return function()
+    local get_select_count_ok, select_count = pcall(get_selected_lines)
+    local select = nil
+    if get_select_count_ok and select_count and select_count > 0 then
+      select = ("(%d selected)"):format(select_count or "")
+      return status_utils.stylize(select, opts)
+    end
+  end
+end
+
 return M

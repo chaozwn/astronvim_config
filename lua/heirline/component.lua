@@ -3,11 +3,11 @@ local M = {}
 local extend_tbl = require("astrocore").extend_tbl
 local status_utils = require "astroui.status.utils"
 local hl = require "astroui.status.hl"
-local condition = require "heirline.condition"
+local my_condition = require "heirline.condition"
 
 function M.overseer(opts)
   opts = extend_tbl({
-    condition = condition.overseer_load,
+    condition = my_condition.overseer_load,
     running = { icon = { kind = "OverseerRunning", padding = { left = 1, right = 1 } } },
     success = {
       icon = { kind = "OverseerSuccess", padding = { left = 1, right = 1 } },
@@ -44,7 +44,9 @@ end
 -- @usage local heirline_component = require("astroui.status").components.builder({ { provider = "file_icon", opts = { padding = { right = 1 } } }, { provider = "filename" } })
 function M.builder(opts)
   -- I had to write my own provider here because the source code is hardcoded.
-  local provider = require "heirline.provider"
+  local my_provider = require "heirline.provider"
+  local astro_provider = require "astroui.status.provider"
+  local provider = require("astrocore").extend_tbl(astro_provider, my_provider)
   opts = extend_tbl({ padding = { left = 0, right = 0 } }, opts)
   local children, offset = {}, 0
   if opts.padding.left > 0 then -- add left padding
@@ -75,6 +77,26 @@ function M.builder(opts)
         opts.surround.update
       )
     or children
+end
+
+--- A function to build a set of children components for an entire navigation section
+---@param opts? table options for configuring ruler, percentage, scrollbar, and the overall padding
+---@return table # The Heirline component table
+-- @usage local heirline_component = require("astroui.status").component.nav()
+function M.ruler(opts)
+  opts = extend_tbl({
+    ruler = {},
+    select = { condition = my_condition.is_visual_mode },
+    hl = hl.get_attributes "mode",
+    update = {
+      "CursorMoved",
+      "CursorMovedI",
+      "BufEnter",
+      "ModeChanged",
+      callback = function() vim.schedule(vim.cmd.redrawstatus) end,
+    },
+  }, opts)
+  return M.builder(status_utils.setup_providers(opts, { "ruler", "select" }))
 end
 
 return M

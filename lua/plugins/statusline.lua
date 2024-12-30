@@ -16,14 +16,16 @@ return {
         OverseerFailure = "󰅚",
         OverseerSuccess = "󰄴",
         OverseerRunning = "󰑮",
+        SelectCount = "󰆙",
       },
       text_icons = {
         VirtualEnv = "[CONDA]",
-        OverseerInit = "",
-        OverseerCanceled = "",
-        OverseerFailure = "󰅚",
-        OverseerSuccess = "󰄴",
-        OverseerRunning = "󰑮",
+        OverseerInit = "I",
+        OverseerCanceled = "C",
+        OverseerFailure = "F",
+        OverseerSuccess = "S",
+        OverseerRunning = "R",
+        SelectCount = "SC",
       },
       -- modify variables used by heirline but not defined in the setup call directly
       status = {
@@ -112,6 +114,19 @@ return {
           -- define the section separator
           surround = {
             separator = "left",
+            color = {
+              main = "file_info_bg",
+              right = "diag_HINT",
+            },
+          },
+        },
+        require("heirline.component").ruler {
+          -- add padding
+          padding = { left = 1, right = 1 },
+          -- define the section separator
+          surround = {
+            separator = "left",
+            color = { main = "diag_HINT", right = "file_info_bg" },
           },
         },
         -- add a component for the current git branch if it exists and use no separator for the sections
@@ -153,7 +168,6 @@ return {
         status.component.virtual_env {
           virtual_env = {
             icon = { kind = "VirtualEnv", padding = { right = 1 } },
-            conda = { enabled = true, ignore_base = false },
             padding = { right = 1 },
           },
         },
