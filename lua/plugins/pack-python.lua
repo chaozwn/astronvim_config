@@ -12,26 +12,14 @@ return {
       config = {
         basedpyright = {
           on_attach = function()
-            if is_available "venv-selector.nvim" then
-              set_mappings({
-                n = {
-                  ["<Leader>lv"] = {
-                    "<cmd>VenvSelect<CR>",
-                    desc = "Select VirtualEnv",
-                  },
-                  ["<leader>lV"] = {
-                    function()
-                      utils.notify("Current Env:" .. require("venv-selector").get_active_venv(), vim.log.levels.INFO)
-                    end,
-                    desc = "Show Current VirtualEnv",
-                  },
-                  ["<leader>lo"] = {
-                    "<cmd>PyrightOrganizeImports<CR>",
-                    desc = "Organize Imports",
-                  },
+            set_mappings({
+              n = {
+                ["<leader>lo"] = {
+                  "<cmd>PyrightOrganizeImports<CR>",
+                  desc = "Organize Imports",
                 },
-              }, { buffer = true })
-            end
+              },
+            }, { buffer = true })
           end,
           before_init = function(_, c)
             if not c.settings then c.settings = {} end

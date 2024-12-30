@@ -17,6 +17,8 @@ return {
         OverseerSuccess = "󰄴",
         OverseerRunning = "󰑮",
         SelectCount = "󰆙",
+        RowNumber = "",
+        ColumnNumber = "",
       },
       text_icons = {
         VirtualEnv = "[CONDA]",
