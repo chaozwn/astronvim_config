@@ -141,10 +141,12 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(
-        opts.ensure_installed,
-        { "delve", "gopls", "gomodifytags", "gotests", "iferr", "impl", "goimports" }
-      )
+      if vim.fn.executable "go" == 1 then
+        opts.ensure_installed = require("astrocore").list_insert_unique(
+          opts.ensure_installed,
+          { "delve", "gopls", "gomodifytags", "gotests", "iferr", "impl", "goimports" }
+        )
+      end
     end,
   },
   {
@@ -160,6 +162,7 @@ return {
   {
     "olexsmir/gopher.nvim",
     ft = "go",
+    enabled = vim.fn.executable "go" == 1,
     build = function()
       if not require("lazy.core.config").spec.plugins["mason.nvim"] then
         vim.print "Installing go dependencies..."
