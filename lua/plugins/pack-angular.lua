@@ -54,7 +54,7 @@ return {
               },
             },
             before_init = function(_, config)
-              local vue_plugin_config = {
+              local angular_plugin_config = {
                 name = "@angular/language-server",
                 location = require("utils").get_pkg_path(
                   "angular-language-server",
@@ -63,7 +63,7 @@ return {
                 configNamespace = "typescript",
                 enableForWorkspaceTypeScriptVersions = true,
               }
-              astrocore.list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { vue_plugin_config })
+              astrocore.list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { angular_plugin_config })
             end,
           },
         },
