@@ -1,7 +1,6 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
-  { import = "astrocommunity.recipes.auto-session-restore" },
   { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
   {
     "AstroNvim/astrocore",

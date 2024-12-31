@@ -44,11 +44,16 @@ return {
           "on_result_diagnostics",
         },
       },
+      bundles = {
+        -- When saving a bundle with OverseerSaveBundle or save_task_bundle(), filter the tasks with
+        -- these options (passed to list_tasks())
+        save_task_opts = {
+          bundleable = true,
+        },
+        -- Autostart tasks when they are loaded from a bundle
+        autostart_on_load = false,
+      },
     })
-  end,
-  config = function(_, opts)
-    local overseer = require "overseer"
-    overseer.setup(opts)
   end,
   dependencies = {
     { "AstroNvim/astroui", opts = { icons = { Overseer = "" } } },
