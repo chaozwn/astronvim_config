@@ -87,7 +87,7 @@ brew install fzf fd lazygit ripgrep gdu bottom protobuf gnu-sed ast-grep lazydoc
 # Node.js packages
 npm install -g tree-sitter-cli neovim @styled/typescript-styled-plugin
 
-# Python packages
+# Python packages, for render-markdown.nvim
 pip install pynvim pylatexenc
 ```
 

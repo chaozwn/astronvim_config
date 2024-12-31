@@ -52,7 +52,6 @@
   "mason.nvim": { "branch": "main", "commit": "c43eeb5614a09dc17c03a7fb49de2e05de203924" },
   "mini.bufremove": { "branch": "main", "commit": "1ee294a97e091d3cf967974df622c0d887890dc2" },
   "mini.icons": { "branch": "main", "commit": "44c0160526f7ae17ca8e8eab9ab235d047fcf7a6" },
-  "mini.nvim": { "branch": "main", "commit": "9df78f3cdf9bdcc5aaf93cc51412a69a384041b2" },
   "molten-nvim": { "branch": "main", "commit": "c621baf53459a6c45dfd98dcc11cbba7a7ae9470" },
   "neo-tree.nvim": { "branch": "main", "commit": "a77af2e764c5ed4038d27d1c463fa49cd4794e07" },
   "neoconf.nvim": { "branch": "main", "commit": "17a88b82bed71b3e40476ffe61be247e4af15825" },

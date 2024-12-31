@@ -125,7 +125,7 @@ return {
         right_pad = 1,
       },
     },
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
+    dependencies = { "nvim-treesitter/nvim-treesitter", 'echasnovski/mini.icons' },
   },
   {
     "mattn/vim-maketable",
