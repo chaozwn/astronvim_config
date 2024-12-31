@@ -1,6 +1,33 @@
 local set_mappings = require("astrocore").set_mappings
 local is_available = require("astrocore").is_available
 
+local function get_cmd(workspace_dir)
+  local _ = require "mason-core.functional"
+  local path = require "mason-core.path"
+  local platform = require "mason-core.platform"
+
+  local append_node_modules = _.map(function(dir) return path.concat { dir, "node_modules" } end)
+  local install_dir = require("mason-registry").get_package("angular-language-server"):get_install_path()
+
+  local cmd = {
+    "ngserver",
+    "--stdio",
+    "--tsProbeLocations",
+    table.concat(append_node_modules { workspace_dir, install_dir }, ","),
+    "--ngProbeLocations",
+    table.concat(
+      append_node_modules {
+        workspace_dir,
+        path.concat { install_dir, "node_modules", "@angular", "language-server" },
+      },
+      ","
+    ),
+  }
+  if platform.is.win then cmd[1] = vim.fn.exepath(cmd[1]) end
+
+  return cmd
+end
+
 return {
   {
     "AstroNvim/astrolsp",
@@ -13,6 +40,10 @@ return {
         ---@diagnostic disable: missing-fields
         config = {
           angularls = {
+            on_new_config = function(new_config, root_dir)
+              -- WARNING:remove after pr merge: https://github.com/williamboman/mason-lspconfig.nvim/pull/503
+              new_config.cmd = get_cmd(root_dir)
+            end,
             root_dir = function(...)
               local util = require "lspconfig.util"
               return vim.fs.dirname(vim.fs.find(".git", { path = ..., upward = true })[1])
