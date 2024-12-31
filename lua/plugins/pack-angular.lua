@@ -46,11 +46,10 @@ return {
             end,
             root_dir = function(...)
               local util = require "lspconfig.util"
-              return vim.fs.dirname(vim.fs.find(".git", { path = ..., upward = true })[1])
-                or util.root_pattern(unpack {
-                  "nx.json",
-                  "angular.json",
-                })(...)
+              return util.root_pattern(unpack {
+                "nx.json",
+                "angular.json",
+              })(...)
             end,
             on_attach = function(client, _)
               if is_available "angular-quickswitch.nvim" then
