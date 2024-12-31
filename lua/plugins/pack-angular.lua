@@ -13,28 +13,6 @@ return {
         ---@diagnostic disable: missing-fields
         config = {
           angularls = {
-            on_new_config = function(config, root_dir)
-              local node_modules_path = root_dir .. "/node_modules"
-              local angularls_node_modules_path = require("mason-registry")
-                .get_package("angular-language-server")
-                :get_install_path() .. "/node_modules"
-              config.cmd = {
-                "ngserver",
-                "--stdio",
-                "--tsProbeLocations",
-                -- 优先使用项目内的 typescript 版本，其次使用 angular-language-server 的 typescript 版本
-                table.concat({
-                  node_modules_path,
-                  angularls_node_modules_path
-                }, ","),
-                "--ngProbeLocations",
-                -- 优先使用项目内的 angular 版本，其次使用 angular-language-server 的 angular 版本
-                table.concat({
-                  node_modules_path,
-                  angularls_node_modules_path
-                }, ","),
-              }
-            end,
             root_dir = function(...)
               local util = require "lspconfig.util"
               return vim.fs.dirname(vim.fs.find(".git", { path = ..., upward = true })[1])
@@ -71,19 +49,22 @@ return {
             settings = {
               vtsls = {
                 tsserver = {
-                  globalPlugins = {
-                    {
-                      name = "@angular/language-server",
-                      location = require("utils").get_pkg_path(
-                        "angular-language-server",
-                        "/node_modules/@angular/language-server"
-                      ),
-                      enableForWorkspaceTypeScriptVersions = false,
-                    },
-                  },
+                  globalPlugins = {},
                 },
               },
             },
+            before_init = function(_, config)
+              local vue_plugin_config = {
+                name = "@angular/language-server",
+                location = require("utils").get_pkg_path(
+                  "angular-language-server",
+                  "/node_modules/@angular/language-server"
+                ),
+                configNamespace = "typescript",
+                enableForWorkspaceTypeScriptVersions = true,
+              }
+              astrocore.list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { vue_plugin_config })
+            end,
           },
         },
       })
