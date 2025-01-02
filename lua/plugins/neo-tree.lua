@@ -120,8 +120,6 @@ local function trash_visual(state, selected_nodes)
   end)
 end
 
-local function on_move(data) require("snacks").rename.on_rename_file(data.source, data.destination) end
-
 ---@type LazySpec
 return {
   "nvim-neo-tree/neo-tree.nvim",
@@ -140,8 +138,6 @@ return {
       },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       event_handlers = {
-        { event = neo_tree_events.FILE_MOVED, handler = on_move },
-        { event = neo_tree_events.FILE_RENAMED, handler = on_move },
         {
           event = neo_tree_events.FILE_ADDED,
           handler = function(file_path)
