@@ -21,7 +21,7 @@ return {
       },
       notifier = { enabled = true },
       scroll = { enabled = true },
-      rename = { enabled = true },
+      scope = { enabled = true },
     },
   },
   { "lukas-reineke/indent-blankline.nvim", enabled = false },
