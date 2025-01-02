@@ -1,23 +1,3 @@
-local methods = vim.lsp.protocol.Methods
-
-local rename_handler = vim.lsp.handlers[methods.textDocument_rename]
-local auto_save_after_rename_handler = function(err, result, ctx, config)
-  rename_handler(err, result, ctx, config)
-
-  if not result or not result.documentChanges then return end
-
-  for _, documentChange in pairs(result.documentChanges) do
-    local textDocument = documentChange.textDocument
-    if textDocument and textDocument.uri then
-      local bufnr = vim.uri_to_bufnr(textDocument.uri)
-      if vim.fn.bufloaded(bufnr) == 1 then
-        vim.schedule(function()
-          vim.api.nvim_buf_call(bufnr, function() vim.cmd "write" end)
-        end)
-      end
-    end
-  end
-end
 
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
@@ -67,9 +47,7 @@ return {
       on_attach = function(client, bufnr)
         -- this would disable semanticTokensProvider for all clients
       end,
-      lsp_handlers = {
-        [methods.textDocument_rename] = auto_save_after_rename_handler,
-      },
+      lsp_handlers = {},
     })
   end,
 }
