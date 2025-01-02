@@ -20,7 +20,6 @@ return {
         end,
       },
       notifier = { enabled = true },
-      scope = { enabled = true },
       scroll = { enabled = true },
       rename = { enabled = true },
     },
