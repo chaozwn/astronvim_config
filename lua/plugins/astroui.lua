@@ -8,7 +8,6 @@ return {
   "AstroNvim/astroui",
   version = false,
   branch = "v3",
-  dependencies = { "echasnovski/mini.icons" },
   ---@type AstroUIOpts
   opts = {
     -- change colorscheme

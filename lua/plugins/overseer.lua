@@ -1,5 +1,20 @@
 return {
   "stevearc/overseer.nvim",
+  cmd = {
+    "OverseerOpen",
+    "OverseerClose",
+    "OverseerToggle",
+    "OverseerSaveBundle",
+    "OverseerLoadBundle",
+    "OverseerDeleteBundle",
+    "OverseerRunCmd",
+    "OverseerRun",
+    "OverseerInfo",
+    "OverseerBuild",
+    "OverseerQuickAction",
+    "OverseerTaskAction",
+    "OverseerClearCache",
+  },
   ---@param opts overseer.Config
   opts = function(_, opts)
     local astrocore = require "astrocore"

@@ -57,107 +57,110 @@ return {
   ---@type LazySpec
   {
     "AstroNvim/astrolsp",
+    optional = true,
     ---@type AstroLSPOpts
     ---@diagnostic disable: missing-fields
-    opts = {
-      config = {
-        eslint = {
-          on_attach = function()
-            set_mappings({
-              n = {
-                ["<Leader>lF"] = {
-                  function() vim.cmd.EslintFixAll() end,
-                  desc = "Format buffer",
+    opts = function(_, opts)
+      return require("astrocore").extend_tbl(opts, {
+        config = {
+          eslint = {
+            on_attach = function()
+              set_mappings({
+                n = {
+                  ["<Leader>lF"] = {
+                    function() vim.cmd.EslintFixAll() end,
+                    desc = "Format buffer",
+                  },
                 },
-              },
-            }, { buffer = true })
-          end,
-        },
-        vtsls = {
-          on_attach = function(client, _)
-            client.server_capabilities = require("astrocore").extend_tbl(client.server_capabilities, {
-              workspace = {
-                didChangeWatchedFiles = { dynamicRegistration = true },
-                fileOperations = {
-                  didRename = {
-                    filters = {
-                      {
-                        pattern = {
-                          glob = "**/*.{ts,cts,mts,tsx,js,cjs,mjs,jsx,vue}",
+              }, { buffer = true })
+            end,
+          },
+          vtsls = {
+            on_attach = function(client, _)
+              client.server_capabilities = require("astrocore").extend_tbl(client.server_capabilities, {
+                workspace = {
+                  didChangeWatchedFiles = { dynamicRegistration = true },
+                  fileOperations = {
+                    didRename = {
+                      filters = {
+                        {
+                          pattern = {
+                            glob = "**/*.{ts,cts,mts,tsx,js,cjs,mjs,jsx,vue}",
+                          },
                         },
                       },
                     },
                   },
                 },
-              },
-            })
-            set_mappings({
-              n = {
-                ["<Leader>lA"] = {
-                  function() vim.lsp.buf.code_action { context = { only = { "source", "refactor", "quickfix" } } } end,
-                  desc = "Lsp All Action",
+              })
+              set_mappings({
+                n = {
+                  ["<Leader>lA"] = {
+                    function() vim.lsp.buf.code_action { context = { only = { "source", "refactor", "quickfix" } } } end,
+                    desc = "Lsp All Action",
+                  },
                 },
-              },
-            }, { buffer = true })
-          end,
-          filetypes = {
-            "javascript",
-            "javascriptreact",
-            "javascript.jsx",
-            "typescript",
-            "typescriptreact",
-            "typescript.tsx",
-          },
-          settings = {
-            complete_function_calls = true,
-            vtsls = {
-              enableMoveToFileCodeAction = false,
-              autoUseWorkspaceTsdk = true,
-              experimental = {
-                maxInlayHintLength = 30,
-                completion = {
-                  enableServerSideFuzzyMatch = true,
+              }, { buffer = true })
+            end,
+            filetypes = {
+              "javascript",
+              "javascriptreact",
+              "javascript.jsx",
+              "typescript",
+              "typescriptreact",
+              "typescript.tsx",
+            },
+            settings = {
+              complete_function_calls = true,
+              vtsls = {
+                enableMoveToFileCodeAction = false,
+                autoUseWorkspaceTsdk = true,
+                experimental = {
+                  maxInlayHintLength = 30,
+                  completion = {
+                    enableServerSideFuzzyMatch = true,
+                  },
                 },
-              },
-              tsserver = {
-                globalPlugins = {
-                  {
-                    name = "@styled/typescript-styled-plugin",
-                    location = require("utils").get_global_npm_path(),
-                    enableForWorkspaceTypeScriptVersions = true,
+                tsserver = {
+                  globalPlugins = {
+                    {
+                      name = "@styled/typescript-styled-plugin",
+                      location = require("utils").get_global_npm_path(),
+                      enableForWorkspaceTypeScriptVersions = true,
+                    },
                   },
                 },
               },
-            },
-            typescript = {
-              updateImportsOnFileMove = { enabled = "always" },
-              suggest = {
-                completeFunctionCalls = true,
+              typescript = {
+                updateImportsOnFileMove = { enabled = "always" },
+                suggest = {
+                  completeFunctionCalls = true,
+                },
+                inlayHints = {
+                  parameterNames = { enabled = "literals" },
+                  parameterTypes = { enabled = true },
+                  variableTypes = { enabled = true },
+                  propertyDeclarationTypes = { enabled = true },
+                  functionLikeReturnTypes = { enabled = true },
+                  enumMemberValues = { enabled = true },
+                },
               },
-              inlayHints = {
-                parameterNames = { enabled = "literals" },
-                parameterTypes = { enabled = true },
-                variableTypes = { enabled = true },
-                propertyDeclarationTypes = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
-                enumMemberValues = { enabled = true },
-              },
-            },
-            javascript = {
-              updateImportsOnFileMove = { enabled = "always" },
-              inlayHints = {
-                parameterNames = { enabled = "literals" },
-                parameterTypes = { enabled = true },
-                variableTypes = { enabled = true },
-                propertyDeclarationTypes = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
-                enumMemberValues = { enabled = true },
+              javascript = {
+                updateImportsOnFileMove = { enabled = "always" },
+                inlayHints = {
+                  parameterNames = { enabled = "literals" },
+                  parameterTypes = { enabled = true },
+                  variableTypes = { enabled = true },
+                  propertyDeclarationTypes = { enabled = true },
+                  functionLikeReturnTypes = { enabled = true },
+                  enumMemberValues = { enabled = true },
+                },
               },
             },
           },
         },
-      },
-    },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -261,17 +264,6 @@ return {
     end,
   },
   {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = {
-      "marilari88/neotest-vitest",
-    },
-    opts = function(_, opts)
-      if not opts.adapters then opts.adapters = {} end
-      table.insert(opts.adapters, require "neotest-vitest"(require("astrocore").plugin_opts "neotest-vitest"))
-    end,
-  },
-  {
     "echasnovski/mini.icons",
     optional = true,
     opts = {
@@ -292,10 +284,14 @@ return {
   {
     "nvim-neotest/neotest",
     optional = true,
-    dependencies = { { "nvim-neotest/neotest-jest", config = function() end } },
+    dependencies = {
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-jest",
+    },
     opts = function(_, opts)
       if not opts.adapters then opts.adapters = {} end
       table.insert(opts.adapters, require "neotest-jest"(require("astrocore").plugin_opts "neotest-jest"))
+      table.insert(opts.adapters, require "neotest-vitest"(require("astrocore").plugin_opts "neotest-vitest"))
     end,
   },
   {
