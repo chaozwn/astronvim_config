@@ -1,4 +1,3 @@
-local set_mappings = require("astrocore").set_mappings
 local utils = require "utils"
 
 local function create_buf_config_file()
@@ -55,7 +54,7 @@ return {
             desc = "create completion",
             pattern = { "proto" },
             callback = function()
-              set_mappings({
+              require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lc"] = {
                     function()

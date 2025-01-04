@@ -1,6 +1,4 @@
 local utils = require "astrocore"
-local is_available = require("astrocore").is_available
-local set_mappings = require("astrocore").set_mappings
 -- print(vim.fn.stdpath "data" .. "/lazy/rust-prettifier-for-lldb/rust_prettifier_for_lldb.py")
 ---@type LazySpec
 return {
@@ -12,7 +10,7 @@ return {
       config = {
         basedpyright = {
           on_attach = function()
-            set_mappings({
+            require("astrocore").set_mappings({
               n = {
                 ["<leader>lo"] = {
                   "<cmd>PyrightOrganizeImports<CR>",

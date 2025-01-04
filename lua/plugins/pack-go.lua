@@ -1,6 +1,4 @@
 --TODO: https://github.com/golang/go/issues/60903
-local set_mappings = require("astrocore").set_mappings
-
 local function preview_stack_trace()
   local current_line = vim.api.nvim_get_current_line()
   local patterns_list = {
@@ -41,7 +39,6 @@ return {
   },
   {
     "AstroNvim/astrolsp",
-    optional = true,
     ---@type AstroLSPOpts
     opts = {
       ---@diagnostic disable: missing-fields
@@ -54,7 +51,7 @@ return {
               callback = function()
                 local buf_name = vim.api.nvim_buf_get_name(0)
                 if vim.bo.filetype == "dap-repl" and buf_name:match "%[dap%-repl%-%d+%]" then
-                  set_mappings({
+                  require("astrocore").set_mappings({
                     n = {
                       ["gd"] = {
                         preview_stack_trace,
@@ -133,7 +130,7 @@ return {
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
         opts.ensure_installed =
-          require("astrocore").list_insert_unique(opts.ensure_installed, { "go", "gomod", "gosum", "gowork" })
+          require("astrocore").list_insert_unique(opts.ensure_installed, { "go", "gomod", "gosum", "gowork", "goctl" })
       end
     end,
   },

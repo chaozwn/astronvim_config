@@ -16,7 +16,7 @@ return {
       optional = true,
       opts = function(_, opts)
         if require("astrocore").is_available "fzf-lua" then
-          local maps = opts.mappings
+          local maps = opts.mappings or {}
 
           maps.n["<Leader>lD"] =
             { function() require("fzf-lua").diagnostics_document() end, desc = "Search diagnostics" }
@@ -44,13 +44,10 @@ return {
         end
       end,
     },
-  },
-  dependencies = {
-    "echasnovski/mini.icons",
     {
       "AstroNvim/astrocore",
       opts = function(_, opts)
-        local maps = opts.mappings
+        local maps = opts.mappings or {}
         maps.n["<Leader>f"] = vim.tbl_get(opts, "_map_sections", "f")
         if vim.fn.executable "git" == 1 then
           maps.n["<Leader>g"] = vim.tbl_get(opts, "_map_sections", "g")
@@ -125,6 +122,9 @@ return {
         end
       end,
     },
+  },
+  dependencies = {
+    "echasnovski/mini.icons",
   },
   opts = function()
     local config = require "fzf-lua.config"

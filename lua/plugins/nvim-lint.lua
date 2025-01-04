@@ -1,67 +1,92 @@
-local lint -- cache for the nvim-lint package
----@type LazySpec
 return {
-  "mfussenegger/nvim-lint",
-  event = "User AstroFile",
-  dependencies = { "williamboman/mason.nvim" },
-  specs = {
-    {
-      "AstroNvim/astrocore",
-      ---@param opts AstroCoreOpts
-      opts = function(_, opts)
-        local timer = (vim.uv or vim.loop).new_timer()
-        if not opts.autocmds then opts.autocmds = {} end
-        opts.autocmds.auto_lint = {
-          {
-            event = { "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" },
-            desc = "Automatically lint with nvim-lint",
-            callback = function()
-              -- only run autocommand when nvim-lint is loaded
-              if lint then
-                timer:start(100, 0, function()
-                  timer:stop()
-                  vim.schedule(lint.try_lint)
-                end)
-              end
-            end,
-          },
-        }
-      end,
+  {
+    "mfussenegger/nvim-lint",
+    event = "User AstroFile",
+    opts = {
+      -- Event to trigger linters
+      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+      linters_by_ft = {
+        -- Use the "*" filetype to run linters on all filetypes.
+        -- ['*'] = { 'global linter' },
+        -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
+        -- ['_'] = { 'fallback linter' },
+        -- ["*"] = { "typos" },
+      },
+      -- LazyVim extension to easily override linter options
+      -- or add custom linters.
+      ---@type table<string,table>
+      linters = {
+        -- -- Example of using selene only when a selene.toml file is present
+        -- selene = {
+        --   -- `condition` is another LazyVim extension that allows you to
+        --   -- dynamically enable/disable linters based on the context.
+        --   condition = function(ctx)
+        --     return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
+        --   end,
+        -- },
+      },
     },
+    config = function(_, opts)
+      local M = {}
+
+      local lint = require "lint"
+      for name, linter in pairs(opts.linters) do
+        if type(linter) == "table" and type(lint.linters[name]) == "table" then
+          lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+          if type(linter.prepend_args) == "table" then
+            lint.linters[name].args = lint.linters[name].args or {}
+            vim.list_extend(lint.linters[name].args, linter.prepend_args)
+          end
+        else
+          lint.linters[name] = linter
+        end
+      end
+      lint.linters_by_ft = opts.linters_by_ft
+
+      function M.debounce(ms, fn)
+        local timer = vim.uv.new_timer()
+        return function(...)
+          local argv = { ... }
+          timer:start(ms, 0, function()
+            timer:stop()
+            vim.schedule_wrap(fn)(unpack(argv))
+          end)
+        end
+      end
+
+      function M.lint()
+        -- Use nvim-lint's logic first:
+        -- * checks if linters exist for the full filetype first
+        -- * otherwise will split filetype by "." and add all those linters
+        -- * this differs from conform.nvim which only uses the first filetype that has a formatter
+        local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+
+        -- Create a copy of the names table to avoid modifying the original.
+        names = vim.list_extend({}, names)
+
+        -- Add fallback linters.
+        if #names == 0 then vim.list_extend(names, lint.linters_by_ft["_"] or {}) end
+
+        -- Add global linters.
+        vim.list_extend(names, lint.linters_by_ft["*"] or {})
+
+        -- Filter out linters that don't exist or don't match the condition.
+        local ctx = { filename = vim.api.nvim_buf_get_name(0) }
+        ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+        names = vim.tbl_filter(function(name)
+          local linter = lint.linters[name]
+          if not linter then vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "nvim-lint" }) end
+          return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
+        end, names)
+
+        -- Run linters.
+        if #names > 0 then lint.try_lint(names) end
+      end
+
+      vim.api.nvim_create_autocmd(opts.events, {
+        group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
+        callback = M.debounce(100, M.lint),
+      })
+    end,
   },
-  opts = {},
-  config = function(_, opts)
-    local astrocore = require "astrocore"
-    lint = require "lint"
-    lint.linters_by_ft = opts.linters_by_ft or {}
-    for name, linter in pairs(opts.linters or {}) do
-      local base = lint.linters[name]
-      lint.linters[name] = (type(linter) == "table" and type(base) == "table")
-          and vim.tbl_deep_extend("force", base, linter)
-        or linter
-    end
-
-    local valid_linters = function(ctx, linters)
-      if not linters then return {} end
-      return vim.tbl_filter(function(name)
-        local linter = lint.linters[name]
-        return linter
-          and vim.fn.executable(linter.cmd) == 1
-          and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
-      end, linters)
-    end
-
-    lint._resolve_linter_by_ft = astrocore.patch_func(lint._resolve_linter_by_ft, function(orig, ...)
-      local ctx = { filename = vim.api.nvim_buf_get_name(0) }
-      ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
-
-      local linters = valid_linters(ctx, orig(...))
-      if not linters[1] then linters = valid_linters(ctx, lint.linters_by_ft["_"]) end -- fallback
-      astrocore.list_insert_unique(linters, valid_linters(ctx, lint.linters_by_ft["*"])) -- global
-
-      return linters
-    end)
-
-    lint.try_lint()
-  end,
 }

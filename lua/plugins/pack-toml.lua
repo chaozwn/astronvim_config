@@ -1,6 +1,3 @@
-local utils = require "astrocore"
-local set_mappings = utils.set_mappings
-
 ---@type LazySpec
 return {
   {
@@ -12,7 +9,7 @@ return {
         taplo = {
           evenBetterToml = { schema = { catalogs = { "https://www.schemastore.org/api/json/catalog.json" } } },
           on_attach = function()
-            set_mappings({
+            require("astrocore").set_mappings({
               n = {
                 ["K"] = {
                   function()
@@ -37,7 +34,7 @@ return {
     opts = function(_, opts)
       -- Ensure that opts.ensure_installed exists and is a table or string "all".
       if opts.ensure_installed ~= "all" then
-        opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "toml" })
+        opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "toml" })
       end
     end,
   },

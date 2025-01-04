@@ -8,30 +8,17 @@ return {
     {
       "AstroNvim/astrocore",
       ---@type AstroCoreOpts
-    ---@diagnostic disable: missing-fields
-      opts = {
-        mappings = {
-          n = {
-            [prefix_git_blame .. "B"] = { desc = "Git Blame Functions" },
-            [prefix_git_blame .. "Bc"] = {
-              function() vim.cmd [[GitBlameOpenCommitURL]] end,
-              desc = "Git Blame Open Commit URL",
-            },
-            [prefix_git_blame .. "Bs"] = {
-              function() vim.cmd [[GitBlameCopySHA]] end,
-              desc = "Git Blame Copy SHA",
-            },
-            [prefix_git_blame .. "Bo"] = {
-              function() vim.cmd [[GitBlameOpenFileURL]] end,
-              desc = "Git Blame Open File URL",
-            },
-            [prefix_git_blame .. "By"] = {
-              function() vim.cmd [[GitBlameCopyFileURL]] end,
-              desc = "Git Blame Copy File URL",
-            },
-          },
-        },
-      },
+      opts = function(_, opts)
+        local maps = opts.mappings or {}
+        maps.n[prefix_git_blame .. "B"] = { desc = "Git Blame Functions" }
+        maps.n[prefix_git_blame .. "Bc"] =
+          { function() vim.cmd [[GitBlameOpenCommitURL]] end, desc = "Git Blame Open Commit URL" }
+        maps.n[prefix_git_blame .. "Bs"] = { function() vim.cmd [[GitBlameCopySHA]] end, desc = "Git Blame Copy SHA" }
+        maps.n[prefix_git_blame .. "Bo"] =
+          { function() vim.cmd [[GitBlameOpenFileURL]] end, desc = "Git Blame Open File URL" }
+        maps.n[prefix_git_blame .. "By"] =
+          { function() vim.cmd [[GitBlameCopyFileURL]] end, desc = "Git Blame Copy File URL" }
+      end,
     },
   },
   cmd = {

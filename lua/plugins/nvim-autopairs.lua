@@ -2,7 +2,7 @@
 return {
   "windwp/nvim-autopairs",
   opts = function(_, opts)
-    return require("astrocore").extend_tbl(opts, {
+    return vim.tbl_deep_extend("force", opts, {
       enable_check_bracket_line = true,
       map_c_h = true,
       map_c_w = true,

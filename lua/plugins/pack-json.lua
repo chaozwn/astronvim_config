@@ -1,5 +1,3 @@
-local utils = require "astrocore"
-
 ---@type LazySpec
 return {
   {
@@ -25,7 +23,7 @@ return {
     "b0o/SchemaStore.nvim",
     lazy = true,
     version = false,
-    dependencies = {
+    specs = {
       {
         "AstroNvim/astrolsp",
         ---@type AstroLSPOpts
@@ -57,7 +55,8 @@ return {
     optional = true,
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
-        opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "json", "jsonc", "json5" })
+        opts.ensure_installed =
+          require("astrocore").list_insert_unique(opts.ensure_installed, { "json", "jsonc", "json5" })
       end
     end,
   },

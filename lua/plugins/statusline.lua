@@ -1,5 +1,3 @@
-local is_available = require("astrocore").is_available
-
 ---@type LazySpec
 return {
   {

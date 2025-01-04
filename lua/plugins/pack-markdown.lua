@@ -1,4 +1,3 @@
-local astrocore = require "astrocore"
 local utils = require "utils"
 
 local markdown_table_change = function()
@@ -51,8 +50,8 @@ return {
       config = {
         marksman = {
           on_attach = function()
-            if astrocore.is_available "markdown-preview.nvim" then
-              astrocore.set_mappings({
+            if require("astrocore").is_available "markdown-preview.nvim" then
+              require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lz"] = { "<cmd>MarkdownPreview<CR>", desc = "Markdown Start Preview" },
                   ["<Leader>lZ"] = { "<cmd>MarkdownPreviewStop<CR>", desc = "Markdown Stop Preview" },
@@ -74,8 +73,10 @@ return {
     optional = true,
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
-        opts.ensure_installed =
-          astrocore.list_insert_unique(opts.ensure_installed, { "markdown", "markdown_inline", "html", "latex" })
+        opts.ensure_installed = require("astrocore").list_insert_unique(
+          opts.ensure_installed,
+          { "markdown", "markdown_inline", "html", "latex" }
+        )
       end
     end,
   },
@@ -93,10 +94,6 @@ return {
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     build = "cd app && yarn install",
     ft = { "markdown", "markdown.mdx" },
-    init = function()
-      local plugin = require("lazy.core.config").spec.plugins["markdown-preview.nvim"]
-      vim.g.mkdp_filetypes = require("lazy.core.plugin").values(plugin, "ft", true)
-    end,
   },
   {
     "HakonHarnes/img-clip.nvim",
@@ -125,13 +122,13 @@ return {
         right_pad = 1,
       },
     },
-    dependencies = { "nvim-treesitter/nvim-treesitter", 'echasnovski/mini.icons' },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
   },
   {
     "mattn/vim-maketable",
     cmd = "MakeTable",
     event = "BufEnter",
-    ft = "markdown",
+    ft = { "markdown", "markdown.mdx" },
   },
   {
     "stevearc/conform.nvim",

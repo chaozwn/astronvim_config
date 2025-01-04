@@ -1,4 +1,5 @@
 local prefix = "<Leader>P"
+---@type LazySpec
 return {
   "yetone/avante.nvim",
   build = "make",
@@ -14,9 +15,8 @@ return {
     "AvanteClear",
   },
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-    { "AstroNvim/astrocore", opts = function(_, opts) opts.mappings.n[prefix] = { desc = " Avante" } end },
+    { "nvim-lua/plenary.nvim", lazy = true },
+    { "MunifTanjim/nui.nvim", lazy = true },
   },
   opts = {
     provider = "copilot",
@@ -57,6 +57,7 @@ return {
     },
   },
   specs = {
+    { "AstroNvim/astrocore", opts = function(_, opts) opts.mappings.n[prefix] = { desc = " Avante" } end },
     { "zbirenbaum/copilot.lua", cmd = "Copilot", opts = { panel = { enabled = false }, suggestion = { false } } },
     {
       "MeanderingProgrammer/render-markdown.nvim",

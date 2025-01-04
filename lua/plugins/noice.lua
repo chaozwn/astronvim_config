@@ -1,5 +1,3 @@
-local utils = require "astrocore"
-
 -- test filter
 -- string.find(
 --   'vim.lsp.get_active_clients() is deprecated. Run ":checkhealth vim.deprecated" for more information',
@@ -12,7 +10,7 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {
-      "MunifTanjim/nui.nvim",
+      { "MunifTanjim/nui.nvim", lazy = true },
     },
     specs = {
       {
@@ -51,7 +49,7 @@ return {
       },
     },
     opts = function(_, opts)
-      return utils.extend_tbl(opts, {
+      return vim.tbl_deep_extend("force", opts, {
         lsp = {
           hover = {
             enabled = false,

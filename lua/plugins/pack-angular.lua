@@ -1,6 +1,3 @@
-local set_mappings = require("astrocore").set_mappings
-local is_available = require("astrocore").is_available
-
 local function get_cmd(workspace_dir)
   local _ = require "mason-core.functional"
   local path = require "mason-core.path"
@@ -34,9 +31,7 @@ return {
     ---@type AstroLSPOpts
     ---@diagnostic disable-next-line: assign-type-mismatch
     opts = function(_, opts)
-      local astrocore = require "astrocore"
-
-      return astrocore.extend_tbl(opts, {
+      return vim.tbl_deep_extend("force", opts, {
         ---@diagnostic disable: missing-fields
         config = {
           angularls = {
@@ -52,8 +47,8 @@ return {
               })(...)
             end,
             on_attach = function(client, _)
-              if is_available "angular-quickswitch.nvim" then
-                set_mappings({
+              if require("astrocore").is_available "angular-quickswitch.nvim" then
+                require("astrocore").set_mappings({
                   n = {
                     ["gD"] = {
                       vim.cmd.NgQuickSwitchToggle,
@@ -93,7 +88,10 @@ return {
                 configNamespace = "typescript",
                 enableForWorkspaceTypeScriptVersions = true,
               }
-              astrocore.list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { angular_plugin_config })
+              require("astrocore").list_insert_unique(
+                config.settings.vtsls.tsserver.globalPlugins,
+                { angular_plugin_config }
+              )
             end,
           },
         },

@@ -7,7 +7,7 @@ return {
       "AstroNvim/astrocore",
       ---@param opts AstroCoreOpts
       opts = function(_, opts)
-        return require("astrocore").extend_tbl(opts, {
+        return vim.tbl_deep_extend("force", opts, {
           options = {
             g = {
               ["VM_default_mappings"] = 0,

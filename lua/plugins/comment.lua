@@ -1,12 +1,12 @@
 ---@type LazySpec
 return {
   "numToStr/Comment.nvim",
-  opts = function()
+  config = function()
     local ft = require "Comment.ft"
     ft.thrift = { "//%s", "/*%s*/" }
     ft.goctl = { "//%s", "/*%s*/" }
   end,
-  specs = {
+  dependencies = {
     {
       "AstroNvim/astrocore",
       ---@param opts AstroCoreOpts
@@ -18,7 +18,7 @@ return {
         maps.n["<Leader>/"] = false
         maps.x["<Leader>/"] = false
 
-        opts.mappings = require("astrocore").extend_tbl(opts.mappings, maps)
+        opts.mappings = vim.tbl_deep_extend("force", opts.mappings, maps)
       end,
     },
   },

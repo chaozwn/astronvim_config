@@ -14,10 +14,8 @@ return {
     },
     {
       "AstroNvim/astrocore",
-      ---@param opts AstroCoreOpts
-      ---@diagnostic disable: missing-fields
       opts = function(_, opts)
-        local maps = opts.mappings and opts.mappings or require("astrocore").empty_map_table()
+        local maps = opts.mappings or {}
         local prefix = "<Leader>s"
         maps.n[prefix] = {
           function()
@@ -70,7 +68,7 @@ return {
         "/",
       }
     end
-    return require("astrocore").extend_tbl(opts, {
+    return vim.tbl_deep_extend("force", opts, {
       headerMaxWidth = 80,
       icons = {
         enabled = vim.g.icons_enabled,

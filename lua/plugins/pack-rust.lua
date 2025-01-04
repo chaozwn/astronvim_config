@@ -1,9 +1,7 @@
 --WARNING: now rust-analyzer is can't use in neovim, because this issue
 -- https://github.com/rust-lang/rust-analyzer/issues/17289
 -- https://github.com/williamboman/mason.nvim/issues/1741
-local utils = require "astrocore"
-
-local set_mappings = utils.set_mappings
+local set_mappings = require("astrocore").set_mappings
 
 local function preview_stack_trace()
   local current_line = vim.api.nvim_get_current_line()
@@ -32,6 +30,7 @@ end
 return {
   {
     "cmrschwarz/rust-prettifier-for-lldb",
+    lazy = true,
   },
   {
     "AstroNvim/astrolsp",
@@ -68,9 +67,11 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    optional = true,
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
-        opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "rust", "toml", "ron" })
+        opts.ensure_installed =
+          require("astrocore").list_insert_unique(opts.ensure_installed, { "rust", "toml", "ron" })
       end
     end,
   },
@@ -93,7 +94,7 @@ return {
         settings = function(project_root, default_settings)
           local astrolsp_settings = astrolsp_opts.settings or {}
 
-          local merge_table = utils.extend_tbl(default_settings or {}, astrolsp_settings)
+          local merge_table = vim.tbl_deep_extend("force", default_settings or {}, astrolsp_settings)
           local ra = require "rustaceanvim.config.server"
           -- load_rust_analyzer_settings merges any found settings with the passed in default settings table and then returns that table
           return ra.load_rust_analyzer_settings(project_root, {
@@ -102,7 +103,7 @@ return {
           })
         end,
       }
-      local final_server = utils.extend_tbl(astrolsp_opts, server)
+      local final_server = vim.tbl_deep_extend("force", astrolsp_opts, server)
       return {
         server = final_server,
         dap = {
@@ -138,9 +139,9 @@ return {
       }
     end,
     config = function(_, opts)
-      vim.g.rustaceanvim = utils.extend_tbl(opts, vim.g.rustaceanvim)
+      vim.g.rustaceanvim = vim.tbl_deep_extend("force", opts, vim.g.rustaceanvim)
       if vim.fn.executable "rust-analyzer" == 0 then
-        utils.notify(
+        vim.notify(
           "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
           vim.log.levels.ERROR
         )

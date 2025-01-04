@@ -7,6 +7,7 @@ return {
   ---@diagnostic disable-next-line: assign-type-mismatch
   opts = function(_, opts)
     local mappings = require("mapping").core_mappings(opts.mappings)
+    local utils = require "utils"
     local options = {
       opt = {
         fillchars = {
@@ -24,6 +25,10 @@ return {
         wrap = true,
         scrolloff = 5,
         relativenumber = false,
+        -- windows
+        winwidth = 10,
+        winminwidth = 10,
+        equalalways = false,
       },
       g = {
         autoformat = false,
@@ -40,7 +45,7 @@ return {
       options.opt.foldtext = "v:lua.require'ui'.foldtext()"
     end
 
-    return require("astrocore").extend_tbl(opts, {
+    return vim.tbl_deep_extend("force", opts, {
       -- Configure core features of AstroNvim
       features = {
         large_buf = { size = 1024 * 1024 * 1.5, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
@@ -58,6 +63,31 @@ return {
         },
         update_in_insert = false,
         underline = true,
+      },
+      filetypes = {
+        extension = {
+          mdx = "markdown.mdx",
+          qmd = "markdown",
+          yml = utils.yaml_ft,
+          yaml = utils.yaml_ft,
+          json = "jsonc",
+          MD = "markdown",
+          tpl = "gotmpl",
+        },
+        filename = {
+          [".eslintrc.json"] = "jsonc",
+          ["vimrc"] = "vim",
+        },
+        pattern = {
+          ["/tmp/neomutt.*"] = "markdown",
+          ["tsconfig*.json"] = "jsonc",
+          [".*/%.vscode/.*%.json"] = "jsonc",
+          [".*/waybar/config"] = "jsonc",
+          [".*/mako/config"] = "dosini",
+          [".*/kitty/.+%.conf"] = "kitty",
+          [".*/hypr/.+%.conf"] = "hyprlang",
+          ["%.env%.[%w_.-]+"] = "sh",
+        },
       },
       autocmds = {
         auto_turnoff_paste = {

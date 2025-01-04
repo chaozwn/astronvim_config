@@ -1,8 +1,3 @@
--- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
--- Configuration documentation can be found with `:h astrolsp`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
-
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
@@ -12,7 +7,7 @@ return {
   ---@diagnostic disable-next-line: assign-type-mismatch
   opts = function(_, opts)
     local mappings = require("mapping").lsp_mappings(opts.mappings)
-    return require("astrocore").extend_tbl(opts, {
+    return vim.tbl_deep_extend("force", opts, {
       -- Configuration table of features provided by AstroLSP
       features = {
         codelens = true, -- enable/disable codelens refresh on start

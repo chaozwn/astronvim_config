@@ -4,4 +4,5 @@ return {
   } },
   { "sainnhe/everforest", lazy = true },
   { "Mofiqul/dracula.nvim", lazy = true },
+  { "folke/tokyonight.nvim", lazy = true },
 }

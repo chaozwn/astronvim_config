@@ -1,6 +1,6 @@
-local set_mappings = require("astrocore").set_mappings
-local decode_json = require("utils").decode_json
-local check_json_key_exists = require("utils").check_json_key_exists
+local utils = require "utils"
+local decode_json = utils.decode_json
+local check_json_key_exists = utils.check_json_key_exists
 
 local format_filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" }
 
@@ -61,11 +61,11 @@ return {
     ---@type AstroLSPOpts
     ---@diagnostic disable: missing-fields
     opts = function(_, opts)
-      return require("astrocore").extend_tbl(opts, {
+      return vim.tbl_deep_extend("force", opts, {
         config = {
           eslint = {
             on_attach = function()
-              set_mappings({
+              require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lF"] = {
                     function() vim.cmd.EslintFixAll() end,
@@ -93,7 +93,7 @@ return {
                   },
                 },
               })
-              set_mappings({
+              require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lA"] = {
                     function() vim.lsp.buf.code_action { context = { only = { "source", "refactor", "quickfix" } } } end,
@@ -186,9 +186,9 @@ return {
   },
   {
     "vuki656/package-info.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = {},
+    dependencies = { { "MunifTanjim/nui.nvim", lazy = true } },
     event = "BufRead package.json",
+    opts = {},
   },
   {
     "dmmulroy/tsc.nvim",

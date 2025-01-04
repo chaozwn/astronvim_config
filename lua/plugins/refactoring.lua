@@ -11,100 +11,95 @@ return {
       ---@diagnostic disable: missing-fields
       ---@diagnostic disable: missing-parameter
       opts = function(_, opts)
+        local prefix = "<Leader>r"
+        local maps = opts.mappings or {}
         local get_icon = require("astroui").get_icon
-        return require("astrocore").extend_tbl(opts, {
-          mappings = {
-            n = {
-              ["<Leader>r"] = { name = get_icon("Refactoring", 1, true) .. "Refactor" },
-              ["<Leader>rb"] = {
-                function() require("refactoring").refactor "Extract Block" end,
-                desc = "Extract Block",
-              },
-              ["<Leader>ri"] = {
-                function() require("refactoring").refactor "Inline Variable" end,
-                desc = "Inline Variable",
-              },
-              ["<Leader>rp"] = {
-                function() require("refactoring").debug.printf { below = false } end,
-                desc = "Debug: Print Function",
-              },
-              ["<Leader>rc"] = {
-                function() require("refactoring").debug.cleanup {} end,
-                desc = "Debug: Clean Up",
-              },
-              ["<Leader>rd"] = {
-                function() require("refactoring").debug.print_var { below = false } end,
-                desc = "Debug: Print Variable",
-              },
-              ["<Leader>rbf"] = {
-                function() require("refactoring").refactor "Extract Block To File" end,
-                desc = "Extract Block To File",
-              },
-            },
-            x = {
-              ["<Leader>r"] = { name = get_icon("Refactoring", 1, true) .. "Refactor" },
-              ["<Leader>re"] = {
-                function() require("refactoring").refactor "Extract Function" end,
-                desc = "Extract Function",
-              },
-              ["<Leader>rf"] = {
-                function() require("refactoring").refactor "Extract Function To File" end,
-                desc = "Extract Function To File",
-              },
-              ["<Leader>rv"] = {
-                function() require("refactoring").refactor "Extract Variable" end,
-                desc = "Extract Variable",
-              },
-              ["<Leader>ri"] = {
-                function() require("refactoring").refactor "Inline Variable" end,
-                desc = "Inline Variable",
-              },
-            },
-            v = {
-              ["<Leader>r"] = { name = get_icon("Refactoring", 1, true) .. "Refactor" },
-              ["<Leader>re"] = {
-                function() require("refactoring").refactor "Extract Function" end,
-                desc = "Extract Function",
-              },
-              ["<Leader>rf"] = {
-                function() require("refactoring").refactor "Extract Function To File" end,
-                desc = "Extract Function To File",
-              },
-              ["<Leader>rv"] = {
-                function() require("refactoring").refactor "Extract Variable" end,
-                desc = "Extract Variable",
-              },
-              ["<Leader>ri"] = {
-                function() require("refactoring").refactor "Inline Variable" end,
-                desc = "Inline Variable",
-              },
-              ["<Leader>rb"] = {
-                function() require("refactoring").refactor "Extract Block" end,
-                desc = "Extract Block",
-              },
-              ["<Leader>rbf"] = {
-                function() require("refactoring").refactor "Extract Block To File" end,
-                desc = "Extract Block To File",
-              },
-              ["<Leader>rr"] = {
-                function() require("refactoring").select_refactor() end,
-                desc = "Select Refactor",
-              },
-              ["<Leader>rp"] = {
-                function() require("refactoring").debug.printf { below = false } end,
-                desc = "Debug: Print Function",
-              },
-              ["<Leader>rc"] = {
-                function() require("refactoring").debug.cleanup {} end,
-                desc = "Debug: Clean Up",
-              },
-              ["<Leader>rd"] = {
-                function() require("refactoring").debug.print_var { below = false } end,
-                desc = "Debug: Print Variable",
-              },
-            },
-          },
-        } --[[@as AstroCoreOpts]])
+
+        maps.n[prefix .. "r"] = { name = get_icon("Refactoring", 1, true) .. "Refactor" }
+        maps.n[prefix .. "rb"] = {
+          function() require("refactoring").refactor "Extract Block" end,
+          desc = "Extract Block",
+        }
+        maps.n[prefix .. "ri"] = {
+          function() require("refactoring").refactor "Inline Variable" end,
+          desc = "Inline Variable",
+        }
+        maps.n[prefix .. "rp"] = {
+          function() require("refactoring").debug.printf { below = false } end,
+          desc = "Debug: Print Function",
+        }
+        maps.n[prefix .. "rc"] = {
+          function() require("refactoring").debug.cleanup {} end,
+          desc = "Debug: Clean Up",
+        }
+        maps.n[prefix .. "rd"] = {
+          function() require("refactoring").debug.print_var { below = false } end,
+          desc = "Debug: Print Variable",
+        }
+        maps.n[prefix .. "rbf"] = {
+          function() require("refactoring").refactor "Extract Block To File" end,
+          desc = "Extract Block To File",
+        }
+
+        maps.x[prefix .. "r"] = { name = get_icon("Refactoring", 1, true) .. "Refactor" }
+        maps.x[prefix .. "re"] = {
+          function() require("refactoring").refactor "Extract Function" end,
+          desc = "Extract Function",
+        }
+        maps.x[prefix .. "rf"] = {
+          function() require("refactoring").refactor "Extract Function To File" end,
+          desc = "Extract Function To File",
+        }
+        maps.x[prefix .. "rv"] = {
+          function() require("refactoring").refactor "Extract Variable" end,
+          desc = "Extract Variable",
+        }
+        maps.x[prefix .. "ri"] = {
+          function() require("refactoring").refactor "Inline Variable" end,
+          desc = "Inline Variable",
+        }
+
+        maps.v[prefix .. "r"] = { name = get_icon("Refactoring", 1, true) .. "Refactor" }
+        maps.v[prefix .. "re"] = {
+          function() require("refactoring").refactor "Extract Function" end,
+          desc = "Extract Function",
+        }
+        maps.v[prefix .. "rf"] = {
+          function() require("refactoring").refactor "Extract Function To File" end,
+          desc = "Extract Function To File",
+        }
+        maps.v[prefix .. "rv"] = {
+          function() require("refactoring").refactor "Extract Variable" end,
+          desc = "Extract Variable",
+        }
+        maps.v[prefix .. "ri"] = {
+          function() require("refactoring").refactor "Inline Variable" end,
+          desc = "Inline Variable",
+        }
+        maps.v[prefix .. "rb"] = {
+          function() require("refactoring").refactor "Extract Block" end,
+          desc = "Extract Block",
+        }
+        maps.v[prefix .. "rbf"] = {
+          function() require("refactoring").refactor "Extract Block To File" end,
+          desc = "Extract Block To File",
+        }
+        maps.v[prefix .. "rr"] = {
+          function() require("refactoring").select_refactor() end,
+          desc = "Select Refactor",
+        }
+        maps.v[prefix .. "rp"] = {
+          function() require("refactoring").debug.printf { below = false } end,
+          desc = "Debug: Print Function",
+        }
+        maps.v[prefix .. "rc"] = {
+          function() require("refactoring").debug.cleanup {} end,
+          desc = "Debug: Clean Up",
+        }
+        maps.v[prefix .. "rd"] = {
+          function() require("refactoring").debug.print_var { below = false } end,
+          desc = "Debug: Print Variable",
+        }
       end,
     },
     {

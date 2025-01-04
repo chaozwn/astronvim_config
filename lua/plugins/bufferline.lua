@@ -1,90 +1,86 @@
 return {
   "akinsho/bufferline.nvim",
+  specs = {
+    {
+      "AstroNvim/astrocore",
+      opts = function(_, opts)
+        local get_icon = require("astroui").get_icon
+        local maps = opts.mappings or {}
+        maps.n["<Leader>b"] = { name = get_icon("Tab", 1, true) .. "Buffers" }
+        maps.n["]b"] = { function() require("bufferline.commands").cycle(vim.v.count1) end, desc = "Next buffer" }
+        maps.n["[b"] = { function() require("bufferline.commands").cycle(-vim.v.count1) end, desc = "Previous buffer" }
+        maps.n[">b"] =
+          { function() require("bufferline.commands").move(vim.v.count1) end, desc = "Move buffer tab right" }
+        maps.n["<b"] =
+          { function() require("bufferline.commands").move(-vim.v.count1) end, desc = "Move buffer tab left" }
+        maps.n["<Leader>bb"] = {
+          function() require("bufferline.commands").pick() end,
+          desc = "Navigate to buffer tab with interactive picker",
+        }
+        maps.n["<Leader>bo"] = {
+          function() require("bufferline.commands").close_others() end,
+          desc = "Close all buffers except the current",
+        }
+        maps.n["<Leader>bd"] = {
+          function() require("bufferline.commands").close_with_pick() end,
+          desc = "Delete a buffer tab with interactive picker",
+        }
+        maps.n["<Leader>bl"] = {
+          function() require("bufferline.commands").close_in_direction "left" end,
+          desc = "Close all buffers to the left of the current",
+        }
+        maps.n["<Leader>br"] = {
+          function() require("bufferline.commands").close_in_direction "right" end,
+          desc = "Close all buffers to the right of the current",
+        }
+        maps.n["<Leader>bp"] = { "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin buffer" }
+        maps.n["<Leader>bse"] =
+          { function() require("bufferline.commands").sort_by "extension" end, desc = "Sort buffers by extension" }
+        maps.n["<Leader>bsi"] =
+          { function() require("bufferline.commands").sort_by "id" end, desc = "Sort buffers by buffer number" }
+        maps.n["<Leader>bsm"] = {
+          function()
+            require("bufferline.commands").sort_by(function(a, b) return a.modified and not b.modified end)
+          end,
+          desc = "Sort buffers by last modification",
+        }
+        maps.n["<Leader>bsp"] =
+          { function() require("bufferline.commands").sort_by "directory" end, desc = "Sort buffers by directory" }
+        maps.n["<Leader>bsr"] = {
+          function() require("bufferline.commands").sort_by "relative_directory" end,
+          desc = "Sort buffers by relative directory",
+        }
+        maps.n["<Leader>b\\"] = {
+          function()
+            require("bufferline.pick").choose_then(function(id)
+              vim.cmd "split"
+              vim.cmd("buffer " .. id)
+            end)
+          end,
+          desc = "Open a buffer tab in a new horizontal split with interactive picker",
+        }
+        maps.n["<Leader>b|"] = {
+          function()
+            require("bufferline.pick").choose_then(function(id)
+              vim.cmd "vsplit"
+              vim.cmd("buffer " .. id)
+            end)
+          end,
+          desc = "Open a buffer tab in a new vertical split with interactive picker",
+        }
+        return vim.tbl_deep_extend("force", opts, {
+          options = {
+            opt = {
+              showtabline = 2,
+            },
+          },
+        })
+      end,
+    },
+  },
   dependencies = {
     { import = "astrocommunity.recipes.disable-tabline" }, -- dependency before loading rest of the spec
     "echasnovski/mini.icons",
-    "AstroNvim/astroui",
-    {
-      "AstroNvim/astrocore",
-      opts = {
-        options = { opt = { showtabline = 2 } },
-        mappings = {
-          n = {
-            ["]b"] = { function() require("bufferline.commands").cycle(vim.v.count1) end, desc = "Next buffer" },
-            ["[b"] = { function() require("bufferline.commands").cycle(-vim.v.count1) end, desc = "Previous buffer" },
-            [">b"] = {
-              function() require("bufferline.commands").move(vim.v.count1) end,
-              desc = "Move buffer tab right",
-            },
-            ["<b"] = {
-              function() require("bufferline.commands").move(-vim.v.count1) end,
-              desc = "Move buffer tab left",
-            },
-            ["<Leader>bb"] = {
-              function() require("bufferline.commands").pick() end,
-              desc = "Navigate to buffer tab with interactive picker",
-            },
-            ["<Leader>bo"] = {
-              function() require("bufferline.commands").close_others() end,
-              desc = "Close all buffers except the current",
-            },
-            ["<Leader>bd"] = {
-              function() require("bufferline.commands").close_with_pick() end,
-              desc = "Delete a buffer tab with interactive picker",
-            },
-            ["<Leader>bl"] = {
-              function() require("bufferline.commands").close_in_direction "left" end,
-              desc = "Close all buffers to the left of the current",
-            },
-            ["<Leader>br"] = {
-              function() require("bufferline.commands").close_in_direction "right" end,
-              desc = "Close all buffers to the right of the current",
-            },
-            ["<Leader>bp"] = { "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin buffer" },
-            ["<Leader>bse"] = {
-              function() require("bufferline.commands").sort_by "extension" end,
-              desc = "Sort buffers by extension",
-            },
-            ["<Leader>bsi"] = {
-              function() require("bufferline.commands").sort_by "id" end,
-              desc = "Sort buffers by buffer number",
-            },
-            ["<Leader>bsm"] = {
-              function()
-                require("bufferline.commands").sort_by(function(a, b) return a.modified and not b.modified end)
-              end,
-              desc = "Sort buffers by last modification",
-            },
-            ["<Leader>bsp"] = {
-              function() require("bufferline.commands").sort_by "directory" end,
-              desc = "Sort buffers by directory",
-            },
-            ["<Leader>bsr"] = {
-              function() require("bufferline.commands").sort_by "relative_directory" end,
-              desc = "Sort buffers by relative directory",
-            },
-            ["<Leader>b\\"] = {
-              function()
-                require("bufferline.pick").choose_then(function(id)
-                  vim.cmd "split"
-                  vim.cmd("buffer " .. id)
-                end)
-              end,
-              desc = "Open a buffer tab in a new horizontal split with interactive picker",
-            },
-            ["<Leader>b|"] = {
-              function()
-                require("bufferline.pick").choose_then(function(id)
-                  vim.cmd "vsplit"
-                  vim.cmd("buffer " .. id)
-                end)
-              end,
-              desc = "Open a buffer tab in a new vertical split with interactive picker",
-            },
-          },
-        },
-      },
-    },
   },
   event = "VeryLazy",
   opts = {

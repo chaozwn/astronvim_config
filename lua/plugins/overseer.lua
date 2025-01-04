@@ -1,20 +1,6 @@
 return {
   "stevearc/overseer.nvim",
-  cmd = {
-    "OverseerOpen",
-    "OverseerClose",
-    "OverseerToggle",
-    "OverseerSaveBundle",
-    "OverseerLoadBundle",
-    "OverseerDeleteBundle",
-    "OverseerRunCmd",
-    "OverseerRun",
-    "OverseerInfo",
-    "OverseerBuild",
-    "OverseerQuickAction",
-    "OverseerTaskAction",
-    "OverseerClearCache",
-  },
+  event = "User AstroFile",
   ---@param opts overseer.Config
   opts = function(_, opts)
     local astrocore = require "astrocore"
@@ -27,8 +13,8 @@ return {
       }
     end
 
-    return require("astrocore").extend_tbl(opts, {
-      dap = true,
+    return vim.tbl_deep_extend("force", opts, {
+      dap = false,
       templates = { "builtin" },
       task_list = {
         direction = "right",
@@ -70,12 +56,17 @@ return {
       },
     })
   end,
-  dependencies = {
+  specs = {
+    {
+      "mfussenegger/nvim-dap",
+      optional = true,
+      opts = function() require("overseer").enable_dap() end,
+    },
     { "AstroNvim/astroui", opts = { icons = { Overseer = "" } } },
     {
       "AstroNvim/astrocore",
       opts = function(_, opts)
-        local maps = opts.mappings
+        local maps = opts.mappings or {}
         local prefix = "<leader>m"
         maps.n[prefix] = { desc = require("astroui").get_icon("Overseer", 1, true) .. "Overseer" }
 

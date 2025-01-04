@@ -3,8 +3,8 @@ return {
   "nvim-neotest/neotest",
   lazy = true,
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-neotest/nvim-nio",
+    { "nvim-lua/plenary.nvim", lazy = true },
+    { "nvim-neotest/nvim-nio", lazy = true },
     {
       "AstroNvim/astroui",
       opts = {

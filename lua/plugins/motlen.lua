@@ -58,23 +58,29 @@ end
 ---@type LazySpec
 return {
   "benlubas/molten-nvim",
-  lazy = false,
+  cmd = {
+    "MoltenEvaluateLine",
+    "MoltenEvaluateVisual",
+    "MoltenEvaluateOperator",
+    "MoltenEvaluateArgument",
+    "MoltenImportOutput",
+  },
   version = "^1", -- use version <2.0.0 to avoid breaking changes
   build = ":UpdateRemotePlugins",
-  dependencies = {
+  specs = {
     { "AstroNvim/astroui", opts = { icons = { Molten = "󱓞" } } },
     {
       "AstroNvim/astrocore",
       opts = function(_, opts)
-        if not opts.mappings then opts.mappings = {} end
+        local maps = opts.mappings or {}
         local prefix = "<leader>j"
 
-        opts.mappings.n[prefix] = { desc = require("astroui").get_icon("Molten", 1, true) .. "Molten" }
-        opts.mappings.n[prefix .. "e"] = { "<Cmd>MoltenEvaluateOperator<CR>", desc = "Run operator selection" }
-        opts.mappings.n[prefix .. "l"] = { "<Cmd>MoltenEvaluateLine<CR>", desc = "Evaluate line" }
-        opts.mappings.n[prefix .. "c"] = { "<Cmd>MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" }
-        opts.mappings.n[prefix .. "k"] = { ":noautocmd MoltenEnterOutput<CR>", desc = "Enter Output" }
-        opts.mappings.v[prefix .. "k"] = {
+        maps.n[prefix] = { desc = require("astroui").get_icon("Molten", 1, true) .. "Molten" }
+        maps.n[prefix .. "e"] = { "<Cmd>MoltenEvaluateOperator<CR>", desc = "Run operator selection" }
+        maps.n[prefix .. "l"] = { "<Cmd>MoltenEvaluateLine<CR>", desc = "Evaluate line" }
+        maps.n[prefix .. "c"] = { "<Cmd>MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" }
+        maps.n[prefix .. "k"] = { ":noautocmd MoltenEnterOutput<CR>", desc = "Enter Output" }
+        maps.v[prefix .. "k"] = {
           function()
             vim.cmd "noautocmd MoltenEnterOutput"
             if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "\22" then
@@ -84,13 +90,13 @@ return {
           desc = "Enter Output",
         }
 
-        opts.mappings.n[prefix .. "m"] = { desc = "Commands" }
-        opts.mappings.n[prefix .. "mi"] = { "<Cmd>MoltenInit<CR>", desc = "Initialize the plugin" }
-        opts.mappings.n[prefix .. "mh"] = { "<Cmd>MoltenHideOutput<CR>", desc = "Hide Output" }
-        opts.mappings.n[prefix .. "mI"] = { "<Cmd>MoltenInterrupt<CR>", desc = "Interrupt Kernel" }
-        opts.mappings.n[prefix .. "mR"] = { "<Cmd>MoltenRestart<CR>", desc = "Restart Kernel" }
+        maps.n[prefix .. "m"] = { desc = "Commands" }
+        maps.n[prefix .. "mi"] = { "<Cmd>MoltenInit<CR>", desc = "Initialize the plugin" }
+        maps.n[prefix .. "mh"] = { "<Cmd>MoltenHideOutput<CR>", desc = "Hide Output" }
+        maps.n[prefix .. "mI"] = { "<Cmd>MoltenInterrupt<CR>", desc = "Interrupt Kernel" }
+        maps.n[prefix .. "mR"] = { "<Cmd>MoltenRestart<CR>", desc = "Restart Kernel" }
         -- Dynamic Kernel Initialization based on Python Virtual Environment
-        opts.mappings.n[prefix .. "mp"] = {
+        maps.n[prefix .. "mp"] = {
           function()
             local kernel_name = ensure_kernel_for_venv()
             if kernel_name then
@@ -103,11 +109,11 @@ return {
           silent = true,
         }
 
-        opts.mappings.v[prefix] = { desc = require("astroui").get_icon("Molten", 1, true) .. "Molten" }
-        opts.mappings.v[prefix .. "r"] = { ":<C-u>MoltenEvaluateVisual<CR>", desc = "Evaluate visual selection" }
+        maps.v[prefix] = { desc = require("astroui").get_icon("Molten", 1, true) .. "Molten" }
+        maps.v[prefix .. "r"] = { ":<C-u>MoltenEvaluateVisual<CR>", desc = "Evaluate visual selection" }
 
-        opts.mappings.n["]c"] = { "<Cmd>MoltenNext<CR>", desc = "Next Molten Cel" }
-        opts.mappings.n["[c"] = { "<Cmd>MoltenPrev<CR>", desc = "Previous Molten Cell" }
+        maps.n["]c"] = { "<Cmd>MoltenNext<CR>", desc = "Next Molten Cel" }
+        maps.n["[c"] = { "<Cmd>MoltenPrev<CR>", desc = "Previous Molten Cell" }
 
         opts.options.g["molten_auto_image_popup"] = false
         opts.options.g["molten_auto_open_html_in_browser"] = false

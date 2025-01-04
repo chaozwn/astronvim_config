@@ -38,7 +38,9 @@ function M.foldtext()
   end
   table.insert(ret, { " 󰇘" })
 
-  if not vim.treesitter.foldtext then return table.concat(vim.tbl_map(function(line) return line[1] end, ret), " ") end
+  if not vim.treesitter.foldtext then
+    return table.concat(vim.tbl_map(function(line) return line[1] end, ret), " ")
+  end
   return ret
 end
 

@@ -1,6 +1,3 @@
-local utils = require "astrocore"
-local set_mappings = utils.set_mappings
-
 local function create_graphql_config_file()
   local source_file = vim.fn.stdpath "config" .. "/.graphqlrc.yml"
   local target_file = vim.fn.getcwd() .. "/.graphqlrc.yml"
@@ -19,7 +16,7 @@ return {
             desc = "create completion",
             pattern = { "graphql" },
             callback = function()
-              set_mappings({
+              require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lc"] = {
                     create_graphql_config_file,
