@@ -82,7 +82,7 @@ Use `brew`, `npm`, and `pip` to install the necessary dependencies:
 
 ```bash
 # Homebrew packages
-brew install fzf fd lazygit ripgrep gdu bottom protobuf gnu-sed ast-grep lazydocker trash imagemagick chafa delta
+brew install fzf fd lazygit ripgrep gdu bottom protobuf gnu-sed ast-grep lazydocker trash imagemagick chafa delta coreutils
 
 # Node.js packages
 npm install -g tree-sitter-cli neovim @styled/typescript-styled-plugin

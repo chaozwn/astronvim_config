@@ -89,10 +89,9 @@ local file_extension_mapping = {
   end,
 }
 
-local inputs = require "neo-tree.ui.inputs"
-
 -- Trash the target
 local function trash(state)
+  local inputs = require "neo-tree.ui.inputs"
   local node = state.tree:get_node()
   if node.type == "message" then return end
   local _, name = require("neo-tree.utils").split_path(node.path)
@@ -106,6 +105,7 @@ end
 
 -- Trash the selections (visual mode)
 local function trash_visual(state, selected_nodes)
+  local inputs = require "neo-tree.ui.inputs"
   local paths_to_trash = {}
   for _, node in ipairs(selected_nodes) do
     if node.type ~= "message" then table.insert(paths_to_trash, node.path) end
@@ -123,6 +123,9 @@ end
 ---@type LazySpec
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  dependencies = {
+    { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
+  },
   opts = function(_, opts)
     opts.event_handlers = opts.event_handlers or {}
     local neo_tree_events = require "neo-tree.events"
