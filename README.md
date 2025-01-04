@@ -4,29 +4,31 @@ Welcome to my customized AstroNvimV5 configuration! This setup has been optimize
 
 ---
 
-## ✨ Overview
-
-In my daily tasks, I've streamlined my workflow by integrating several powerful tools:
-
-- **Terminal**: I use `Kitty` for its blend of performance and rich features.
-- **Session Management**: `tmux` helps me manage multiple terminal sessions within a single window.
-- **File Manager**: `yazi` is my terminal-based file manager, fitting seamlessly into my terminal-centric workflow.
-
-Additionally, this configuration is compatible with `neovide`, so no extra setup is required.
-
-This combination of tools significantly enhances my productivity, providing a robust and efficient terminal experience.
-
----
-
 ## 🔧 Features
 
 This configuration supports development in the following languages:
 
-- **TypeScript**: Using `vtsls` with `volar2`.
-- **Python**: `basedpyright` is the LSP of choice.
-- **Go**: With `gopher.nvim`, supporting the Go Zero framework.
-- **Rust**: Powered by `mrcjkb/rustaceanvim`.
-- **Markdown**: Integrated with `iamcco/markdown-preview.nvim`.
+| Language   | AutoCompletion | Debug |
+| ---------- | -------------- | ----- |
+| Typescript | ✅             | ✅    |
+| Vue        | ✅             | ✅    |
+| React      | ✅             | ✅    |
+| Solid      | ✅             | ✅    |
+| Angular    | ✅             | ✅    |
+| Node       | ✅             | ✅    |
+| Python     | ✅             | ✅    |
+| Rust       | ✅             | ✅    |
+| Go         | ✅             | ✅    |
+
+- **TypeScript**: `vtsls`.
+- **Vue**: `volar2`.
+- **React**: `vtsls`.
+- **Angular**: `angular server`.
+- **Node**: `vtsls`.
+- **Python**: `basedpyright`.
+- **Go**: `gopls`.
+- **Rust**: `rust-analyzer`.
+- **Markdown**: `markdown-preview.nvim`.
 
 ---
 
