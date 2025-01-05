@@ -45,28 +45,30 @@ return {
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
-    opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        marksman = {
-          on_attach = function()
-            if require("astrocore").is_available "markdown-preview.nvim" then
-              require("astrocore").set_mappings({
-                n = {
-                  ["<Leader>lz"] = { "<cmd>MarkdownPreview<CR>", desc = "Markdown Start Preview" },
-                  ["<Leader>lZ"] = { "<cmd>MarkdownPreviewStop<CR>", desc = "Markdown Stop Preview" },
-                  ["<Leader>lp"] = { "<CMD>PasteImage<CR>", desc = "Paste image from system clipboard" },
-                },
-                x = {
-                  ["<Leader>lt"] = { [[:'<,'>MakeTable! \t<CR>]], desc = "Markdown csv to table(Default:\\t)" },
-                  ["<Leader>lT"] = { markdown_table_change, desc = "Markdown csv to table with separate char" },
-                },
-              }, { buffer = true })
-            end
-          end,
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        ---@diagnostic disable: missing-fields
+        config = {
+          marksman = {
+            on_attach = function()
+              if require("astrocore").is_available "markdown-preview.nvim" then
+                require("astrocore").set_mappings({
+                  n = {
+                    ["<Leader>lz"] = { "<cmd>MarkdownPreview<CR>", desc = "Markdown Start Preview" },
+                    ["<Leader>lZ"] = { "<cmd>MarkdownPreviewStop<CR>", desc = "Markdown Stop Preview" },
+                    ["<Leader>lp"] = { "<CMD>PasteImage<CR>", desc = "Paste image from system clipboard" },
+                  },
+                  x = {
+                    ["<Leader>lt"] = { [[:'<,'>MakeTable! \t<CR>]], desc = "Markdown csv to table(Default:\\t)" },
+                    ["<Leader>lT"] = { markdown_table_change, desc = "Markdown csv to table with separate char" },
+                  },
+                }, { buffer = true })
+              end
+            end,
+          },
         },
-      },
-    },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",

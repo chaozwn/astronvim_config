@@ -5,31 +5,31 @@ return {
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
-    opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        basedpyright = {
-          on_attach = function()
-            require("astrocore").set_mappings({
-              n = {
-                ["<leader>lo"] = {
-                  "<cmd>PyrightOrganizeImports<CR>",
-                  desc = "Organize Imports",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        ---@diagnostic disable: missing-fields
+        config = {
+          basedpyright = {
+            on_attach = function()
+              require("astrocore").set_mappings({
+                n = {
+                  ["<leader>lo"] = {
+                    "<cmd>PyrightOrganizeImports<CR>",
+                    desc = "Organize Imports",
+                  },
                 },
-              },
-            }, { buffer = true })
-          end,
-          before_init = function(_, c)
-            if not c.settings then c.settings = {} end
-            if not c.settings.python then c.settings.python = {} end
-            c.settings.python.pythonPath = vim.fn.exepath "python"
-          end,
-          filetypes = { "python" },
-          single_file_support = true,
-          root_dir = function(...)
-            local util = require "lspconfig.util"
-            return vim.fs.dirname(vim.fs.find(".git", { path = ..., upward = true })[1])
-              or util.root_pattern(unpack {
+              }, { buffer = true })
+            end,
+            before_init = function(_, c)
+              if not c.settings then c.settings = {} end
+              if not c.settings.python then c.settings.python = {} end
+              c.settings.python.pythonPath = vim.fn.exepath "python"
+            end,
+            filetypes = { "python" },
+            single_file_support = true,
+            root_dir = function(...)
+              local util = require "lspconfig.util"
+              return util.root_pattern(unpack {
                 "pyproject.toml",
                 "setup.py",
                 "setup.cfg",
@@ -37,31 +37,32 @@ return {
                 "Pipfile",
                 "pyrightconfig.json",
               })(...)
-          end,
-          settings = {
-            basedpyright = {
-              analysis = {
-                typeCheckingMode = "basic",
-                autoImportCompletions = true,
-                autoSearchPaths = true,
-                diagnosticMode = "openFilesOnly",
-                useLibraryCodeForTypes = true,
-                reportMissingTypeStubs = false,
-                diagnosticSeverityOverrides = {
-                  reportUnusedImport = "information",
-                  reportUnusedFunction = "information",
-                  reportUnusedVariable = "information",
-                  reportGeneralTypeIssues = "none",
-                  reportOptionalMemberAccess = "none",
-                  reportOptionalSubscript = "none",
-                  reportPrivateImportUsage = "none",
+            end,
+            settings = {
+              basedpyright = {
+                analysis = {
+                  typeCheckingMode = "basic",
+                  autoImportCompletions = true,
+                  autoSearchPaths = true,
+                  diagnosticMode = "openFilesOnly",
+                  useLibraryCodeForTypes = true,
+                  reportMissingTypeStubs = false,
+                  diagnosticSeverityOverrides = {
+                    reportUnusedImport = "information",
+                    reportUnusedFunction = "information",
+                    reportUnusedVariable = "information",
+                    reportGeneralTypeIssues = "none",
+                    reportOptionalMemberAccess = "none",
+                    reportOptionalSubscript = "none",
+                    reportPrivateImportUsage = "none",
+                  },
                 },
               },
             },
           },
         },
-      },
-    },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",

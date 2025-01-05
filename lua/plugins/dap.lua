@@ -19,7 +19,7 @@ return {
       enabled = true,
       enabled_commands = true,
       only_first_definition = true,
-      clear_on_continue = false,
+      clear_on_continue = true,
       highlight_changed_variables = true,
       all_frames = false,
       virt_lines = true,

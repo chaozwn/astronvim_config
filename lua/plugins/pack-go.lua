@@ -40,88 +40,89 @@ return {
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
-    opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        gopls = {
-          on_attach = function(client, _)
-            vim.api.nvim_create_autocmd({ "TermOpen", "TermClose", "BufEnter" }, {
-              pattern = "*",
-              desc = "Jump to error line",
-              callback = function()
-                local buf_name = vim.api.nvim_buf_get_name(0)
-                if vim.bo.filetype == "dap-repl" and buf_name:match "%[dap%-repl%-%d+%]" then
-                  require("astrocore").set_mappings({
-                    n = {
-                      ["gd"] = {
-                        preview_stack_trace,
-                        desc = "Jump to error line",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        config = {
+          gopls = {
+            on_attach = function(client, _)
+              vim.api.nvim_create_autocmd({ "TermOpen", "TermClose", "BufEnter" }, {
+                pattern = "*",
+                desc = "Jump to error line",
+                callback = function()
+                  local buf_name = vim.api.nvim_buf_get_name(0)
+                  if vim.bo.filetype == "dap-repl" and buf_name:match "%[dap%-repl%-%d+%]" then
+                    require("astrocore").set_mappings({
+                      n = {
+                        ["gd"] = {
+                          preview_stack_trace,
+                          desc = "Jump to error line",
+                        },
                       },
-                    },
-                  }, { buffer = true })
-                end
-              end,
-            })
+                    }, { buffer = true })
+                  end
+                end,
+              })
 
-            if not client.server_capabilities.semanticTokensProvider then
-              local semantic = client.config.capabilities.textDocument.semanticTokens
-              client.server_capabilities.semanticTokensProvider = {
-                full = true,
-                legend = {
-                  tokenTypes = semantic.tokenTypes,
-                  tokenModifiers = semantic.tokenModifiers,
+              if not client.server_capabilities.semanticTokensProvider then
+                local semantic = client.config.capabilities.textDocument.semanticTokens
+                client.server_capabilities.semanticTokensProvider = {
+                  full = true,
+                  legend = {
+                    tokenTypes = semantic.tokenTypes,
+                    tokenModifiers = semantic.tokenModifiers,
+                  },
+                  range = true,
+                }
+              end
+            end,
+            settings = {
+              gopls = {
+                analyses = {
+                  ST1003 = false,
+                  SA5008 = false,
+                  fieldalignment = false,
+                  fillreturns = true,
+                  nilness = true,
+                  nonewvars = true,
+                  shadow = true,
+                  undeclaredname = true,
+                  unreachable = true,
+                  unusedparams = true,
+                  unusedwrite = true,
+                  useany = true,
                 },
-                range = true,
-              }
-            end
-          end,
-          settings = {
-            gopls = {
-              analyses = {
-                ST1003 = false,
-                SA5008 = false,
-                fieldalignment = false,
-                fillreturns = true,
-                nilness = true,
-                nonewvars = true,
-                shadow = true,
-                undeclaredname = true,
-                unreachable = true,
-                unusedparams = true,
-                unusedwrite = true,
-                useany = true,
+                codelenses = {
+                  gc_details = false, -- Show a code lens toggling the display of gc's choices.
+                  generate = true, -- show the `go generate` lens.
+                  regenerate_cgo = true,
+                  test = true,
+                  tidy = true,
+                  upgrade_dependency = true,
+                  vendor = true,
+                },
+                hints = {
+                  assignVariableTypes = true,
+                  compositeLiteralFields = true,
+                  compositeLiteralTypes = true,
+                  constantValues = true,
+                  functionTypeParameters = true,
+                  parameterNames = true,
+                  rangeVariableTypes = true,
+                },
+                completeUnimported = true,
+                diagnosticsDelay = "500ms",
+                gofumpt = true,
+                matcher = "Fuzzy",
+                semanticTokens = true,
+                staticcheck = true,
+                symbolMatcher = "fuzzy",
+                usePlaceholders = false,
               },
-              codelenses = {
-                gc_details = false, -- Show a code lens toggling the display of gc's choices.
-                generate = true, -- show the `go generate` lens.
-                regenerate_cgo = true,
-                test = true,
-                tidy = true,
-                upgrade_dependency = true,
-                vendor = true,
-              },
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-              completeUnimported = true,
-              diagnosticsDelay = "500ms",
-              gofumpt = true,
-              matcher = "Fuzzy",
-              semanticTokens = true,
-              staticcheck = true,
-              symbolMatcher = "fuzzy",
-              usePlaceholders = false,
             },
           },
         },
-      },
-    },
+      })
+    end,
   },
   -- Golang support
   {

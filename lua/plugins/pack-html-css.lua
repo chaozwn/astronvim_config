@@ -17,44 +17,45 @@ return {
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
-    opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        emmet_language_server = {
-          init_options = {
-            --- @type boolean Defaults to `true`
-            showAbbreviationSuggestions = false,
-            --- @type "always" | "never" Defaults to `"always"`
-            showExpandedAbbreviation = "always",
-            --- @type boolean Defaults to `false`
-            showSuggestionsAsSnippets = true,
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        config = {
+          emmet_language_server = {
+            init_options = {
+              --- @type boolean Defaults to `true`
+              showAbbreviationSuggestions = false,
+              --- @type "always" | "never" Defaults to `"always"`
+              showExpandedAbbreviation = "always",
+              --- @type boolean Defaults to `false`
+              showSuggestionsAsSnippets = true,
+            },
+            filetypes,
           },
-          filetypes,
-        },
-        html = { init_options = { provideFormatter = false } },
-        cssls = {
-          init_options = { provideFormatter = false },
-          settings = {
-            css = {
-              lint = {
-                unknownAtRules = "ignore",
+          html = { init_options = { provideFormatter = false } },
+          cssls = {
+            init_options = { provideFormatter = false },
+            settings = {
+              css = {
+                lint = {
+                  unknownAtRules = "ignore",
+                },
               },
-            },
-            less = {
-              lint = {
-                unknownAtRules = "ignore",
+              less = {
+                lint = {
+                  unknownAtRules = "ignore",
+                },
               },
-            },
-            scss = {
-              validate = false,
-              lint = {
-                unknownAtRules = "ignore",
+              scss = {
+                validate = false,
+                lint = {
+                  unknownAtRules = "ignore",
+                },
               },
             },
           },
         },
-      },
-    },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",

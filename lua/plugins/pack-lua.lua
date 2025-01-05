@@ -9,12 +9,13 @@ return {
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
-    opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        lua_ls = { settings = { Lua = { hint = { enable = true, arrayIndex = "Disable" } } } },
-      },
-    },
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        config = {
+          lua_ls = { settings = { Lua = { hint = { enable = true, arrayIndex = "Disable" } } } },
+        },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",

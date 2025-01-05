@@ -59,7 +59,6 @@ return {
     "AstroNvim/astrolsp",
     optional = true,
     ---@type AstroLSPOpts
-    ---@diagnostic disable: missing-fields
     opts = function(_, opts)
       return vim.tbl_deep_extend("force", opts, {
         config = {

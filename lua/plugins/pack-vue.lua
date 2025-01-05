@@ -5,8 +5,7 @@ return {
     ---@type AstroLSPOpts
     ---@diagnostic disable-next-line: assign-type-mismatch
     opts = function(_, opts)
-      local astrocore = require "astrocore"
-      local vtsls_ft = astrocore.list_insert_unique(vim.tbl_get(opts, "config", "vtsls", "filetypes") or {
+      local vtsls_ft = require("astrocore").list_insert_unique(vim.tbl_get(opts, "config", "vtsls", "filetypes") or {
         "javascript",
         "javascriptreact",
         "javascript.jsx",
@@ -15,7 +14,7 @@ return {
         "typescript.tsx",
       }, { "vue" })
 
-      return astrocore.extend_tbl(opts, {
+      return vim.tbl_deep_extend("force", opts, {
         ---@diagnostic disable: missing-fields
         config = {
           volar = {
@@ -49,7 +48,10 @@ return {
                 configNamespace = "typescript",
                 enableForWorkspaceTypeScriptVersions = true,
               }
-              astrocore.list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { vue_plugin_config })
+              require("astrocore").list_insert_unique(
+                config.settings.vtsls.tsserver.globalPlugins,
+                { vue_plugin_config }
+              )
             end,
           },
         },

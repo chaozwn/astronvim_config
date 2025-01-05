@@ -3,30 +3,32 @@ return {
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
-    opts = {
-      ---@diagnostic disable: missing-fields
-      config = {
-        taplo = {
-          evenBetterToml = { schema = { catalogs = { "https://www.schemastore.org/api/json/catalog.json" } } },
-          on_attach = function()
-            require("astrocore").set_mappings({
-              n = {
-                ["K"] = {
-                  function()
-                    if vim.fn.expand "%:t" == "Cargo.toml" and require("crates").popup_available() then
-                      require("crates").show_popup()
-                    else
-                      vim.lsp.buf.hover()
-                    end
-                  end,
-                  desc = "Show Crate Documentation",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        ---@diagnostic disable: missing-fields
+        config = {
+          taplo = {
+            evenBetterToml = { schema = { catalogs = { "https://www.schemastore.org/api/json/catalog.json" } } },
+            on_attach = function()
+              require("astrocore").set_mappings({
+                n = {
+                  ["K"] = {
+                    function()
+                      if vim.fn.expand "%:t" == "Cargo.toml" and require("crates").popup_available() then
+                        require("crates").show_popup()
+                      else
+                        vim.lsp.buf.hover()
+                      end
+                    end,
+                    desc = "Show Crate Documentation",
+                  },
                 },
-              },
-            }, { buffer = true })
-          end,
+              }, { buffer = true })
+            end,
+          },
         },
-      },
-    },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
