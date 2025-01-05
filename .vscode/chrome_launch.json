@@ -13,7 +13,10 @@
         "<node_internals>/**",
         "node_modules/**",
         "${workspaceFolder}/node_modules/**"
-      ]
+      ],
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
     }
   ]
 }

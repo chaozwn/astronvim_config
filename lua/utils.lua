@@ -458,6 +458,7 @@ function M.create_launch_json()
     "rust",
     "python",
     "chrome",
+    "angular",
   }, { prompt = "Select Language Debug Template", default = "go" }, function(select)
     if not select then return end
     if select == "go" then
@@ -477,6 +478,11 @@ function M.create_launch_json()
     elseif select == "chrome" then
       local source_file = vim.fn.stdpath "config" .. "/.vscode/chrome_launch.json"
       M.get_launch_json_by_source_file(source_file)
+    elseif select == "angular" then
+      local source_file = vim.fn.stdpath "config" .. "/.vscode/angular_launch.json"
+      M.get_launch_json_by_source_file(source_file)
+      source_file = vim.fn.stdpath "config" .. "/.vscode/angular_tasks.json"
+      M.get_tasks_json_by_source_file(source_file)
     end
   end)
 end
