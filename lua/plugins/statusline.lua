@@ -3,66 +3,68 @@ return {
   {
     "AstroNvim/astroui",
     ---@type AstroUIOpts
-    opts = {
-      -- add new user interface icon
-      icons = {
-        VimIcon = "",
-        ScrollText = "",
-        VirtualEnv = "",
-        OverseerInit = "",
-        OverseerCanceled = "",
-        OverseerFailure = "󰅚",
-        OverseerSuccess = "󰄴",
-        OverseerRunning = "󰑮",
-        SelectCount = "󰆙",
-        RowNumber = "",
-        ColumnNumber = "",
-      },
-      text_icons = {
-        VirtualEnv = "[CONDA]",
-        OverseerInit = "I",
-        OverseerCanceled = "C",
-        OverseerFailure = "F",
-        OverseerSuccess = "S",
-        OverseerRunning = "R",
-        SelectCount = "SC",
-      },
-      -- modify variables used by heirline but not defined in the setup call directly
-      status = {
-        -- define the separators between each section
-        separators = {
-          left = { "", "" }, -- separator for the left side of the statusline
-          right = { "", "" }, -- separator for the right side of the statusline
-          tab = { "", "" },
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        -- add new user interface icon
+        icons = {
+          VimIcon = "",
+          ScrollText = "",
+          VirtualEnv = "",
+          OverseerInit = "",
+          OverseerCanceled = "",
+          OverseerFailure = "󰅚",
+          OverseerSuccess = "󰄴",
+          OverseerRunning = "󰑮",
+          SelectCount = "󰆙",
+          RowNumber = "",
+          ColumnNumber = "",
         },
-        -- add new colors that can be used by heirline
-        colors = function(hl)
-          local get_hlgroup = require("astroui").get_hlgroup
-          -- use helper function to get highlight group properties
-          hl.blank_bg = get_hlgroup("NonText").fg
-          hl.file_info_bg = get_hlgroup("Normal").bg
-          hl.nav_icon_bg = get_hlgroup("String").fg
-          hl.nav_fg = hl.nav_icon_bg
-          hl.folder_icon_bg = get_hlgroup("Error").fg
-          hl.overseer_canceled = get_hlgroup("DiagnosticWarn").fg
-          hl.overseer_running = get_hlgroup("DiagnosticInfo").fg
-          hl.overseer_success = get_hlgroup("DiagnosticHint").fg
-          hl.overseer_failure = get_hlgroup("DiagnosticError").fg
-          hl.virtual_env_fg = get_hlgroup("String").fg
+        text_icons = {
+          VirtualEnv = "[CONDA]",
+          OverseerInit = "I",
+          OverseerCanceled = "C",
+          OverseerFailure = "F",
+          OverseerSuccess = "S",
+          OverseerRunning = "R",
+          SelectCount = "SC",
+        },
+        -- modify variables used by heirline but not defined in the setup call directly
+        status = {
+          -- define the separators between each section
+          separators = {
+            left = { "", "" }, -- separator for the left side of the statusline
+            right = { "", "" }, -- separator for the right side of the statusline
+            tab = { "", "" },
+          },
+          -- add new colors that can be used by heirline
+          colors = function(hl)
+            local get_hlgroup = require("astroui").get_hlgroup
+            -- use helper function to get highlight group properties
+            hl.blank_bg = get_hlgroup("NonText").fg
+            hl.file_info_bg = get_hlgroup("Normal").bg
+            hl.nav_icon_bg = get_hlgroup("String").fg
+            hl.nav_fg = hl.nav_icon_bg
+            hl.folder_icon_bg = get_hlgroup("Error").fg
+            hl.overseer_canceled = get_hlgroup("DiagnosticWarn").fg
+            hl.overseer_running = get_hlgroup("DiagnosticInfo").fg
+            hl.overseer_success = get_hlgroup("DiagnosticHint").fg
+            hl.overseer_failure = get_hlgroup("DiagnosticError").fg
+            hl.virtual_env_fg = get_hlgroup("String").fg
 
-          return hl
-        end,
-        attributes = {
-          mode = { bold = true },
-          overseer = { bold = true },
-        },
-        icon_highlights = {
-          file_icon = {
-            statusline = true,
+            return hl
+          end,
+          attributes = {
+            mode = { bold = true },
+            overseer = { bold = true },
+          },
+          icon_highlights = {
+            file_icon = {
+              statusline = true,
+            },
           },
         },
-      },
-    },
+      })
+    end,
   },
   {
     "rebelot/heirline.nvim",
