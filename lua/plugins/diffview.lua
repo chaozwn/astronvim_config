@@ -38,7 +38,7 @@ return {
     file_panel = {
       win_config = { -- See |diffview-config-win_config|
         position = "bottom",
-        height = 16,
+        height = require("utils").size(vim.o.lines, 0.3),
       },
     },
     hooks = {
