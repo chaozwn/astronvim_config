@@ -1,5 +1,4 @@
 return {
-  {
     "mfussenegger/nvim-lint",
     event = "User AstroFile",
     opts = {
@@ -88,5 +87,5 @@ return {
         callback = M.debounce(100, M.lint),
       })
     end,
-  },
-}
+  }
+

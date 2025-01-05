@@ -72,8 +72,37 @@ return {
             desc = "Restart (C-F5)",
           }
           maps.n[prefix_debug .. "d"] = {
-            ---@diagnostic disable-next-line: missing-parameter
-            function() require("dapui").float_element() end,
+            function()
+              local window = {
+                width = require("utils").size(vim.o.columns, 0.8),
+                height = require("utils").size(vim.o.lines, 0.8),
+                position = "center",
+                enter = true,
+              }
+              vim.ui.select({
+                "console",
+                "repl",
+                "stacks",
+                "breakpoints",
+                "watches",
+                "scopes",
+              }, { prompt = "Select Dap Element", default = "console" }, function(select)
+                if not select then return end
+                if select == "repl" then
+                  require("dapui").float_element("repl", window)
+                elseif select == "stacks" then
+                  require("dapui").float_element("stacks", window)
+                elseif select == "breakpoints" then
+                  require("dapui").float_element("breakpoints", window)
+                elseif select == "watches" then
+                  require("dapui").float_element("watches", window)
+                elseif select == "console" then
+                  require("dapui").float_element("console", window)
+                elseif select == "scopes" then
+                  require("dapui").float_element("scopes", window)
+                end
+              end)
+            end,
             desc = "Open Dap UI Float Element",
           }
           maps.n["<F9>"] = {
@@ -117,6 +146,38 @@ return {
           }
           maps.n["gh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" }
         end,
+      },
+    },
+    opts = {
+      layouts = {
+        {
+          -- You can change the order of elements in the sidebar
+          elements = {
+            -- Provide IDs as strings or tables with "id" and "size" keys
+            {
+              id = "scopes",
+              size = 0.25, -- Can be float or integer > 1
+            },
+            { id = "breakpoints", size = 0.25 },
+            { id = "stacks", size = 0.25 },
+            { id = "watches", size = 0.25 },
+          },
+          size = require("utils").size(vim.o.columns, 0.2),
+          position = "right", -- Can be "left" or "right"
+        },
+        {
+          elements = {
+            { id = "repl", size = 0.3 },
+            { id = "scopes", size = 0.7 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+      },
+      render = {
+        max_type_length = 100, -- Can be integer or nil.
+        max_value_lines = 100, -- Can be integer or nil.
+        indent = 1,
       },
     },
     config = function(_, opts)

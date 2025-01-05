@@ -31,7 +31,7 @@ return {
   event = { "InsertEnter", "CmdlineEnter" },
   version = "*",
   dependencies = {
-    "rafamadriz/friendly-snippets",
+    { "rafamadriz/friendly-snippets", lazy = true },
     "echasnovski/mini.icons",
   },
   opts_extend = {

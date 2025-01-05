@@ -1,6 +1,8 @@
 local M = {}
 local is_win = vim.loop.os_uname().version:find "Windows"
 
+function M.size(max, value) return value > 1 and math.min(value, max) or math.floor(max * value) end
+
 ---@param snippet string
 ---@param fn fun(placeholder:Placeholder):string
 ---@return string
@@ -581,7 +583,9 @@ end
 function M.remove_keymap(mode, key)
   for _, map in pairs(vim.api.nvim_get_keymap(mode)) do
     ---@diagnostic disable-next-line: undefined-field
-    if map.lhs == key then vim.api.nvim_del_keymap(mode, key) end
+    if map.lhs == key then vim.api.nvim_del_keymap(mode, key) 
+      return map
+    end
   end
 end
 
