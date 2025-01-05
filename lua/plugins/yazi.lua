@@ -7,7 +7,6 @@ return {
   },
   event = "VeryLazy",
   keys = {
-    -- 👇 in this section, choose your own keymappings!
     {
       "<Leader>o",
       "<cmd>Yazi<cr>",
@@ -16,21 +15,23 @@ return {
     {
       -- Open in the current working directory
       "<leader>O",
-      "<cmd>Yazi cwd<cr>",
-      desc = "Open the file manager in nvim's working directory",
+      "<cmd>Yazi toggle<cr>",
+      desc = "Resume the last yazi session",
     },
     {
       -- NOTE: this requires a version of yazi that includes
       -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
       "<Leader>e",
-      "<cmd>Yazi toggle<cr>",
-      desc = "Resume the last yazi session",
+      "<cmd>Yazi cwd<cr>",
+      desc = "Open the file manager in nvim's working directory",
     },
   },
-  ---@type YaziConfig
   opts = {
     open_multiple_tabs = false,
-    floating_window_scaling_factor = 0.8,
+    floating_window_scaling_factor = {
+      height = 1,
+      width = 0.9,
+    },
     -- the transparency of the yazi floating window (0-100). See :h winblend
     yazi_floating_window_winblend = 0,
     -- the type of border to use for the floating window. Can be many values,
