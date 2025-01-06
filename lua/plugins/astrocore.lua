@@ -24,7 +24,6 @@ return {
         swapfile = false,
         wrap = true,
         scrolloff = 5,
-        relativenumber = false,
         -- windows
         winwidth = 10,
         winminwidth = 10,
