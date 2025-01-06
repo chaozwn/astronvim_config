@@ -54,6 +54,9 @@ return {
       },
     },
   },
+  dependencies = {
+    "echasnovski/mini.icons",
+  },
   ---@param opts GrugFarOptionsOverride
   -- NOTE: Wrapping opts into a function, because `astrocore` can set vim options
   opts = function(_, opts)
@@ -72,6 +75,7 @@ return {
       headerMaxWidth = 80,
       icons = {
         enabled = vim.g.icons_enabled,
+        fileIconsProvider = "mini.icons",
       },
       keymaps = {
         replace = { n = "<localleader>r" },
