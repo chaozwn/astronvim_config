@@ -40,16 +40,11 @@ return {
     ---@type AstroLSPOpts
     opts = function(_, opts)
       return vim.tbl_deep_extend("force", opts, {
-        handlers = { rust_analyzer = false },
+        handlers = {
+          rust_analyzer = false,
+        },
         ---@diagnostic disable: missing-fields
         config = {
-          bacon_ls = {
-            init_options = {
-              updateOnSave = true,
-              updateOnSaveWaitMillis = 1000,
-              updateOnChange = false,
-            },
-          },
           rust_analyzer = {
             on_attach = function()
               vim.api.nvim_create_autocmd({ "TermOpen", "TermClose", "BufEnter" }, {
@@ -131,6 +126,9 @@ return {
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "codelldb" })
+      if diagnostics ~= "rust-analyzer" then
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "bacon", "bacon-ls" })
+      end
     end,
   },
   {
