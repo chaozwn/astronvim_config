@@ -1,7 +1,7 @@
 ---@type LazySpec
 return {
   "mg979/vim-visual-multi",
-  event = "BufEnter",
+  event = "User AstroFile",
   specs = {
     {
       "AstroNvim/astrocore",
