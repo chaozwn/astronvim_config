@@ -1,7 +1,6 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
-  { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
   {
     "AstroNvim/astrocore",
     opts = {

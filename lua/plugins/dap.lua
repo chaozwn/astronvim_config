@@ -167,8 +167,8 @@ return {
         },
         {
           elements = {
-            { id = "repl", size = 0.3 },
-            { id = "scopes", size = 0.7 },
+            { id = "console", size = 0.4 },
+            { id = "scopes", size = 0.6 },
           },
           size = require("utils").size(vim.o.lines, 0.3),
           position = "bottom", -- Can be "bottom" or "top"

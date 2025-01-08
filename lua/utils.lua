@@ -3,6 +3,14 @@ local is_win = vim.loop.os_uname().version:find "Windows"
 
 function M.size(max, value) return value > 1 and math.min(value, max) or math.floor(max * value) end
 
+function M.update_bacon_prefs()
+  local target_file = string.gsub(vim.fn.system "bacon --prefs", "^%s*(.-)%s*$", "%1")
+  local source_file = vim.fn.stdpath "config" .. "/prefs.toml"
+  -- M.copy_file(source_file, target_file)
+  -- local file_exist = M.file_exists(target_file)
+  -- if not file_exist then M.copy_file(source_file, target_file) end
+end
+
 ---@param snippet string
 ---@param fn fun(placeholder:Placeholder):string
 ---@return string
@@ -583,7 +591,8 @@ end
 function M.remove_keymap(mode, key)
   for _, map in pairs(vim.api.nvim_get_keymap(mode)) do
     ---@diagnostic disable-next-line: undefined-field
-    if map.lhs == key then vim.api.nvim_del_keymap(mode, key) 
+    if map.lhs == key then
+      vim.api.nvim_del_keymap(mode, key)
       return map
     end
   end
