@@ -1,5 +1,56 @@
 -- TODO: auto set up filename as debug name
 local prefix_debug = "<Leader>d"
+
+local is_dap_window_open = function()
+  local windows = require "dapui.windows"
+  local is_window_open = false
+  for i = 1, #windows.layouts, 1 do
+    if windows.layouts[i]:is_open() then is_window_open = true end
+  end
+  return is_window_open
+end
+
+local close_all_window = function()
+  local windows = require "dapui.windows"
+  for i = 1, #windows.layouts, 1 do
+    windows.layouts[i]:close()
+  end
+end
+
+local choose_dap_element = function()
+  vim.ui.select({
+    "default",
+    "console",
+    "repl",
+    "stacks",
+    "breakpoints",
+    "watches",
+    "scopes",
+    "all elements",
+  }, { prompt = "Select Dap Layout", default = "default" }, function(select)
+    if not select then return end
+    if is_dap_window_open() then close_all_window() end
+    if select == "default" then
+      require("dapui").open { layout = 1, reset = true }
+    elseif select == "console" then
+      require("dapui").open { layout = 2, reset = true }
+    elseif select == "repl" then
+      require("dapui").open { layout = 3, reset = true }
+    elseif select == "stacks" then
+      require("dapui").open { layout = 4, reset = true }
+    elseif select == "breakpoints" then
+      require("dapui").open { layout = 5, reset = true }
+    elseif select == "watches" then
+      require("dapui").open { layout = 6, reset = true }
+    elseif select == "scopes" then
+      require("dapui").open { layout = 7, reset = true }
+    else
+      require("dapui").open { layout = 8, reset = true }
+      require("dapui").open { layout = 9, reset = true }
+    end
+  end)
+end
+
 ---@type LazySpec
 return {
   {
@@ -56,12 +107,15 @@ return {
           }
           maps.n[prefix_debug .. "P"] = { function() require("dap").pause() end, desc = "Pause (F6)" }
           maps.n[prefix_debug .. "u"] = {
-            function() require("dapui").toggle { layout = 2, reset = true } end,
+            function()
+              local is_window_open = is_dap_window_open()
+              if is_window_open then
+                close_all_window()
+              else
+                choose_dap_element()
+              end
+            end,
             desc = "Toggle Tray Debugger UI and reset layout",
-          }
-          maps.n[prefix_debug .. "U"] = {
-            function() require("dapui").toggle { reset = true } end,
-            desc = "Toggle All Debugger UI and reset layout",
           }
           maps.n[prefix_debug .. "r"] = {
             function() require("dap").run_last() end,
@@ -71,7 +125,7 @@ return {
             function() require("dap").restart_frame() end,
             desc = "Restart (C-F5)",
           }
-          maps.n[prefix_debug .. "d"] = {
+          maps.n[prefix_debug .. "h"] = {
             function()
               local window = {
                 width = require("utils").size(vim.o.columns, 0.8),
@@ -104,6 +158,10 @@ return {
               end)
             end,
             desc = "Open Dap UI Float Element",
+          }
+          maps.n[prefix_debug .. "d"] = {
+            function() choose_dap_element() end,
+            desc = "Swith dap ui element",
           }
           maps.n["<F9>"] = {
             function() require("persistent-breakpoints.api").toggle_breakpoint() end,
@@ -151,6 +209,56 @@ return {
     opts = {
       layouts = {
         {
+          elements = {
+            { id = "console", size = 0.4 },
+            { id = "scopes", size = 0.6 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
+          elements = {
+            { id = "console", size = 1 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
+          elements = {
+            { id = "repl", size = 1 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
+          elements = {
+            { id = "stacks", size = 1 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
+          elements = {
+            { id = "breakpoints", size = 1 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
+          elements = {
+            { id = "watches", size = 1 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
+          elements = {
+            { id = "scopes", size = 1 },
+          },
+          size = require("utils").size(vim.o.lines, 0.3),
+          position = "bottom", -- Can be "bottom" or "top"
+        },
+        {
           -- You can change the order of elements in the sidebar
           elements = {
             -- Provide IDs as strings or tables with "id" and "size" keys
@@ -167,8 +275,8 @@ return {
         },
         {
           elements = {
-            { id = "console", size = 0.4 },
-            { id = "scopes", size = 0.6 },
+            { id = "repl", size = 0.4 },
+            { id = "console", size = 0.6 },
           },
           size = require("utils").size(vim.o.lines, 0.3),
           position = "bottom", -- Can be "bottom" or "top"
@@ -183,7 +291,8 @@ return {
     config = function(_, opts)
       local dap, dapui = require "dap", require "dapui"
       dap.listeners.after.event_initialized["dapui_config"] = function()
-        require("dapui").open { layout = 2, reset = true }
+        local is_window_open = is_dap_window_open()
+        if not is_window_open then choose_dap_element() end
       end
       dapui.setup(opts)
     end,
