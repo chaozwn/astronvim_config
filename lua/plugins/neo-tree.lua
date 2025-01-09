@@ -124,6 +124,7 @@ end
 return {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
+    "AstroNvim/astrocommunity",
     { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
   },
   opts = function(_, opts)

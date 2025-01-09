@@ -239,7 +239,16 @@ return {
         local has_blink, blink = pcall(require, "blink.cmp")
         local capabilities =
           vim.tbl_deep_extend("force", {}, opts.capabilities or {}, has_blink and blink.get_lsp_capabilities() or {})
-        return require("astrocore").extend_tbl(opts, { capabilities = capabilities })
+        -- disable AstroLSP signature help if `blink.cmp` is providing it
+        local blink_opts = require("astrocore").plugin_opts "blink.cmp"
+        local signature_help = true
+        if vim.tbl_get(blink_opts, "signature", "enabled") == true then signature_help = false end
+        return require("astrocore").extend_tbl(
+          opts,
+          { capabilities = capabilities, features = {
+            signature_help = signature_help,
+          } }
+        )
       end,
     },
     {

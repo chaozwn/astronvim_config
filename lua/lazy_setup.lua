@@ -11,7 +11,6 @@ require("lazy").setup({
       pin_plugins = true, -- Default will pin plugins when tracking `version` of AstroNvim, set to true/false to override
     },
   },
-  { import = "community" },
   { import = "plugins" },
 } --[[@as LazySpec]], {
   ui = { backdrop = 100 },

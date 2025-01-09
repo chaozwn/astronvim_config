@@ -2,10 +2,20 @@ return {
   "akinsho/bufferline.nvim",
   specs = {
     {
+      "rebelot/heirline.nvim",
+      opts = function(_, opts)
+        opts.tabline = nil -- remove tabline
+      end,
+    },
+    {
       "AstroNvim/astrocore",
       opts = function(_, opts)
         local get_icon = require("astroui").get_icon
         local maps = opts.mappings or {}
+        -- remove before heirline buffer mapping
+        for k, _ in pairs(opts.mappings.n) do
+          if k:find "^<Leader>b" then maps.n[k] = false end
+        end
         maps.n["<Leader>b"] = { name = get_icon("Tab", 1, true) .. "Buffers" }
         maps.n["]b"] = { function() require("bufferline.commands").cycle(vim.v.count1) end, desc = "Next buffer" }
         maps.n["[b"] = { function() require("bufferline.commands").cycle(-vim.v.count1) end, desc = "Previous buffer" }
@@ -79,7 +89,6 @@ return {
     },
   },
   dependencies = {
-    { import = "astrocommunity.recipes.disable-tabline" }, -- dependency before loading rest of the spec
     "echasnovski/mini.icons",
   },
   event = "VeryLazy",

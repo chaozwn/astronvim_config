@@ -1,5 +1,4 @@
 local M = {}
-local system = vim.loop.os_uname().sysname
 
 function M.core_mappings(mappings)
   if not mappings then mappings = require("astrocore").empty_map_table() end
@@ -12,12 +11,6 @@ function M.core_mappings(mappings)
 
     maps.v["K"] = { ":move '<-2<CR>gv-gv", desc = "Move line up", silent = true }
     maps.v["J"] = { ":move '>+1<CR>gv-gv", desc = "Move line down", silent = true }
-
-    if system == "Darwin" then
-      maps.i["<D-s>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
-      maps.x["<D-s>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
-      maps.n["<D-s>"] = { "<Cmd>w<cr>", desc = "Save file", silent = true }
-    end
 
     maps.n["n"] = { "nzz" }
     maps.n["N"] = { "Nzz" }
@@ -64,7 +57,7 @@ function M.core_mappings(mappings)
 
     -- window
     local get_icon = require("astroui").get_icon
-    maps.n["<Leader>w"] = { desc = get_icon("Window", 1, true) }
+    maps.n["<Leader>w"] = { name = get_icon("Window", 1, true) .. "Window" }
     maps.n["<Leader>wc"] = { "<C-w>c", desc = "Close current screen" }
     maps.n["<Leader>wo"] = { "<C-w>o", desc = "Close other screen" }
     maps.n["<Leader>we"] = { "<C-w>=", desc = "Equals All Window" }
