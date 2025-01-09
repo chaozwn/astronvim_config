@@ -1,3 +1,4 @@
+if vim.fn.executable "yazi" == 1 then return {} end
 local utils = require "utils"
 local get_path_type = utils.get_path_type
 local get_extension = utils.get_extension
