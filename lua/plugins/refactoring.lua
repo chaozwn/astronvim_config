@@ -11,7 +11,7 @@ return {
       ---@diagnostic disable: missing-fields
       ---@diagnostic disable: missing-parameter
       opts = function(_, opts)
-        local prefix = "<Leader>r"
+        local prefix = "<Leader>"
         local maps = opts.mappings or {}
         local get_icon = require("astroui").get_icon
 
