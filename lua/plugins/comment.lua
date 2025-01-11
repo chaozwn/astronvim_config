@@ -1,7 +1,7 @@
 ---@type LazySpec
 return {
   "numToStr/Comment.nvim",
-  config = function()
+  opts = function()
     local ft = require "Comment.ft"
     ft.thrift = { "//%s", "/*%s*/" }
     ft.goctl = { "//%s", "/*%s*/" }
