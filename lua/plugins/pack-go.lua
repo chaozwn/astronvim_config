@@ -148,17 +148,20 @@ return {
     end,
   },
   {
-    "mfussenegger/nvim-dap",
-    optional = true,
-    dependencies = {
-      {
-        "leoluz/nvim-dap-go",
-        opts = {},
-      },
+    "leoluz/nvim-dap-go",
+    cond = require("lazy_load_util").wants {
+      ft = { "go", "gomod", "gowork", "gotmpl" },
+      root = { "go.work", "go.mod" },
     },
+    ft = "go", -- NOTE: ft: lazy-load on filetype
+    opts = {},
   },
   {
     "olexsmir/gopher.nvim",
+    cond = require("lazy_load_util").wants {
+      ft = { "go", "gomod", "gowork", "gotmpl" },
+      root = { "go.work", "go.mod" },
+    },
     ft = "go",
     enabled = vim.fn.executable "go" == 1,
     build = function()
@@ -185,6 +188,10 @@ return {
   },
   {
     "chaozwn/goctl.nvim",
+    cond = require("lazy_load_util").wants {
+      ft = { "go", "gomod", "gowork", "gotmpl" },
+      root = { "go.work", "go.mod" },
+    },
     ft = "goctl",
     enabled = vim.fn.executable "goctl" == 1,
     opts = function()

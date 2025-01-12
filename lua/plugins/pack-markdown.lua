@@ -93,12 +93,20 @@ return {
   -- install with yarn or npm
   {
     "iamcco/markdown-preview.nvim",
+    cond = require("lazy_load_util").wants {
+      ft = { "markdown", "markdown.mdx" },
+      root = "README.md",
+    },
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     build = "cd app && yarn install",
     ft = { "markdown", "markdown.mdx" },
   },
   {
     "HakonHarnes/img-clip.nvim",
+    cond = require("lazy_load_util").wants {
+      ft = { "markdown", "markdown.mdx" },
+      root = "README.md",
+    },
     cmd = { "PasteImage", "ImgClipDebug", "ImgClipConfig" },
     opts = {
       default = {
@@ -117,6 +125,10 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    cond = require("lazy_load_util").wants {
+      ft = { "markdown", "markdown.mdx" },
+      root = "README.md",
+    },
     ft = { "markdown", "markdown.mdx" },
     event = "VeryLazy",
     opts = {
@@ -128,6 +140,10 @@ return {
   },
   {
     "mattn/vim-maketable",
+    cond = require("lazy_load_util").wants {
+      ft = { "markdown", "markdown.mdx" },
+      root = "README.md",
+    },
     cmd = "MakeTable",
     ft = { "markdown", "markdown.mdx" },
   },

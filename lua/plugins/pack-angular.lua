@@ -98,9 +98,19 @@ return {
       })
     end,
   },
-  { "chaozwn/angular-quickswitch.nvim", event = "VeryLazy", opts = {
-    use_default_keymaps = false,
-  } },
+  {
+    "chaozwn/angular-quickswitch.nvim",
+    cond = require("lazy_load_util").wants {
+      root = {
+        "angular.json",
+        "nx.json", --support for nx workspace
+      },
+    },
+    event = "VeryLazy",
+    opts = {
+      use_default_keymaps = false,
+    },
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     optional = true,

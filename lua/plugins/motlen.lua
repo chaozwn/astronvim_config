@@ -58,6 +58,7 @@ end
 ---@type LazySpec
 return {
   "benlubas/molten-nvim",
+  ft = { "python" },
   cmd = {
     "MoltenEvaluateLine",
     "MoltenEvaluateVisual",

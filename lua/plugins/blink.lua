@@ -165,7 +165,6 @@ return {
           },
         },
       },
-      -- Disable auto brackets
       -- NOTE: some LSPs may add auto brackets themselves anyway
       accept = {
         auto_brackets = { enabled = true },
