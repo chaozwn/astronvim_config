@@ -189,7 +189,7 @@ return {
   {
     "chaozwn/goctl.nvim",
     cond = require("lazy_load_util").wants {
-      ft = { "go", "gomod", "gowork", "gotmpl" },
+      ft = { "goctl", "go", "gomod", "gowork", "gotmpl" },
       root = { "go.work", "go.mod" },
     },
     ft = "goctl",
