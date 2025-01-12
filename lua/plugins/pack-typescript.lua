@@ -76,22 +76,26 @@ return {
           },
           vtsls = {
             on_attach = function(client, _)
-              client.server_capabilities = require("astrocore").extend_tbl(client.server_capabilities, {
-                workspace = {
-                  didChangeWatchedFiles = { dynamicRegistration = true },
-                  fileOperations = {
-                    didRename = {
-                      filters = {
-                        {
-                          pattern = {
-                            glob = "**/*.{ts,cts,mts,tsx,js,cjs,mjs,jsx,vue}",
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              })
+              local existing_capabilities = vim.deepcopy(client.server_capabilities)
+
+              if existing_capabilities == nil then return end
+
+              existing_capabilities.documentFormattingProvider = nil
+
+              local existing_filters = existing_capabilities.workspace.fileOperations.didRename.filters or {}
+              local new_glob = "**/*.{ts,cts,mts,tsx,js,cjs,mjs,jsx,vue}"
+
+              for _, filter in ipairs(existing_filters) do
+                if filter.pattern and filter.pattern.matches == "file" then
+                  filter.pattern.glob = new_glob
+                  break
+                end
+              end
+
+              existing_capabilities.workspace.fileOperations.didRename.filters = existing_filters
+
+              client.server_capabilities = existing_capabilities
+
               require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lA"] = {
