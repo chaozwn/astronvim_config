@@ -144,6 +144,7 @@ return {
       },
     },
     completion = {
+      list = { selection = { preselect = true, auto_insert = false } },
       menu = {
         scrollbar = false,
         border = "rounded",
