@@ -17,7 +17,7 @@ return {
     {
       "AstroNvim/astrocore",
       opts = function(_, opts)
-        local maps = opts.mappings
+        local maps = opts.mappings or {}
 
         local get_file_path = function() return vim.fn.expand "%" end
         local get_project_path = function() return vim.fn.getcwd() end

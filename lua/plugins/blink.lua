@@ -32,6 +32,13 @@ return {
   version = "*",
   dependencies = {
     { "rafamadriz/friendly-snippets", lazy = true },
+    -- add blink.compat to dependencies
+    {
+      "saghen/blink.compat",
+      optional = true, -- make optional so it's only enabled if any extras need it
+      opts = {},
+      version = "*",
+    },
     "echasnovski/mini.icons",
   },
   opts_extend = {
@@ -45,7 +52,19 @@ return {
     },
     -- remember to enable your providers here
     sources = {
+      -- adding any nvim-cmp sources here will enable them
+      -- with blink.compat
+      compat = {},
       default = { "lsp", "path", "snippets", "buffer" },
+      cmdline = function()
+        local type = vim.fn.getcmdtype()
+        -- Search forward and backward
+        if type == "/" or type == "?" then return { "buffer" } end
+        -- Commands
+        if type == ":" or type == "@" then return { "cmdline" } end
+        return {}
+      end,
+      min_keyword_length = 0,
       providers = {
         lsp = {
           ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[])

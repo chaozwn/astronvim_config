@@ -28,8 +28,6 @@ function M.core_mappings(mappings)
     -- 在visual mode 里粘贴不要复制
     maps.n["x"] = { '"_x', desc = "Cut without copy" }
 
-    maps.n["<Leader>bo"] = maps.n["<Leader>bc"]
-
     -- lsp restart
     maps.n["<Leader>lm"] = { "<Cmd>LspRestart<CR>", desc = "Lsp restart" }
     maps.n["<Leader>lg"] = { "<Cmd>LspLog<CR>", desc = "Show lsp log" }
