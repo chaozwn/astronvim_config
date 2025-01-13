@@ -30,6 +30,14 @@ This configuration supports development in the following languages:
 - **Rust**: `rust-analyzer`.
 - **Markdown**: `markdown-preview.nvim`.
 
+
+## Database Query
+
+database query supports: `mysql`, `postgre`, `sqlite`, etc. 
+support full syntax hints at query time, including database tables & table columns.
+
+![mysql_query](assets/imgs/mysql_query.png)
+
 ---
 
 ## 🛠️ Installation
