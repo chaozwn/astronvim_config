@@ -4,7 +4,7 @@ local utils = require "utils"
 local astrocore = require "astrocore"
 local set_mappings = astrocore.set_mappings
 
-local sql_formatter_linter = function(name)
+local function sql_formatter_linter(name)
   local f_by_ft = {}
   for _, ft in ipairs(sql_ft) do
     f_by_ft[ft] = { name }
@@ -34,6 +34,12 @@ local function diagnostic()
   end
 
   return sqlfluff
+end
+
+local function remove_special_chars(input_str)
+  local pattern = "[%+%*%?%.%^%$%(%)%[%]%%%-&%#]"
+  local resultStr = input_str:gsub(pattern, "")
+  return resultStr
 end
 
 ---@type LazySpec
@@ -76,11 +82,13 @@ return {
       vim.g.db_ui_disable_info_notifications = 1
 
       vim.g.Db_ui_buffer_name_generator = function(opts)
-        local schema = opts.schema
         local table_name = opts.table
-        local label_name = opts.label
-        local file_name = string.format("[%s]_[%s]_[%s].sql", schema, table_name, label_name)
-        return file_name
+
+        if table_name and table_name ~= "" then
+          return string.format("%s_%s.sql", remove_special_chars(table_name), os.time())
+        else
+          return string.format("console_%s", os.time())
+        end
       end
 
       -- NOTE: The default behavior of auto-execution of queries on save is disabled
