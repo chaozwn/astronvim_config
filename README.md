@@ -175,12 +175,6 @@ rustup component add rust-analyzer
 
 ## 💡 Tips & Tricks
 
-### NVcheatsheet
-
-Press `<F2>` to open the NVcheatsheet.
-
-![nvcheatsheet](assets/imgs/nvcheatsheet.png)
-
 ### Use Lazygit
 
 Trigger command: `<leader>tl`
