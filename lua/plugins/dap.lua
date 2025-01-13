@@ -17,7 +17,7 @@ local close_all_window = function()
   end
 end
 
-local choose_dap_element = function()
+local choose_dap_element = function(callback)
   vim.ui.select({
     "default",
     "console",
@@ -48,6 +48,7 @@ local choose_dap_element = function()
       require("dapui").open { layout = 8, reset = true }
       require("dapui").open { layout = 9, reset = true }
     end
+    if callback then callback() end
   end)
 end
 
@@ -106,6 +107,17 @@ return {
             desc = "Debugger Preview",
           }
           maps.n[prefix_debug .. "P"] = { function() require("dap").pause() end, desc = "Pause (F6)" }
+          maps.n[prefix_debug .. "c"] = {
+            function()
+              local is_window_open = is_dap_window_open()
+              if not is_window_open then
+                choose_dap_element(function() require("dap").continue() end)
+              else
+                require("dap").continue()
+              end
+            end,
+            desc = "Start Debug",
+          }
           maps.n[prefix_debug .. "u"] = {
             function()
               local is_window_open = is_dap_window_open()
@@ -289,11 +301,7 @@ return {
       },
     },
     config = function(_, opts)
-      local dap, dapui = require "dap", require "dapui"
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        local is_window_open = is_dap_window_open()
-        if not is_window_open then choose_dap_element() end
-      end
+      local dapui = require "dapui"
       dapui.setup(opts)
     end,
   },

@@ -1,8 +1,16 @@
-local sql_ft = { "sql", "mysql", "plsql" }
+local sql_ft = { "sql", "mysql", "plsql", "dbt" }
 
 local utils = require "utils"
 local astrocore = require "astrocore"
 local set_mappings = astrocore.set_mappings
+
+local sql_formatter_linter = function(name)
+  local f_by_ft = {}
+  for _, ft in ipairs(sql_ft) do
+    f_by_ft[ft] = { name }
+  end
+  return f_by_ft
+end
 
 local function create_sqlfluff_config_file()
   local source_file = vim.fn.stdpath "config" .. "/.sqlfluff"
@@ -65,6 +73,15 @@ return {
       vim.g.db_ui_use_nvim_notify = true
       vim.g.db_ui_winwidth = require("utils").size(vim.o.columns, 0.3)
       vim.g.db_ui_win_position = "right"
+      vim.g.db_ui_disable_info_notifications = 1
+
+      vim.g.Db_ui_buffer_name_generator = function(opts)
+        local schema = opts.schema
+        local table_name = opts.table
+        local label_name = opts.label
+        local file_name = string.format("[%s]_[%s]_[%s].sql", schema, table_name, label_name)
+        return file_name
+      end
 
       -- NOTE: The default behavior of auto-execution of queries on save is disabled
       -- this is useful when you have a big query that you don't want to run every time
@@ -117,31 +134,29 @@ return {
   {
     "stevearc/conform.nvim",
     optional = true,
-    opts = {
-      formatters = {
-        sqlfmt = {
-          prepend_args = formatting(),
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        formatters = {
+          sqlfmt = {
+            prepend_args = formatting(),
+          },
         },
-      },
-      formatters_by_ft = {
-        sql = { "sqlfmt" },
-        dbt = { "sqlfmt" },
-      },
-    },
+        formatters_by_ft = sql_formatter_linter "sqlfmt",
+      })
+    end,
   },
   {
     "mfussenegger/nvim-lint",
     optional = true,
-    opts = {
-      linters = {
-        sqlfluff = {
-          args = diagnostic(),
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
+        linters = {
+          sqlfluff = {
+            args = diagnostic(),
+          },
         },
-      },
-      linters_by_ft = {
-        sql = { "sqlfluff" },
-        dbt = { "sqlfluff" },
-      },
-    },
+        linters_by_ft = sql_formatter_linter "sqlfluff",
+      })
+    end,
   },
 }
