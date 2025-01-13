@@ -27,7 +27,7 @@ local choose_dap_element = function()
     "watches",
     "scopes",
     "all elements",
-  }, { prompt = "Select Dap Layout", default = "default" }, function(select)
+  }, { prompt = "Select Dap Layout: ", default = "default" }, function(select)
     if not select then return end
     if is_dap_window_open() then close_all_window() end
     if select == "default" then
@@ -140,7 +140,7 @@ return {
                 "breakpoints",
                 "watches",
                 "scopes",
-              }, { prompt = "Select Dap Element", default = "console" }, function(select)
+              }, { prompt = "Select Dap Element: ", default = "console" }, function(select)
                 if not select then return end
                 if select == "repl" then
                   require("dapui").float_element("repl", window)

@@ -20,7 +20,7 @@ return {
   },
   opts = {
     provider = "copilot",
-    auto_suggestions_provider = "copilot",
+    auto_suggestions_provider = "claude",
     behaviour = {
       auto_suggestions = true, -- Experimental stage
       auto_set_highlight_group = true,

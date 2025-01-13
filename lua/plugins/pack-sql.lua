@@ -31,6 +31,49 @@ end
 ---@type LazySpec
 return {
   {
+    "kristijanhusak/vim-dadbod-ui",
+    cmd = { "DBUI", "DBUIToggle", "DBUIAddConnection", "DBUIFindBuffer" },
+    dependencies = {
+      { "tpope/vim-dadbod", cmd = "DB", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = sql_ft, lazy = true },
+    },
+    specs = {
+      "saghen/blink.cmp",
+      optional = true,
+      opts = function(_, opts)
+        return require("astrocore").extend_tbl(opts, {
+          sources = {
+            default = require("astrocore").list_insert_unique(opts.sources.default, { "dadbod" }),
+            providers = {
+              dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+            },
+          },
+        })
+      end,
+    },
+    keys = {
+      { "<leader>D", "<cmd>DBUIToggle<CR>", desc = "Toggle DBUI" },
+    },
+    init = function()
+      local data_path = vim.fn.stdpath "data"
+
+      vim.g.db_ui_auto_execute_table_helpers = 1
+      vim.g.db_ui_save_location = data_path .. "/dadbod_ui"
+      vim.g.db_ui_show_database_icon = true
+      vim.g.db_ui_tmp_query_location = data_path .. "/dadbod_ui/tmp"
+      vim.g.db_ui_use_nerd_fonts = true
+      vim.g.db_ui_use_nvim_notify = true
+      vim.g.db_ui_winwidth = require("utils").size(vim.o.columns, 0.3)
+      vim.g.db_ui_win_position = "right"
+
+      -- NOTE: The default behavior of auto-execution of queries on save is disabled
+      -- this is useful when you have a big query that you don't want to run every time
+      -- you save the file running those queries can crash neovim to run use the
+      -- default keymap: <leader>S
+      vim.g.db_ui_execute_on_save = false
+    end,
+  },
+  {
     "AstroNvim/astrocore",
     ---@type AstroCoreOpts
     opts = {

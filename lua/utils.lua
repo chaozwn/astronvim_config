@@ -469,7 +469,7 @@ function M.create_launch_json()
     "python",
     "chrome",
     "angular",
-  }, { prompt = "Select Language Debug Template", default = "go" }, function(select)
+  }, { prompt = "Select Language Debug Template: ", default = "go" }, function(select)
     if not select then return end
     if select == "go" then
       local source_file = vim.fn.stdpath "config" .. "/.vscode/go_launch.json"

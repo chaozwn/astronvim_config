@@ -105,6 +105,22 @@ return {
             end,
           },
         },
+        auto_close_dadbod_output = {
+          {
+            event = "FileType",
+            pattern = { "dbout" },
+            callback = function(event)
+              vim.bo[event.buf].buflisted = false
+              vim.schedule(function()
+                vim.keymap.set("n", "q", function() vim.cmd "q!" end, {
+                  buffer = event.buf,
+                  silent = true,
+                  desc = "Quit buffer",
+                })
+              end)
+            end,
+          },
+        },
       },
       -- vim options can be configured here
       options = options,
