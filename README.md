@@ -30,11 +30,27 @@ This configuration supports development in the following languages:
 - **Rust**: `rust-analyzer`.
 - **Markdown**: `markdown-preview.nvim`.
 
-
 ## Database Query
 
-database query supports: `mysql`, `postgre`, `sqlite`, etc. 
-support full syntax hints at query time, including database tables & table columns.
+- Support full syntax hints at query time, including database tables & table columns.
+- Supports a modern array of backends, including NoSQL databases:
+  - Big Query
+  - ClickHouse
+  - DuckDB
+  - Impala
+  - jq
+  - MongoDB
+  - MySQL
+  - MariaDB
+  - Oracle
+  - osquery
+  - PostgreSQL
+  - Presto
+  - Redis
+  - Snowflake
+  - SQL Server
+  - SQLite
+  - Your own easily implemented adapter
 
 ![mysql_query](assets/imgs/mysql_query.png)
 
