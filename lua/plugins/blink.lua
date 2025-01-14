@@ -35,8 +35,8 @@ return {
     -- add blink.compat to dependencies
     {
       "saghen/blink.compat",
-      optional = true, -- make optional so it's only enabled if any extras need it
       opts = {},
+      lazy = true,
       version = "*",
     },
     "echasnovski/mini.icons",

@@ -149,19 +149,36 @@ return {
   },
   {
     "leoluz/nvim-dap-go",
-    cond = require("lazy_load_util").wants {
-      ft = { "go", "gomod", "gowork", "gotmpl" },
-      root = { "go.work", "go.mod" },
-    },
     ft = "go", -- NOTE: ft: lazy-load on filetype
     opts = {},
   },
   {
-    "olexsmir/gopher.nvim",
-    cond = require("lazy_load_util").wants {
-      ft = { "go", "gomod", "gowork", "gotmpl" },
-      root = { "go.work", "go.mod" },
+    "saghen/blink.cmp",
+    optional = true,
+    dependencies = {
+      {
+        "Snikimonkd/cmp-go-pkgs",
+        ft = "go",
+        enabled = vim.fn.executable "go" == 1,
+      },
     },
+    opts = function(_, opts)
+      return require("astrocore").extend_tbl(opts, {
+        sources = {
+          compat = require("astrocore").list_insert_unique(opts.sources.compat or {}, { "go_pkgs" }),
+          providers = {
+            go_pkgs = {
+              kind = "Gopkgs",
+              score_offset = 100,
+              async = true,
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
+    "olexsmir/gopher.nvim",
     ft = "go",
     enabled = vim.fn.executable "go" == 1,
     build = function()
@@ -180,7 +197,13 @@ return {
   {
     "nvim-neotest/neotest",
     optional = true,
-    dependencies = { "nvim-neotest/neotest-go" },
+    dependencies = {
+      {
+        "nvim-neotest/neotest-go",
+        ft = "go",
+        enabled = vim.fn.executable "go" == 1,
+      },
+    },
     opts = function(_, opts)
       if not opts.adapters then opts.adapters = {} end
       table.insert(opts.adapters, require "neotest-go"(require("astrocore").plugin_opts "neotest-go"))
@@ -188,10 +211,6 @@ return {
   },
   {
     "chaozwn/goctl.nvim",
-    cond = require("lazy_load_util").wants {
-      ft = { "goctl", "go", "gomod", "gowork", "gotmpl" },
-      root = { "go.work", "go.mod" },
-    },
     ft = "goctl",
     enabled = vim.fn.executable "goctl" == 1,
     opts = function()

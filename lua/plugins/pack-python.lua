@@ -83,17 +83,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap-python",
-    cond = require("lazy_load_util").wants {
-      ft = "python",
-      root = {
-        "pyproject.toml",
-        "setup.py",
-        "setup.cfg",
-        "requirements.txt",
-        "Pipfile",
-        "pyrightconfig.json",
-      },
-    },
     ft = "python", -- NOTE: ft: lazy-load on filetype
     config = function()
       if vim.fn.has "win32" == 1 then

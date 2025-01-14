@@ -189,36 +189,12 @@ return {
   },
   {
     "vuki656/package-info.nvim",
-    cond = require("lazy_load_util").wants {
-      ft = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-        "vue",
-      },
-      root = { "tsconfig.json", "package.json", "jsconfig.json" },
-    },
     dependencies = { { "MunifTanjim/nui.nvim", lazy = true } },
     event = "BufRead package.json",
     opts = {},
   },
   {
     "dmmulroy/tsc.nvim",
-    cond = require("lazy_load_util").wants {
-      ft = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-        "vue",
-      },
-      root = { "tsconfig.json", "package.json", "jsconfig.json" },
-    },
     cmd = { "TSC" },
     opts = {},
   },
@@ -226,18 +202,6 @@ return {
     "dmmulroy/ts-error-translator.nvim",
     opts = {},
     ft = { "typescript", "vue" },
-    cond = require("lazy_load_util").wants {
-      ft = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-        "vue",
-      },
-      root = { "tsconfig.json", "package.json", "jsconfig.json" },
-    },
   },
   {
     "mfussenegger/nvim-dap",

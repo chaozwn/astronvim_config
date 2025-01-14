@@ -1,9 +1,5 @@
 return {
   "3rd/image.nvim",
-  cond = require("lazy_load_util").wants {
-    ft = { "markdown", "markdown.mdx", "norg", "vimwiki" },
-    root = "README.md",
-  },
   ft = { "markdown", "markdown.mdx", "norg", "vimwiki" },
   dependencies = {
     {

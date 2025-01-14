@@ -58,17 +58,6 @@ end
 ---@type LazySpec
 return {
   "benlubas/molten-nvim",
-  cond = require("lazy_load_util").wants {
-    ft = "python",
-    root = {
-      "pyproject.toml",
-      "setup.py",
-      "setup.cfg",
-      "requirements.txt",
-      "Pipfile",
-      "pyrightconfig.json",
-    },
-  },
   ft = { "python" },
   cmd = {
     "MoltenEvaluateLine",
