@@ -79,6 +79,35 @@ return {
     },
   },
   {
+    "saghen/blink.cmp",
+    optional = true,
+    dependencies = {
+      --NOTE: remove when commit merge: https://github.com/rcarriga/cmp-dap/pull/13
+      {
+        "rcarriga/cmp-dap",
+        commit = "db7ad7856309138ec31627271ac17a30e9d342ed",
+      },
+    },
+    opts = function(_, opts)
+      return require("astrocore").extend_tbl(opts, {
+        enabled = function()
+          return (vim.bo.buftype ~= "prompt" or require("cmp_dap").is_dap_buffer()) and vim.b.completion ~= false
+        end,
+        sources = {
+          compat = require("astrocore").list_insert_unique(opts.sources.compat or {}, { "dap" }),
+          providers = {
+            dap = {
+              kind = "Dap",
+              score_offset = 100,
+              async = true,
+              enabled = function() return require("cmp_dap").is_dap_buffer() end,
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
     "rcarriga/nvim-dap-ui",
     specs = {
       {
