@@ -219,41 +219,57 @@ export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_FALLBACK_LIBRARY_P
 
 ### Input Method Auto Switch
 
-To automatically switch input methods when entering and exiting insert mode in Neovim:
-
-1. Install `im-select`:
-
-   ```bash
-   brew tap laishulu/homebrew
-   brew install macism
-   ```
-
-2. Run `im-select` and copy the result to your `im-select.lua` configuration:
-
-   ```bash
-   macism
-   ```
-
-3. Add the following configuration to your `im-select.lua` file:
-
-   ```lua
-   return {
-       "chaozwn/im-select.nvim",
-       lazy = false,
-       opts = {
-           default_command = "macism",
-           default_main_select = "im.rime.inputmethod.Squirrel.Hans", -- replace with you result in step 2
-           set_previous_events = { "InsertEnter", "FocusLost" },
-       },
-   }
-   ```
-
-### Optional Input Method
-
-For an alternative input method, you can install `squirrel`:
-
 ```bash
 brew install --cask squirrel
+```
+
+modify `squirrel.custom.yaml`
+
+```yaml
+patch:
+  show_notifications_when: always # status notification，always open（always）always close（never）
+
+  # support auto switch in vim mode
+  app_options:
+    org.vim.MacVim:
+      no_inline: true
+      vim_mode: true
+    uk.foon.Neovim:
+      no_inline: true
+      vim_mode: true
+    com.qvacua.VimR:
+      no_inline: true
+      vim_mode: true
+    com.ident.goneovim:
+      no_inline: true
+      vim_mode: true
+    com.googlecode.iterm2:
+      no_inline: true
+      vim_mode: false
+    com.apple.Terminal:
+      no_inline: true
+      vim_mode: false
+    #com.apple.iWork.Numbers:
+    #no_inline: true
+    com.alfredapp.Alfred:
+      ascii_mode: true
+    com.jetbrains.intellij:
+      vim_mode: true
+    com.jetbrains.datagrip:
+      vim_mode: true
+    com.jetbrains.WebStorm:
+      vim_mode: true
+    # Obsidian
+    md.obsidian:
+      vim_mode: true
+    net.kovidgoyal.kitty:
+      vim_mode: true
+    # AntDraw in Edge
+    com.microsoft.edgemac.app.jndbnbljngolcchhjbajncidekccnlck:
+      no_inline: true
+    # AntDraw in Chrome
+    com.google.Chrome.app.jndbnbljngolcchhjbajncidekccnlck:
+      no_inline: true
 ```
 
 ### minial start
