@@ -87,7 +87,7 @@ return {
         if table_name and table_name ~= "" then
           return string.format("%s_%s.sql", remove_special_chars(table_name), os.time())
         else
-          return string.format("console_%s", os.time())
+          return string.format("console_%s.sql", os.time())
         end
       end
 
