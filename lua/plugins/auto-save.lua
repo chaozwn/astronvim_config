@@ -23,7 +23,6 @@ return {
   },
   config = function(_, opts)
     local autoformat_group = vim.api.nvim_create_augroup("AutoformatToggle", { clear = true })
-    require("auto-save").setup(opts)
 
     -- Disable autoformat before saving
     vim.api.nvim_create_autocmd("User", {
@@ -62,5 +61,7 @@ return {
         end
       end,
     })
+
+    require("auto-save").setup(opts)
   end,
 }
