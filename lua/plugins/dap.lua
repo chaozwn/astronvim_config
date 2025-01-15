@@ -338,8 +338,10 @@ return {
 
       dap.listeners.after.event_initialized.dapui_config = function() require("dapui.controls").refresh_control_panel() end
       dap.listeners.after.continue.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.before.event_terminated.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.before.event_exited.dapui_config = function() require("dapui.controls").refresh_control_panel() end
+      dap.listeners.after.event_stopped.dapui_config = function() require("dapui.controls").refresh_control_panel() end
+      dap.listeners.after.next.dapui_config = function() require("dapui.controls").refresh_control_panel() end
+      dap.listeners.after.event_terminated.dapui_config = function() require("dapui.controls").refresh_control_panel() end
+      dap.listeners.after.event_exited.dapui_config = function() require("dapui.controls").refresh_control_panel() end
 
       dapui.setup(opts)
     end,
