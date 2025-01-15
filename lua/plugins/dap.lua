@@ -336,13 +336,25 @@ return {
       local dapui = require "dapui"
       local dap = require "dap"
 
-      dap.listeners.after.event_initialized.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.after.continue.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.after.event_stopped.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.after.next.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.after.event_terminated.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-      dap.listeners.after.event_exited.dapui_config = function() require("dapui.controls").refresh_control_panel() end
-
+      local events = {
+        "next",
+        "pause",
+        "launch",
+        "event_initialized",
+        "continue",
+        "terminate",
+        "restart",
+        "disconnect",
+        "event_terminated",
+        "disconnect",
+        "event_exited",
+        "event_stopped",
+        "threads",
+        "event_continued",
+      }
+      for _, event in ipairs(events) do
+        dap.listeners.after[event].dapui_config = function() require("dapui.controls").refresh_control_panel() end
+      end
       dapui.setup(opts)
     end,
   },
