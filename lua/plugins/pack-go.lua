@@ -171,7 +171,9 @@ return {
               kind = "Gopkgs",
               score_offset = 100,
               async = true,
-              enabled = function() return require("cmp_go_pkgs")._check_if_inside_imports() end,
+              enabled = function()
+                return vim.fn.executable "go" == 1 and require("cmp_go_pkgs")._check_if_inside_imports()
+              end,
             },
           },
         },
