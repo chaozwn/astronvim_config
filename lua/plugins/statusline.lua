@@ -165,6 +165,7 @@ return {
           lsp_client_names = {
             icon = { padding = { right = 1 } },
           },
+          padding = { right = 1 },
         },
         require("heirline.component").overseer {},
         status.component.virtual_env {
