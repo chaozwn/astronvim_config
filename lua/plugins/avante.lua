@@ -1,4 +1,5 @@
 local prefix = "<Leader>P"
+
 ---@type LazySpec
 return {
   "yetone/avante.nvim",
@@ -22,20 +23,13 @@ return {
     provider = "copilot",
     auto_suggestions_provider = "claude",
     behaviour = {
-      auto_suggestions = true, -- Experimental stage
-      auto_set_highlight_group = true,
-      auto_set_keymaps = true,
-      auto_apply_diff_after_generation = false,
-      support_paste_from_clipboard = false,
-      minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+      auto_suggestions = false, -- Experimental stage
+    },
+    file_selector = {
+      provider = "fzf",
+      provider_opts = {},
     },
     mappings = {
-      suggestion = {
-        accept = "<C-;>",
-        next = "<M-]>",
-        prev = "<M-[>",
-        dismiss = "<C-]>",
-      },
       ask = prefix .. "<CR>",
       edit = prefix .. "e",
       refresh = prefix .. "r",
@@ -57,14 +51,71 @@ return {
     },
   },
   specs = {
-    { "AstroNvim/astrocore", opts = function(_, opts) opts.mappings.n[prefix] = { desc = " Avante" } end },
-    { "zbirenbaum/copilot.lua", cmd = "Copilot", opts = { panel = { enabled = false }, suggestion = { false } } },
+    {
+      "AstroNvim/astrocore",
+      opts = function(_, opts)
+        opts.mappings.n[prefix] = { desc = " Avante" }
+        opts.options.opt.laststatus = 3
+      end,
+    },
+    {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      opts = {
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 150,
+          keymap = {
+            accept = "<C-;>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+      },
+    },
     {
       "MeanderingProgrammer/render-markdown.nvim",
       optional = true,
       opts = function(_, opts)
         if not opts.file_types then opts.file_types = { "markdown" } end
         opts.file_types = require("astrocore").list_insert_unique(opts.file_types, { "Avante" })
+      end,
+    },
+    {
+      "saghen/blink.cmp",
+      optional = true,
+      opts = function(_, opts)
+        if not opts.sources then opts.sources = {} end
+        return require("astrocore").extend_tbl(opts, {
+          sources = {
+            compat = require("astrocore").list_insert_unique(
+              opts.sources.compat or {},
+              { "avante_commands", "avante_mentions", "avante_files" }
+            ),
+            providers = {
+              avante_commands = {
+                kind = "AvanteCommands",
+                score_offset = 90,
+                async = true,
+              },
+              avante_files = {
+                kind = "AvanteFiles",
+                score_offset = 100,
+                async = true,
+              },
+              avante_mentions = {
+                name = "AvanteMentions",
+                score_offset = 1000,
+                async = true,
+              },
+            },
+          },
+        })
       end,
     },
   },
