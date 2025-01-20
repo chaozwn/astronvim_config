@@ -19,6 +19,7 @@ This configuration supports development in the following languages:
 | Python     | ✅             | ✅    |
 | Rust       | ✅             | ✅    |
 | Go         | ✅             | ✅    |
+| Nextjs         | ✅             | ✅    |
 
 - **TypeScript**: `vtsls`.
 - **Vue**: `volar2`.

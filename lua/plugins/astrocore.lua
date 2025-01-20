@@ -11,6 +11,8 @@ return {
     local options = {
       opt = {
         fillchars = {
+          foldopen = "",
+          foldclose = "",
           fold = " ",
           foldsep = " ",
           diff = "╱",
@@ -28,6 +30,7 @@ return {
         winwidth = 10,
         winminwidth = 10,
         equalalways = false,
+        statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]],
       },
       g = {
         autoformat = false,
