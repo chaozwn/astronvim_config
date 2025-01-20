@@ -469,6 +469,7 @@ function M.create_launch_json()
     "python",
     "chrome",
     "angular",
+    "nextjs",
   }, { prompt = "Select Language Debug Template: ", default = "go" }, function(select)
     if not select then return end
     if select == "go" then
@@ -493,6 +494,9 @@ function M.create_launch_json()
       M.get_launch_json_by_source_file(source_file)
       source_file = vim.fn.stdpath "config" .. "/.vscode/angular_tasks.json"
       M.get_tasks_json_by_source_file(source_file)
+    elseif select == "nextjs" then
+      local source_file = vim.fn.stdpath "config" .. "/.vscode/nextjs_launch.json"
+      M.get_launch_json_by_source_file(source_file)
     end
   end)
 end

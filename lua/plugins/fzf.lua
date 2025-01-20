@@ -1,4 +1,12 @@
-local function symbols_filter(entry, ctx)
+local open = function(command, opts)
+  opts = opts or {}
+  if opts.cmd == nil and command == "git_files" and opts.show_untracked then
+    opts.cmd = "git ls-files --exclude-standard --cached --others"
+  end
+  return require("fzf-lua")[command](opts)
+end
+
+local symbols_filter = function(entry, ctx)
   if ctx.symbols_filter == nil then ctx.symbols_filter = require("utils").get_kind_filter(ctx.bufnr) or false end
   if ctx.symbols_filter == false then return true end
   return vim.tbl_contains(ctx.symbols_filter, entry.kind)
@@ -17,109 +25,140 @@ return {
       opts = function(_, opts)
         if require("astrocore").is_available "fzf-lua" then
           local maps = opts.mappings or {}
-
-          maps.n["<Leader>lD"] =
-            { function() require("fzf-lua").diagnostics_document() end, desc = "Search diagnostics" }
-          if maps.n.gd then
-            maps.n.gd[1] = "<cmd>FzfLua lsp_definitions     jump_to_single_result=true ignore_current_line=true<cr>"
-          end
-          if maps.n["<Leader>lR"] then
-            maps.n["<Leader>lR"][1] =
-              "<cmd>FzfLua lsp_references      jump_to_single_result=true ignore_current_line=true<cr>"
-          end
-          if maps.n.gy then
-            maps.n.gy[1] = "<cmd>FzfLua lsp_typedefs        jump_to_single_result=true ignore_current_line=true<cr>"
-          end
-          if maps.n["<Leader>lG"] then
-            maps.n["<Leader>lG"][1] = function() require("fzf-lua").lsp_workspace_symbols() end
-          end
+          maps.n.gd = {
+            "<cmd>FzfLua lsp_definitions     jump_to_single_result=true ignore_current_line=true<cr>",
+            desc = "Goto Definition",
+          }
+          maps.n.gy = {
+            "<cmd>FzfLua lsp_typedefs        jump_to_single_result=true ignore_current_line=true<cr>",
+            desc = "Goto T[y]pe Definition",
+          }
           maps.n.gI = {
             "<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>",
-            desc = "Go to Implementations",
+            desc = "Goto Implementation",
           }
           maps.n.gr = {
             "<cmd>FzfLua lsp_references      jump_to_single_result=true ignore_current_line=true<cr>",
             desc = "References",
           }
+          maps.n["<Leader>lG"] = false
+          maps.n["<Leader>lR"] = false
+          maps.n["<Leader>ss"] = {
+            function()
+              require("fzf-lua").lsp_document_symbols {
+                regex_filter = symbols_filter,
+              }
+            end,
+            desc = "Goto Symbol",
+          }
+          maps.n["<Leader>sS"] = {
+            function()
+              require("fzf-lua").lsp_live_workspace_symbols {
+                regex_filter = symbols_filter,
+              }
+            end,
+            desc = "Goto Symbol (Workspace)",
+          }
         end
       end,
+    },
+    {
+      "folke/todo-comments.nvim",
+      optional = true,
+      -- stylua: ignore
+      keys = {
+          { "<Leader>st", function() require("todo-comments.fzf").todo() end, desc = "Todo" },
+          { "<Leader>sT", function () require("todo-comments.fzf").todo({keywords = {"TODO", "FIX", "FIXME"}}) end, desc = "Todo/Fix/Fixme" },
+      },
     },
     {
       "AstroNvim/astrocore",
       opts = function(_, opts)
         local maps = opts.mappings or {}
         maps.n["<Leader>f"] = vim.tbl_get(opts, "_map_sections", "f")
-        if vim.fn.executable "git" == 1 then
-          maps.n["<Leader>g"] = vim.tbl_get(opts, "_map_sections", "g")
-          maps.n["<Leader>gb"] = { function() require("fzf-lua").git_branches() end, desc = "Git branches" }
-          maps.n["<Leader>gc"] = { function() require("fzf-lua").git_commits() end, desc = "Git commits (repository)" }
-          maps.n["<Leader>gC"] =
-            { function() require("fzf-lua").git_bcommits() end, desc = "Git commits (current file)" }
-          maps.n["<Leader>gt"] = { function() require("fzf-lua").git_status() end, desc = "Git status" }
-        end
-        maps.n["<Leader>f<CR>"] = { function() require("fzf-lua").resume() end, desc = "Resume previous search" }
-        maps.n["<Leader>f'"] = { function() require("fzf-lua").marks() end, desc = "Find marks" }
-        maps.n["<Leader>f/"] =
-          { function() require("fzf-lua").lgrep_curbuf() end, desc = "Find words in current buffer" }
-        maps.n["<Leader>fa"] = {
-          function() require("fzf-lua").files { prompt = "Config> ", cwd = vim.fn.stdpath "config" } end,
-          desc = "Find AstroNvim config files",
+        -- common
+        maps.n["<Leader>,"] = { "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Switch Buffer" }
+        maps.n["<Leader>/"] = { function() open "live_grep" end, desc = "Grep (Root Dir)" }
+        maps.n["<Leader>:"] = { "<cmd>FzfLua command_history<cr>", desc = "Find command history" }
+        maps.n["<Leader><space>"] = {
+          function() open "files" end,
+          desc = "Find files (Root Dir)",
         }
-        maps.n["<Leader>fx"] = {
-          function() require("fzf-lua").diagnostics_document() end,
-          desc = "Find Document Diagnostics",
+        maps.n["<Leader>fn"] = {
+          function() require("snacks").notifier.show_history() end,
+          desc = "Find notifications",
         }
-        maps.n["<Leader>fX"] = {
-          function() require("fzf-lua").diagnostics_workspace() end,
-          desc = "Find Workspace Diagnostics",
+        -- find
+        maps.n["<Leader>fb"] = { "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Find Buffers" }
+        maps.n["<Leader>fc"] = {
+          function()
+            open("files", {
+              cwd = vim.fn.stdpath "config",
+            })
+          end,
+          desc = "Find Config File",
         }
-        maps.n["<Leader>fa"] = { function() require("fzf-lua").autocmds() end, desc = "Find autocmds" }
-        maps.n["<Leader>fb"] = { function() require("fzf-lua").buffers() end, desc = "Find buffers" }
-        maps.n["<Leader>fc"] = { function() require("fzf-lua").grep_cword() end, desc = "Find word under cursor" }
-        maps.n["<Leader>fC"] = { function() require("fzf-lua").commands() end, desc = "Find commands" }
-        maps.n["<Leader>fH"] = { function() require("fzf-lua").command_history() end, desc = "Find command history" }
-        maps.n["<Leader>ff"] = { function() require("fzf-lua").files() end, desc = "Find files" }
-        maps.n["<Leader>fh"] = { function() require("fzf-lua").helptags() end, desc = "Find help" }
-        maps.n["<Leader>fk"] = { function() require("fzf-lua").keymaps() end, desc = "Find keymaps" }
-        maps.n["<Leader>fm"] = { function() require("fzf-lua").manpages() end, desc = "Find man" }
-        if require("astrocore").is_available "snacks.nvim" then
-          maps.n["<Leader>fn"] = {
-            function() require("snacks").notifier.show_history() end,
-            desc = "Find notifications",
-          }
-        end
-        maps.n["<Leader>fo"] = { function() require("fzf-lua").oldfiles() end, desc = "Find history" }
-        maps.n["<Leader>fr"] = { function() require("fzf-lua").registers() end, desc = "Find registers" }
-        maps.n["<Leader>fT"] = { function() require("fzf-lua").colorschemes() end, desc = "Find themes" }
+        maps.n["<Leader>ff"] = {
+          function() open "files" end,
+          desc = "Find files (Root Dir)",
+        }
         maps.n["<Leader>fg"] = {
-          function() require("fzf-lua").git_files() end,
+          "<cmd>FzfLua git_files<cr>",
           desc = "Find Files (git-files)",
         }
-        if vim.fn.executable "rg" == 1 or vim.fn.executable "grep" == 1 then
-          maps.n["<Leader>fw"] = { function() require("fzf-lua").live_grep_native() end, desc = "Find words" }
-        end
-        maps.n["<Leader>fs"] = {
-          function()
-            require("fzf-lua").lsp_document_symbols {
-              regex_filter = symbols_filter,
-            }
-          end,
-          desc = "Search symbols",
+        maps.n["<Leader>fr"] = {
+          "<cmd>FzfLua oldfiles<cr>",
+          desc = "Recent",
         }
-        maps.n["<Leader>fS"] = {
-          function()
-            require("fzf-lua").lsp_live_workspace_symbols {
-              regex_filter = symbols_filter,
-            }
-          end,
-          desc = "Goto Symbol (Workspace)",
-        }
-        if require("astrocore").is_available "todo-comments.nvim" then
-          maps.n["<Leader>ft"] = {
-            function() require("todo-comments.fzf").todo() end,
-            desc = "Todo",
-          }
+        -- git
+        if vim.fn.executable "git" == 1 then
+          maps.n["<Leader>g"] = vim.tbl_get(opts, "_map_sections", "g")
+          maps.n["<leader>gc"] = { "<cmd>FzfLua git_commits<cr>", desc = "Commits" }
+          maps.n["<Leader>gb"] = { "<cmd>FzfLua git_branches<cr>", desc = "Git branches" }
+          maps.n["<Leader>gs"] = { "<cmd>FzfLua git_status<cr>", desc = "Status" }
         end
+
+        -- search
+        maps.n['<Leader>s"'] = { "<cmd>FzfLua registers<cr>", desc = "Find registers" }
+        maps.n["<Leader>sa"] = { "<cmd>FzfLua autocmds<cr>", desc = "Find autocmds" }
+        maps.n["<Leader>sb"] = { "<cmd>FzfLua grep_curbuf<cr>", desc = "Find grep in current buffer" }
+        maps.n["<Leader>sc"] = { "<cmd>FzfLua command_history<cr>", desc = "Find command history" }
+        maps.n["<Leader>sC"] = { "<cmd>FzfLua commands<cr>", desc = "Find commands" }
+        maps.n["<Leader>sd"] = { "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" }
+        maps.n["<Leader>sD"] = { "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" }
+        maps.n["<Leader>sg"] = { function() open "live_grep" end, desc = "Grep (Root Dir)" }
+        maps.n["<Leader>sh"] = { "<cmd>FzfLua help_tags<cr>", desc = "Find help" }
+        maps.n["<Leader>sH"] = {
+          "<cmd>FzfLua highlights<cr>",
+          desc = "Find highlights",
+        }
+        maps.n["<Leader>sj"] = {
+          "<cmd>FzfLua jumps<cr>",
+          desc = "Find jumps",
+        }
+        maps.n["<Leader>sk"] = { "<cmd>FzfLua keymaps<cr>", desc = "Find keymaps" }
+        maps.n["<Leader>sl"] = {
+          "<cmd>FzfLua loclist<cr>",
+          desc = "Find location list",
+        }
+        maps.n["<Leader>sM"] = { "<cmd>FzfLua man_pages<cr>", desc = "Find man" }
+        maps.n["<Leader>sm"] = { "<cmd>FzfLua marks<cr>", desc = "Find marks" }
+        maps.n["<Leader>sR"] = { "<cmd>FzfLua resume<cr>", desc = "Resume previous search" }
+        maps.n["<Leader>sq"] = {
+          "<cmd>FzfLua quickfix<cr>",
+          desc = "Find quickfix list",
+        }
+        maps.n["<Leader>uC"] = { function() open "colorschemes" end, desc = "Find themes" }
+
+        -- grep
+        maps.n["<Leader>sw"] = {
+          function() open "grep_cword" end,
+          desc = "Word (Root Dir)",
+        }
+        maps.v["<Leader>sw"] = {
+          function() open "grep_visual" end,
+          desc = "Selection (Root Dir)",
+        }
       end,
     },
   },
@@ -139,6 +178,11 @@ return {
     config.defaults.keymap.fzf["ctrl-x"] = "jump"
     config.defaults.keymap.fzf["ctrl-f"] = "half-page-down"
     config.defaults.keymap.fzf["ctrl-b"] = "half-page-up"
+
+    -- Trouble
+    if require("astrocore").is_available "trouble.nvim" then
+      config.defaults.actions.files["ctrl-t"] = require("trouble.sources.fzf").actions.open
+    end
 
     if require("astrocore").is_available "diffview.nvim" then
       config.defaults.git.commits.actions["ctrl-r"] = function(selected, opts)
@@ -195,6 +239,37 @@ return {
           ueberzug_scaler = "fit_contain",
         },
       },
+      -- Custom LazyVim option to configure vim.ui.select
+      ui_select = function(fzf_opts, items)
+        return vim.tbl_deep_extend("force", fzf_opts, {
+          prompt = " ",
+          winopts = {
+            title = " " .. vim.trim((fzf_opts.prompt or "Select"):gsub("%s*:%s*$", "")) .. " ",
+            title_pos = "center",
+          },
+        }, fzf_opts.kind == "codeaction" and {
+          winopts = {
+            layout = "vertical",
+            -- height is number of items minus 15 lines for the preview, with a max of 80% screen height
+            height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 2) + 0.5) + 16,
+            width = 0.5,
+            preview = not vim.tbl_isempty(require("utils").get_clients { bufnr = 0, name = "vtsls" }) and {
+              layout = "vertical",
+              vertical = "down:15,border-top",
+              hidden = "hidden",
+            } or {
+              layout = "vertical",
+              vertical = "down:15,border-top",
+            },
+          },
+        } or {
+          winopts = {
+            width = 0.5,
+            -- height is number of items, with a max of 80% screen height
+            height = math.floor(math.min(vim.o.lines * 0.8, #items + 2) + 0.5),
+          },
+        })
+      end,
       winopts = {
         width = 0.8,
         height = 0.8,
@@ -247,39 +322,12 @@ return {
   end,
   init = function()
     require("utils").on_very_lazy(function()
-      rawset(vim.ui, "select", function(...)
-        require("fzf-lua").register_ui_select(function(fzf_opts, items)
-          return vim.tbl_deep_extend("force", fzf_opts, {
-            prompt = " ",
-            winopts = {
-              title = " " .. vim.trim((fzf_opts.prompt or "Select"):gsub("%s*:%s*$", "")) .. " ",
-              title_pos = "center",
-            },
-          }, fzf_opts.kind == "codeaction" and {
-            winopts = {
-              layout = "vertical",
-              -- height is number of items minus 15 lines for the preview, with a max of 80% screen height
-              height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 2) + 0.5) + 16,
-              width = 0.5,
-              preview = not vim.tbl_isempty(require("utils").get_clients { bufnr = 0, name = "vtsls" }) and {
-                layout = "vertical",
-                vertical = "down:15,border-top",
-                hidden = "hidden",
-              } or {
-                layout = "vertical",
-                vertical = "down:15,border-top",
-              },
-            },
-          } or {
-            winopts = {
-              width = 0.5,
-              -- height is number of items, with a max of 80% screen height
-              height = math.floor(math.min(vim.o.lines * 0.8, #items + 2) + 0.5),
-            },
-          })
-        end)
+      vim.ui.select = function(...)
+        require("lazy").load { plugins = { "fzf-lua" } }
+        local opts = require("astrocore").plugin_opts "fzf-lua" or {}
+        require("fzf-lua").register_ui_select(opts.ui_select or nil)
         return vim.ui.select(...)
-      end)
+      end
     end)
   end,
   keys = {

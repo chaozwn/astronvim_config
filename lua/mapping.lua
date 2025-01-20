@@ -5,6 +5,8 @@ function M.core_mappings(mappings)
   local maps = mappings
   if maps then
     maps.n["<Leader>n"] = false
+    maps.n["<Leader>s"] = { desc = require("astroui").get_icon("GrugFar", 1, true) .. "Search" }
+    maps.v["<Leader>s"] = { desc = require("astroui").get_icon("GrugFar", 1, true) .. "Search" }
 
     maps.n.n = { require("utils").better_search "n", desc = "Next search" }
     maps.n.N = { require("utils").better_search "N", desc = "Previous search" }

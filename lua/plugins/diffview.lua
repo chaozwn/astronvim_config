@@ -17,11 +17,11 @@ return {
             function() vim.cmd [[DiffviewOpen]] end,
             desc = "Open Git Diffview",
           }
-          maps.n[prefix_diff_view .. "H"] = {
+          maps.n[prefix_diff_view .. "D"] = {
             function() vim.cmd [[DiffviewFileHistory]] end,
             desc = "Open current branch git history",
           }
-          maps.n[prefix_diff_view .. "h"] = {
+          maps.n[prefix_diff_view .. "d"] = {
             function() vim.cmd [[DiffviewFileHistory %]] end,
             desc = "Open current file git history",
           }
