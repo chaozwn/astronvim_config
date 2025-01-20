@@ -88,7 +88,7 @@ return {
     end
     for kind, _ in pairs(opts.icons.kinds) do
       local icon, _, _ = require("mini.icons").get("lsp", kind)
-      opts.icons.kinds[kind] = icon
+      opts.icons.kinds[kind] = icon .. " "
     end
     return vim.tbl_deep_extend("force", opts, {
       modes = {
