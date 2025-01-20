@@ -643,10 +643,6 @@ function M.toggle_lazy_git()
       },
       on_open = function() M.remove_keymap("t", "<Esc>") end,
       on_close = function()
-        -- WARNING: remove this after https://github.com/lewis6991/gitsigns.nvim/issues/1127 closed.
-        if require("astrocore").is_available "gitsigns.nvim" then
-          vim.schedule(function() vim.cmd "Gitsign reset_base" end)
-        end
         vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true })
       end,
       on_exit = function() end,
