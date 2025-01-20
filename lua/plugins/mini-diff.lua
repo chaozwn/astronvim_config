@@ -1,7 +1,7 @@
 ---@type LazySpec
 return {
   "echasnovski/mini.diff",
-  event = "User AstroGitFile",
+  event = "VeryLazy",
   opts = function()
     local sign = require("astroui").get_icon "GitSign"
     return {
