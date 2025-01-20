@@ -1,6 +1,23 @@
 local M = {}
 local is_win = vim.loop.os_uname().version:find "Windows"
 
+function M.realpath(path)
+  if path == "" or path == nil then return nil end
+  path = vim.uv.fs_realpath(path) or path
+  return require("astrocore.rooter").normpath(path)
+end
+
+function M.get_rooter()
+  local roots = require("astrocore.rooter").detect(0, true)
+  for _, root in ipairs(roots) do
+    for _, path in ipairs(root.paths) do
+      return require("astrocore.rooter").normpath(path)
+    end
+  end
+end
+
+function M.cwd() return M.realpath(vim.uv.cwd()) or "" end
+
 function M.size(max, value) return value > 1 and math.min(value, max) or math.floor(max * value) end
 
 function M.update_bacon_prefs()
@@ -642,9 +659,7 @@ function M.toggle_lazy_git()
         border = "none",
       },
       on_open = function() M.remove_keymap("t", "<Esc>") end,
-      on_close = function()
-        vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true })
-      end,
+      on_close = function() vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true }) end,
       on_exit = function() end,
     }
   end

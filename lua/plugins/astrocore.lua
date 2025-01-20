@@ -39,12 +39,12 @@ return {
 
     if vim.fn.has "nvim-0.10" == 1 then
       options.opt.smoothscroll = true
-      options.opt.foldexpr = "v:lua.require'ui'.foldexpr()"
+      options.opt.foldexpr = "v:lua.require'utils.ui'.foldexpr()"
       options.opt.foldmethod = "expr"
       options.opt.foldtext = ""
     else
       options.opt.foldmethod = "indent"
-      options.opt.foldtext = "v:lua.require'ui'.foldtext()"
+      options.opt.foldtext = "v:lua.require'utils.ui'.foldtext()"
     end
 
     return vim.tbl_deep_extend("force", opts, {
