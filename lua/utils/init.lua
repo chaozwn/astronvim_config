@@ -8,12 +8,8 @@ function M.realpath(path)
 end
 
 function M.get_rooter()
-  local roots = require("astrocore.rooter").detect(0, true)
-  for _, root in ipairs(roots) do
-    for _, path in ipairs(root.paths) do
-      return require("astrocore.rooter").normpath(path)
-    end
-  end
+  local roots = require("astrocore.rooter").detect(0, false)
+  return roots[1] and roots[1].paths[1] or vim.uv.cwd()
 end
 
 function M.cwd() return M.realpath(vim.uv.cwd()) or "" end

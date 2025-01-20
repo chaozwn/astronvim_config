@@ -8,44 +8,6 @@ return {
   opts = function(_, opts)
     local mappings = require("mapping").core_mappings(opts.mappings)
     local utils = require "utils"
-    local options = {
-      opt = {
-        fillchars = {
-          foldopen = "",
-          foldclose = "",
-          fold = " ",
-          foldsep = " ",
-          diff = "╱",
-          eob = " ",
-        },
-        conceallevel = 2,
-        list = false,
-        listchars = { tab = "│→", extends = "⟩", precedes = "⟨", trail = "·", nbsp = "␣" },
-        showbreak = "↪ ",
-        splitkeep = "screen",
-        swapfile = false,
-        wrap = true,
-        scrolloff = 5,
-        -- windows
-        winwidth = 10,
-        winminwidth = 10,
-        equalalways = false,
-        statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]],
-      },
-      g = {
-        autoformat = false,
-      },
-    }
-
-    if vim.fn.has "nvim-0.10" == 1 then
-      options.opt.smoothscroll = true
-      options.opt.foldexpr = "v:lua.require'utils.ui'.foldexpr()"
-      options.opt.foldmethod = "expr"
-      options.opt.foldtext = ""
-    else
-      options.opt.foldmethod = "indent"
-      options.opt.foldtext = "v:lua.require'utils.ui'.foldtext()"
-    end
 
     return vim.tbl_deep_extend("force", opts, {
       -- Configure core features of AstroNvim
@@ -125,8 +87,6 @@ return {
           },
         },
       },
-      -- vim options can be configured here
-      options = options,
       -- Mappings can be configured through AstroCore as well.
       -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
       mappings = mappings,
