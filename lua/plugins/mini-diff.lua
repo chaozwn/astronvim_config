@@ -10,12 +10,12 @@ return {
         signs = { add = sign, change = sign, delete = sign },
       },
       mappings = {
-        apply = "gh",
+        apply = "<Leader>gh",
         goto_first = "[G",
         goto_last = "]G",
         goto_next = "]g",
         goto_prev = "[g",
-        reset = "gH",
+        reset = "<Leader>gr",
         textobject = "g",
       },
     }
