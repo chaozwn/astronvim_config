@@ -126,6 +126,10 @@ return {
         })
       end
 
+      if require("astrocore").is_available "overseer.nvim" then
+        table.insert(opts.sections.lualine_x, { "overseer" })
+      end
+
       return opts
     end,
   },
