@@ -205,7 +205,7 @@ return {
           }
           maps.n[prefix_debug .. "d"] = {
             function() choose_dap_element() end,
-            desc = "Swith dap ui element",
+            desc = "Switch dap ui element",
           }
           maps.n["<F9>"] = {
             function() require("persistent-breakpoints.api").toggle_breakpoint() end,
