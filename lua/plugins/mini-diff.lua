@@ -16,7 +16,7 @@ return {
         goto_next = "]g",
         goto_prev = "[g",
         reset = "<Leader>gr",
-        textobject = "g",
+        textobject = "gh",
       },
     }
   end,
