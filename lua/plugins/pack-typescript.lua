@@ -6,6 +6,87 @@ local format_filetypes = { "javascript", "javascriptreact", "typescript", "types
 
 local lsp_rooter, prettierrc_rooter
 
+local nx_attach = function(client)
+  -- This is an adaptation of the following, in order to support auto-completion of imports from
+  -- other nx libraries in the same workspace:
+  -- https://github.com/nrwl/nx-console/blob/master/libs/vscode/typescript-plugin/src/lib/typescript-plugin.ts
+
+  -- TODO re-configure the plugin when ${workspaceRoot} changes
+
+  local TSCONFIG_BASE = "tsconfig.base.json"
+  local TSCONFIG_LIB = "tsconfig.lib.json"
+
+  local Path = require "plenary.path"
+
+  local root_dir = client.root_dir
+
+  ---@type Path
+  local workspaceRoot = Path:new(root_dir)
+  ---@type Path
+  local workspaceConfig = workspaceRoot:joinpath(TSCONFIG_BASE)
+
+  if not workspaceConfig:exists() then return end
+
+  local tsconfig = vim.json.decode(workspaceConfig:read() or "")
+
+  -- TODO take tsconfig.json if tsconfig.compilerOptions == nil
+  if tsconfig.compilerOptions == nil then return end
+
+  local externalFiles = {}
+  local paths = tsconfig.compilerOptions.paths or {}
+
+  for _, ps in pairs(paths) do
+    for _, p in ipairs(ps) do
+      local mainFile = workspaceRoot:joinpath(p).filename
+      local directory = vim.fs.root(workspaceRoot:joinpath(p).filename, { TSCONFIG_LIB })
+
+      if directory ~= nil then
+        if utils.ends_with(mainFile, "/*") or utils.ends_with(mainFile, "\\*") then
+          local files = vim.fs.find(
+            function(name, path) return name:match ".*%.tsx?$" and not path:match ".*node_modules.*" end,
+            { limit = math.huge, type = "file", path = vim.fs.dirname(mainFile) }
+          )
+
+          for _, file in ipairs(files) do
+            table.insert(externalFiles, { mainFile = file, directory = directory })
+          end
+        else
+          table.insert(externalFiles, { mainFile = mainFile, directory = directory })
+        end
+      end
+    end
+  end
+
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "tsconfig.base.json",
+    callback = function()
+      vim.schedule(
+        function()
+          vim.lsp.buf.execute_command {
+            command = "_typescript.configurePlugin",
+            arguments = {
+              "@monodon/typescript-nx-imports-plugin",
+              {
+                externalFiles = externalFiles,
+              },
+            },
+          }
+        end
+      )
+    end,
+  })
+
+  vim.lsp.buf.execute_command {
+    command = "_typescript.configurePlugin",
+    arguments = {
+      "@monodon/typescript-nx-imports-plugin",
+      {
+        externalFiles = externalFiles,
+      },
+    },
+  }
+end
+
 local has_prettier = function(bufnr)
   if type(bufnr) ~= "number" then bufnr = vim.api.nvim_get_current_buf() end
   local rooter = require "astrocore.rooter"
@@ -60,7 +141,7 @@ return {
     optional = true,
     ---@type AstroLSPOpts
     opts = function(_, opts)
-      return vim.tbl_deep_extend("force", opts, {
+      return require("astrocore").extend_tbl(opts, {
         config = {
           eslint = {
             on_attach = function()
@@ -75,6 +156,12 @@ return {
             end,
           },
           vtsls = {
+            root_dir = require("lspconfig.util").root_pattern(
+              "nx.json",
+              "tsconfig.json",
+              "package.json",
+              "jsconfig.json"
+            ),
             on_attach = function(client, _)
               local existing_capabilities = vim.deepcopy(client.server_capabilities)
 
@@ -96,6 +183,8 @@ return {
 
               client.server_capabilities = existing_capabilities
 
+              nx_attach(client)
+
               require("astrocore").set_mappings({
                 n = {
                   ["<Leader>lA"] = {
@@ -106,6 +195,7 @@ return {
               }, { buffer = true })
             end,
             filetypes = {
+              "angular",
               "javascript",
               "javascriptreact",
               "javascript.jsx",
@@ -125,13 +215,7 @@ return {
                   },
                 },
                 tsserver = {
-                  globalPlugins = {
-                    {
-                      name = "@styled/typescript-styled-plugin",
-                      location = require("utils").get_global_npm_path(),
-                      enableForWorkspaceTypeScriptVersions = true,
-                    },
-                  },
+                  globalPlugins = {},
                 },
               },
               typescript = {

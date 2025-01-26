@@ -1,6 +1,10 @@
 local M = {}
 local is_win = vim.loop.os_uname().version:find "Windows"
 
+function M.starts_with(str, start) return str:sub(1, #start) == start end
+
+function M.ends_with(str, ending) return ending == "" or str:sub(-#ending) == ending end
+
 function M.realpath(path)
   if path == "" or path == nil then return nil end
   path = vim.uv.fs_realpath(path) or path

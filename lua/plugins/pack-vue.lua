@@ -48,9 +48,19 @@ return {
                 configNamespace = "typescript",
                 enableForWorkspaceTypeScriptVersions = true,
               }
+              local style_plugin_config = {
+                name = "@styled/typescript-styled-plugin",
+                location = require("utils").get_global_npm_path(),
+                enableForWorkspaceTypeScriptVersions = true,
+              }
+              local nx_plugin_config = {
+                name = "@monodon/typescript-nx-imports-plugin",
+                location = require("utils").get_global_npm_path(),
+                enableForWorkspaceTypeScriptVersions = true,
+              }
               require("astrocore").list_insert_unique(
                 config.settings.vtsls.tsserver.globalPlugins,
-                { vue_plugin_config }
+                { vue_plugin_config, style_plugin_config, nx_plugin_config }
               )
             end,
           },

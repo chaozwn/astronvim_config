@@ -19,7 +19,7 @@ This configuration supports development in the following languages:
 | Python     | ✅             | ✅    |
 | Rust       | ✅             | ✅    |
 | Go         | ✅             | ✅    |
-| Nextjs         | ✅             | ✅    |
+| Nextjs     | ✅             | ✅    |
 
 - **TypeScript**: `vtsls`.
 - **Vue**: `volar2`.
@@ -112,7 +112,7 @@ Use `brew`, `npm`, and `pip` to install the necessary dependencies:
 brew install fzf fd lazygit ripgrep gdu bottom protobuf gnu-sed ast-grep lazydocker trash imagemagick chafa delta coreutils
 
 # Node.js packages
-npm install -g tree-sitter-cli neovim @styled/typescript-styled-plugin
+npm install -g tree-sitter-cli neovim @styled/typescript-styled-plugin @monodon/typescript-nx-imports-plugin
 
 # Python packages, for render-markdown.nvim
 pip install pynvim pylatexenc

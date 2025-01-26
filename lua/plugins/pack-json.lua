@@ -31,6 +31,10 @@ return {
           ---@diagnostic disable: missing-fields
           config = {
             jsonls = {
+              on_attach = function(client, _)
+                client.server_capabilities.document_formatting = false
+                client.server_capabilities.document_range_formatting = false
+              end,
               -- lazy-load schemastore when needed
               on_new_config = function(new_config)
                 new_config.settings.json.schemas = new_config.settings.json.schemas or {}
