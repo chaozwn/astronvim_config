@@ -25,6 +25,11 @@ local function get_cmd(workspace_dir)
   return cmd
 end
 
+local angular_html_suffix = {
+  "%.component%.html",
+  "%.container%.html",
+}
+
 return {
   {
     "AstroNvim/astrolsp",
@@ -46,7 +51,7 @@ return {
                 "angular.json",
               })(...)
             end,
-            on_attach = function(client, _)
+            on_attach = function(client, bufnr)
               if require("astrocore").is_available "angular-quickswitch.nvim" then
                 require("astrocore").set_mappings({
                   n = {
@@ -58,6 +63,14 @@ return {
                 }, { buffer = true })
               end
               client.server_capabilities.renameProvider = false
+
+              local filename = vim.api.nvim_buf_get_name(bufnr)
+              for _, suffix_pattern in ipairs(angular_html_suffix) do
+                if string.match(filename, suffix_pattern) then
+                  vim.treesitter.start(nil, "angular")
+                  break
+                end
+              end
             end,
             settings = {
               angular = {
@@ -112,10 +125,6 @@ return {
       if opts.ensure_installed ~= "all" then
         opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "angular" })
       end
-      vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-        pattern = { "*.component.html", "*.container.html" },
-        callback = function() vim.treesitter.start(nil, "angular") end,
-      })
     end,
   },
   {
@@ -124,6 +133,14 @@ return {
     opts = function(_, opts)
       opts.ensure_installed =
         require("astrocore").list_insert_unique(opts.ensure_installed, { "angular-language-server" })
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = function(_, opts)
+      if not opts.formatters_by_ft then opts.formatters_by_ft = {} end
+      opts.formatters_by_ft.htmlangular = { "prettier" }
     end,
   },
 }
