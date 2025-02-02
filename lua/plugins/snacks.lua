@@ -37,6 +37,8 @@ return {
         refresh = 50, -- refresh at most every 50ms
       },
       profiler = { enabled = true },
+      lazygit = {},
+      terminal = {},
     },
   },
   {
@@ -46,4 +48,5 @@ return {
   { "lukas-reineke/indent-blankline.nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
   { "NMAC427/guess-indent.nvim", enabled = false },
+  { "akinsho/toggleterm.nvim", enabled = false },
 }

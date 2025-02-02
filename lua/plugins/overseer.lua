@@ -3,16 +3,6 @@ return {
   event = "User AstroFile",
   ---@param opts overseer.Config
   opts = function(_, opts)
-    local astrocore = require "astrocore"
-    if astrocore.is_available "toggleterm.nvim" then
-      opts.strategy = {
-        "terminal",
-        use_shell = true,
-        close_on_exit = true,
-        quit_on_exit = "success",
-      }
-    end
-
     local window_scaling_factor = 0.3
     local height = require("utils").size(vim.o.lines, window_scaling_factor)
     local width = require("utils").size(vim.o.columns, window_scaling_factor)
