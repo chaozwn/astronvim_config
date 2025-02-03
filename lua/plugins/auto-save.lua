@@ -5,7 +5,7 @@ return {
   opts = {
     debounce_delay = 3000,
     print_enabled = false,
-    trigger_events = { "TextChanged" },
+    trigger_events = { "TextChanged", "InsertLeave" },
     condition = function(buf)
       local fn = vim.fn
       local utils = require "auto-save.utils.data"
