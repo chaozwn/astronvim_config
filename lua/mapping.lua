@@ -25,7 +25,6 @@ function M.core_mappings(mappings)
 
     maps.v["<"] = { "<gv", desc = "Unindent line" }
     maps.v[">"] = { ">gv", desc = "Indent line" }
-    maps.t["<Esc>"] = { [[<C-\><C-n>]], desc = "Exit terminal mode" }
 
     -- 在visual mode 里粘贴不要复制
     maps.n["x"] = { '"_x', desc = "Cut without copy" }
